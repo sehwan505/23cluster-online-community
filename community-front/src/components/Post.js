@@ -30,9 +30,6 @@
                     <tr>제목 : {post.title}</tr>
                     </Link>
                   </td>
-                  <tfoot>
-                    <tr>내용 : {post.content}</tr>
-                  </tfoot>
               </table>
               {isOwner && (
               <>

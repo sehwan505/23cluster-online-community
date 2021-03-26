@@ -80,12 +80,13 @@ useEffect(async() => {
               onChange={onChangeTitle}
             />
             <br/>
-            <input
+            <textarea
               value={postContent}
-              placeholder="고쳐라"
+              placeholder="내용"
               type="text"
               onChange={onChangeContent}
-            />
+            >
+			</textarea>
             <input type="submit" value="에딧"/>
         </form>
     </div>

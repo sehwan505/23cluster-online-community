@@ -1,5 +1,6 @@
 import { authService, dbService } from "fbase";
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useHistory, Link } from "react-router-dom";
 
 export default ({userObj, refreshUser}) => {
@@ -30,10 +31,9 @@ export default ({userObj, refreshUser}) => {
         <span>{userObj.displayName}</span>
         <button onClick={onLogOutClick}>로그아웃</button>
         <form onSubmit={onSubmit}>
-        <input type="text" placeholder="이름 설명" value={newDisplayName} onChange={onChange} />
-        <input type="submit" value="제출"/>
-
-      </form>
+        	<input type="text" placeholder="이름 설명" value={newDisplayName} onChange={onChange} />
+        	<input type="submit" value="제출"/>
+      	</form>
     </>
   );
 };

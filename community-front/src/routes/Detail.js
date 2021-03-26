@@ -3,6 +3,7 @@ import Comment from "components/Comment"
 import axios from "axios"
 import {authService} from "fbase";
 import { useHistory, Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 
 function Detail({userObj, refreshUser, post_id}){
@@ -94,7 +95,7 @@ useEffect(async() => {
                 
           </td>
           <tfoot>
-            <tr>내용 : {post.content}</tr>
+            <tr>내용 : <ReactMarkdown>{post.content}</ReactMarkdown></tr>
           </tfoot>
      </table>
 
