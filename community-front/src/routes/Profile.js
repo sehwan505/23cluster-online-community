@@ -11,7 +11,7 @@ export default ({userObj, refreshUser}) => {
     history.push("/");
     refreshUser();
   };
-  const onSubmit =async (event) =>{
+  const onSubmit = async (event) =>{
     event.preventDefault();
     if(userObj.displayName !== newDisplayName){
       await userObj.updateProfile({displayName:newDisplayName})

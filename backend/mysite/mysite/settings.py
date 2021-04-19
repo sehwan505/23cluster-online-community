@@ -38,10 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'post',
+	'login',
 
     'rest_framework',
-
     'corsheaders',
+
+	#구글
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    #페이스북
+    'allauth.socialaccount.providers.facebook',
+
+    #카카오
+    'allauth.socialaccount.providers.kakao',
+
+    
 ]
 
 REST_FRAMEWORK = {
@@ -137,8 +152,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'auth.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1

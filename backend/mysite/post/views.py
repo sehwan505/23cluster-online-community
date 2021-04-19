@@ -1,14 +1,12 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
-
-
+#from .firebase import print_app_name
 import json
 from django.core.exceptions import ObjectDoesNotExist
-
 from .models import Post,Comment
 from .serializers import PostSerializer, CommentSerializer
 
@@ -51,7 +49,8 @@ def DeletePost(request,pk):
 def AddPost(request):
     payload = json.loads(request.body)
     print(payload)
-    # user = request.user
+    user = request.user
+    print(user)
     try:
         post = Post.objects.create(
             title=payload["title"],
@@ -104,3 +103,36 @@ def AddComment(request,pk):
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+def post_like(request, post_id):
+    try:
+        post = get_object_or_404(Post, id = post_id)
+        profile = Profile.objects.get(user=user)
+        check_like_post = profile.user_post_like.filter(id=post_id)
+        if check_like_post.exists():
+            profile.user_post_like.remove(post)
+            post.like_num -= 1
+            post.save()
+        else:
+            profile.user_post_like.add(post)
+            post.like_num += 1
+            post.save()
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+def comment_like(request, comment_id):
+    try:
+        comment = get_object_or_404(Comment, id = comment_id)
+        profile = Profile.objects.get(user=user)
+        check_like_post = profile.user_comment_like.filter(id=comment_id)
+        if check_like_post.exists():
+            profile.user_comment_like.remove(comment)
+            comment.like_num -= 1
+            comment.save()
+        else:
+            profile.user_post_like.add(post)
+            comment.like_num += 1
+            comment.save()
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

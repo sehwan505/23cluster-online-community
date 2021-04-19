@@ -31,8 +31,7 @@ useEffect(async() => {
         title: postTitle,
         content: postContent,
         writer_id: userObj.uid,
-        writer_name: userObj.displayName 
-
+        writer_name: userObj.displayName
     }).then((response) => {
     // 응답 처리
     })
