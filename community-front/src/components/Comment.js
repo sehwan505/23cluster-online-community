@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-const Comment = ({ comment, isOwner, userObj, id }) => {
+const Comment = ({ comment, isOwner, user, id }) => {
   const [commentContent , setCommentContent] = useState("");
   const [editing, setEditing] = useState(false);
 
@@ -12,11 +12,11 @@ const Comment = ({ comment, isOwner, userObj, id }) => {
     if(commentContent === ""){
       document.getElementsByName("comment").focus();
     }
-    await axios.post(`http://127.0.0.1:8000/api/add_comment/${id}/`, {
+    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${id}/`, {
         post_id: id,
         content: commentContent,
-        writer_id: userObj.uid,
-        writer_name: userObj.displayName,
+        writer_id: user.user_pk,
+        writer_name: user.username,
         parent_comment_id: comment.comment_id,
         depth:1
     }).then((response) => {
@@ -37,7 +37,7 @@ const Comment = ({ comment, isOwner, userObj, id }) => {
   const onDeleteClick = async () => {
     const ok = window.confirm("진짜 지울거임?");
     if (ok) {
-        await axios.post(`http://127.0.0.1:8000/api/delete_comment/${comment.comment_id}/`, {
+        await axios.post(`http://127.0.0.1:8000/api/post/delete_comment/${comment.comment_id}/`, {
         }).then((response) => {
         // 응답 처리
         })

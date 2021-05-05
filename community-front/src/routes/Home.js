@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Post from "components/Post"
 import axios from "axios"
-import {authService} from "fbase";
+import CSRFToken from "../components/csrftoken.js"
 import { useHistory, Link } from "react-router-dom";
 
 
-function Home({userObj, refreshUser}){
+function Home(props){
   const [postTitle , setPostTitle] = useState("");
   const [postContent , setPostContent] = useState("");
   const [nweet, setNweet] = useState([]);
@@ -13,27 +13,33 @@ function Home({userObj, refreshUser}){
 
 
 useEffect(async() => {
-  try {
-        const res = await fetch('http://localhost:8000/api/');
+    try {
+        const res = await fetch('http://localhost:8000/api/post');
         const posts = await res.json();
         setNweet(posts);
-        console.log(userObj);
     } 
     catch (e) {
         console.log(e);
     }
 }, []);
-
-
-  const onSubmit = async (event) => {
+const onSubmit = async (event) => {
     event.preventDefault();
-    await axios.post('http://127.0.0.1:8000/api/add/', {
+	var csrftoken = CSRFToken();
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	console.log("Ab");
+	console.log(config);
+    await axios.post('http://127.0.0.1:8000/api/post/add/', {
         title: postTitle,
         content: postContent,
-        writer_id: userObj.uid,
-        writer_name: userObj.displayName
-    }).then((response) => {
-    // 응답 처리
+        writer_id: props.user.user_pk,
+        writer_name: props.user.username,
+		csrfmiddlewaretoken	: csrftoken
+    }, config).then((response) => {
+		console.log("Ab");
     })
     .catch((error) => {
     // 예외 처리
@@ -54,21 +60,16 @@ useEffect(async() => {
     setPostContent(value);
   }
 
-  const onLogOutClick = () => {
-    authService.signOut();
-    history.push("/");
-    refreshUser();
-  };
   return (
     <>
-    <div align="center">
+    {/*<div align="center">
       <Link to="/profile">프로필</Link>
     </div>
+	*/}
     <div>
       <span>
-        {userObj.displayName}
+        {props.user.username}
       </span>
-      <button onClick={onLogOutClick}>로그아웃</button>
     </div>
     <div>
         <form onSubmit={onSubmit}>
@@ -91,7 +92,7 @@ useEffect(async() => {
     </div>
     <div>
         {nweet.map((post) => (
-            <Post key={post.id} post={post} isOwner={userObj.uid === post.writer_id}/>
+            <Post key={post.id} post={post} isOwner={props.user.user_pk === post.writer_id}/>
         ))}
     </div>
     </>

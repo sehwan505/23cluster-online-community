@@ -1,31 +1,39 @@
 import React from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Auth from "../routes/Auth";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import AppliedRoute from "./routing/AppliedRoute";
+import AuthenticatedRoute from "./routing/AuthenticatedRoute";
+import LoginModal from './LoginModal';
 import Home from "../routes/Home";
 import Detail from "../routes/Detail";
-import Profile from "../routes/Profile"
+//import Signup from "../routes/Signup";
+//import Profile from "../routes/Profile"
 
-const AppRouter = ({ isLoggedIn, userObj, refreshUser}) => {
+const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated}) => {
   return (
     <Router>
       <Switch>
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <>
             <Route exact path="/">
-              <Home userObj={userObj} refreshUser={refreshUser}/>
+              <Home user={user} />
             </Route>
-            <Route exact path="/profile">
+            {/*<Route exact path="/profile">
               <Profile userObj={userObj} refreshUser={refreshUser}/>
-            </Route>
+            </Route>*/}
             <Route path="/detail/:id"
-              render={(id) => <Detail userObj={userObj} refreshUser={refreshUser} post_id={id}/>}
+              render={(id) => <Detail user={user} post_id={id}/>}
             />
           </>
         ) : (
-          <Route exact path="/">
-            <Auth />
+		  <>
+		  <Route exact path="/">
+		    <Home user={user} />
           </Route>
-        )}
+          <Route exact path="/login">
+            <LoginModal setModal={setModal} userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated} />
+          </Route>
+          </>
+		)}
       </Switch>
     </Router>
   );

@@ -1,32 +1,35 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
-#from .firebase import print_app_name
+from rest_framework import status, permissions
 import json
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Post,Comment
 from .serializers import PostSerializer, CommentSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 class ListPost(generics.ListCreateAPIView):
+    permission_classes = (permissions.AllowAny,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
+    permission_classes = (permissions.AllowAny,)
     serializer_class = PostSerializer
+    queryset = Post.objects.all()
 
 class DetailComment(generics.ListCreateAPIView):
+    permission_classes = (permissions.AllowAny,)
     serializer_class = CommentSerializer
 
     def get_queryset(self, **kwargs):
         pk = self.kwargs.get('pk')
-        print(pk)
         post = Post.objects.get(pk=pk)
         queryset = Comment.objects.filter(post=post).order_by('parent_comment_id')
-        return queryset 
+        return queryset
 
 @api_view(["POST"])
 def DeleteComment(request,pk):
@@ -45,12 +48,11 @@ def DeletePost(request,pk):
     return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
 @api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
 @csrf_exempt
 def AddPost(request):
     payload = json.loads(request.body)
-    print(payload)
-    user = request.user
-    print(user)
     try:
         post = Post.objects.create(
             title=payload["title"],
@@ -60,19 +62,18 @@ def AddPost(request):
         )
         serializer = PostSerializer(post)
         return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
-
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
     except Exception:
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
 @csrf_exempt
 def AddComment(request,pk):
     payload = json.loads(request.body)
-    print(payload)
     post = Post.objects.get(pk=pk)
-    # user = request.user
     try:
         if payload["depth"] == 0:
             comment = Comment.objects.create(
@@ -93,7 +94,6 @@ def AddComment(request,pk):
                 parent_comment_id=payload["parent_comment_id"],
                 depth=payload["depth"]
             )
-        print(comment.id)
         serializer = CommentSerializer(comment)
         return JsonResponse({'comments': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
@@ -103,6 +103,9 @@ def AddComment(request,pk):
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
 def post_like(request, post_id):
     try:
         post = get_object_or_404(Post, id = post_id)
@@ -120,6 +123,9 @@ def post_like(request, post_id):
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
 def comment_like(request, comment_id):
     try:
         comment = get_object_or_404(Comment, id = comment_id)

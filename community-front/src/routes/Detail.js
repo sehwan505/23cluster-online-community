@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Comment from "components/Comment"
 import axios from "axios"
-import {authService} from "fbase";
 import { useHistory, Link } from "react-router-dom";
+import CSRFToken from "../components/csrftoken.js"
 import ReactMarkdown from "react-markdown";
 
 
-function Detail({userObj, refreshUser, post_id}){
+function Detail({user, post_id}){
   const [commentContent , setCommentContent] = useState("");
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
@@ -16,14 +16,12 @@ function Detail({userObj, refreshUser, post_id}){
 
 useEffect(async() => {
   try {
-        const res = await fetch(`http://localhost:8000/api/detail/${id}`);
+        const res = await fetch(`http://localhost:8000/api/post/detail/${id}`);
         const posts = await res.json();
         setPost(posts);
-        const res1 = await fetch(`http://localhost:8000/api/detail_comment/${id}`);
+        const res1 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}`);
         const comments = await res1.json();
         setComment(comments)
-        console.log(comments);
-
     } 
     catch (e) {
         console.log(e);
@@ -36,20 +34,26 @@ useEffect(async() => {
     if(commentContent === ""){
       document.getElementsByName("comment").focus();
     }
-    await axios.post(`http://127.0.0.1:8000/api/add_comment/${id}/`, {
+	var csrftoken = CSRFToken();
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${id}/`, {
         post_id:id,
         content:commentContent,
-        writer_id:userObj.uid,
-        writer_name:userObj.displayName,
-        depth:0 
-    }).then((response) => {
-    // 응답 처리
+        writer_id:user.user_pk,
+        writer_name:user.username,
+        depth:0,
+		csrfmiddlewaretoken	: csrftoken
+    }, config).then((response) => {
+    // 응답 처리	
     })
     .catch((error) => {
     // 예외 처리
     })
     window.location.reload();
-    
   }
   const onChangeContent = (event) => {
     const {
@@ -58,21 +62,12 @@ useEffect(async() => {
     setCommentContent(value);
   }
 
-  const onLogOutClick = () => {
-    authService.signOut();
-    history.push("/");
-    refreshUser();
-  };
   return (
     <>
-    <div align="center">
-      <Link to="/profile">프로필</Link>
-    </div>
     <div>
       <span>
-        {userObj.displayName}
+        {user.username}
       </span>
-      <button onClick={onLogOutClick}>로그아웃</button>
     </div>
     <div>
         <form onSubmit={onSubmit}>
@@ -100,7 +95,7 @@ useEffect(async() => {
      </table>
 
      {comment.map((comment) => (
-        <Comment key={comment.comment_id} comment={comment} isOwner={userObj.uid === comment.writer_id} userObj={userObj} id={id}/>
+        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk === comment.writer_id} user={user} id={id}/>
       ))}
     </>
   );

@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+#import json
+#import os
+
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+#with open(os.path.join(BASE_DIR, 'config/secret.json'), 'rb') as secret_file:
+#    secrets = json.load(secret_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,9 +47,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'post',
 	'login',
-
+	'rest_framework_jwt',
     'rest_framework',
     'corsheaders',
+
+	#django-rest-auth
+	'rest_framework.authtoken',
+	'rest_auth',
 
 	#구글
     'django.contrib.sites',
@@ -55,14 +67,60 @@ INSTALLED_APPS = [
 
     #카카오
     'allauth.socialaccount.providers.kakao',
-
-    
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+REST_FRAMEWORK = { #drf 설정
+#   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#   'PAGE_SIZE': 10,
+   'DEFAULT_PERMISSION_CLASSES': (
+	   'rest_framework.permissions.IsAuthenticated',
+	   'rest_framework.permissions.AllowAny',
+   ),
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    #   'rest_framework.authentication.SessionAuthentication',
+    #   'rest_framework.authentication.BasicAuthentication',
+   ],
+   'DEFAULT_RENDERER_CLASSES': [
+       'rest_framework.renderers.JSONRenderer',
+   ],
+   'DEFAULT_PARSER_CLASSES': [
+       'rest_framework.parsers.JSONParser',
+       'rest_framework.parsers.FormParser',
+       'rest_framework.parsers.MultiPartParser'
+   ]
+}
+
+JWT_AUTH = { #jwt 설정
+   'JWT_ENCODE_HANDLER':
+       'rest_framework_jwt.utils.jwt_encode_handler',
+
+   'JWT_DECODE_HANDLER':
+       'rest_framework_jwt.utils.jwt_decode_handler',
+
+   'JWT_PAYLOAD_HANDLER':
+       'rest_framework_jwt.utils.jwt_payload_handler',
+
+   'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+       'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+
+   'JWT_RESPONSE_PAYLOAD_HANDLER': 'login.custom_responses.my_jwt_response_handler',
+   'JWT_SECRET_KEY': 'SECRET_KEY',
+   'JWT_GET_USER_SECRET_KEY': None,
+   'JWT_PUBLIC_KEY': None,
+   'JWT_PRIVATE_KEY': None,
+   'JWT_ALGORITHM': 'HS256',
+   'JWT_VERIFY': True,
+   'JWT_VERIFY_EXPIRATION': True,
+   'JWT_LEEWAY': 0,
+   'JWT_EXPIRATION_DELTA': timedelta(minutes=30),
+   'JWT_AUDIENCE': None,
+   'JWT_ISSUER': None,
+
+   'JWT_ALLOW_REFRESH': True,
+   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=1),	
+   'JWT_AUTH_COOKIE': None,
 }
 
 MIDDLEWARE = [
@@ -88,6 +146,8 @@ CORS_ORIGIN_WHITELIST = [
     'https://127.0.0.1:8000',
 ]
 
+#SOCIALACCOUNT_PROVIDERS = secrets["kakao"]
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
@@ -107,10 +167,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -144,7 +200,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
