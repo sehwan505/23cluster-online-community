@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
-
+import CSRFToken from "../components/csrftoken.js";
 
 
 const Comment = ({ comment, isOwner, user, id }) => {
@@ -12,14 +12,21 @@ const Comment = ({ comment, isOwner, user, id }) => {
     if(commentContent === ""){
       document.getElementsByName("comment").focus();
     }
+    var csrftoken = CSRFToken();
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
     await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${id}/`, {
-        post_id: id,
-        content: commentContent,
-        writer_id: user.user_pk,
-        writer_name: user.username,
-        parent_comment_id: comment.comment_id,
-        depth:1
-    }).then((response) => {
+        post_id:id,
+		parent_comment_id:comment.comment_id,
+        content:commentContent,
+        writer_id:user.user_pk,
+        writer_name:user.username,
+        depth:1,
+		csrfmiddlewaretoken	: csrftoken
+    }, config).then((response) => {
     // 응답 처리
     })
     .catch((error) => {
@@ -28,17 +35,40 @@ const Comment = ({ comment, isOwner, user, id }) => {
     toggleEditing();
     window.location.reload();
   }
+
   const onChangeContent = (event) => {
     const {
       target: { value },
     } = event;
+	console.log(user.user_like_comment);
     setCommentContent(value);
   }
+  
+  const onLikeClick = async () => {
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	await axios.post(`http://127.0.0.1:8000/api/post/like_comment/${comment.comment_id}/`, {
+	}, config).then((response) => {
+	// 응답 처리
+	})
+	.catch((error) => {
+	  console.log(error);
+	})
+  }
+
   const onDeleteClick = async () => {
     const ok = window.confirm("진짜 지울거임?");
     if (ok) {
+		const config = {
+			headers: {
+				'Authorization' : `JWT ${localStorage.getItem('token')}`	
+			}
+		}
         await axios.post(`http://127.0.0.1:8000/api/post/delete_comment/${comment.comment_id}/`, {
-        }).then((response) => {
+        }, config).then((response) => {
         // 응답 처리
         })
         .catch((error) => {
@@ -48,7 +78,6 @@ const Comment = ({ comment, isOwner, user, id }) => {
     window.location.reload();
   };
   const toggleEditing = () => setEditing((prev) => !prev);
-
   return (
     <div>
       {
@@ -82,6 +111,23 @@ const Comment = ({ comment, isOwner, user, id }) => {
           </button>
           )
           }
+		  {/*{comment.comment_id in user.user_like_comment.comment_id ?
+		  (
+			  <>*/}
+			   <button onClick={onLikeClick}>좋아요</button>
+			  {/*</>
+		  ):
+		  (
+			<>
+			 <button onClick={onLikeClick}>좋아요</button>
+			</>
+		  )		  
+		  } */}
+		  {isOwner && (
+          <>
+          <button onClick={onDeleteClick}>삭제</button>
+          </>)
+          }
           {editing && (
             <>
             <form onSubmit={onSubmit}>
@@ -96,11 +142,6 @@ const Comment = ({ comment, isOwner, user, id }) => {
             </form>
             </>
           )}
-          {isOwner && (
-          <>
-          <button onClick={onDeleteClick}>삭제</button>
-          </>)
-          }
         </>
       }
     </div>

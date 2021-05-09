@@ -5,21 +5,20 @@ import AuthenticatedRoute from "./routing/AuthenticatedRoute";
 import LoginModal from './LoginModal';
 import Home from "../routes/Home";
 import Detail from "../routes/Detail";
-//import Signup from "../routes/Signup";
-//import Profile from "../routes/Profile"
+import Profile from "../routes/Profile";
 
-const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated}) => {
+const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated, handleLogout}) => {
   return (
     <Router>
       <Switch>
         {isAuthenticated ? (
           <>
             <Route exact path="/">
-              <Home user={user} />
+              <Home user={user} handleLogout={handleLogout}/>
             </Route>
-            {/*<Route exact path="/profile">
-              <Profile userObj={userObj} refreshUser={refreshUser}/>
-            </Route>*/}
+            <Route exact path="/profile">
+              <Profile user={user} handleLogout={handleLogout}/>
+            </Route>
             <Route path="/detail/:id"
               render={(id) => <Detail user={user} post_id={id}/>}
             />
@@ -30,7 +29,7 @@ const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated}) => 
 		    <Home user={user} />
           </Route>
           <Route exact path="/login">
-            <LoginModal setModal={setModal} userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated} />
+            <LoginModal setModal={setModal} userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated}/>
           </Route>
           </>
 		)}

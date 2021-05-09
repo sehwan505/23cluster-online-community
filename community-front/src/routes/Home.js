@@ -30,8 +30,6 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	console.log("Ab");
-	console.log(config);
     await axios.post('http://127.0.0.1:8000/api/post/add/', {
         title: postTitle,
         content: postContent,
@@ -62,14 +60,14 @@ const onSubmit = async (event) => {
 
   return (
     <>
-    {/*<div align="center">
+    <div align="center">
       <Link to="/profile">프로필</Link>
     </div>
-	*/}
     <div>
       <span>
         {props.user.username}
       </span>
+	  <button onClick={props.handleLogout}>로그아웃</button>
     </div>
     <div>
         <form onSubmit={onSubmit}>

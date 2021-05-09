@@ -13,7 +13,6 @@ function Detail({user, post_id}){
   const history = useHistory();
   const id = post_id.match.params.id;
 
-
 useEffect(async() => {
   try {
         const res = await fetch(`http://localhost:8000/api/post/detail/${id}`);
@@ -95,7 +94,7 @@ useEffect(async() => {
      </table>
 
      {comment.map((comment) => (
-        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk === comment.writer_id} user={user} id={id}/>
+        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} user={user} id={id}/>
       ))}
     </>
   );

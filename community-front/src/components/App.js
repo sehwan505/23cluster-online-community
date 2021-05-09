@@ -5,7 +5,8 @@ import AppRouter from "components/Router";
 
 function App() {
 	const [modal, setModal] = useState(false);
-	const [user, setUser] = useState([]);
+	const [user, setUser] = useState({});
+	const [userProfile, setUserProfile] = useState({});
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
 	
 	const userHasAuthenticated = (authenticated, username, token) => { 
@@ -57,9 +58,17 @@ function App() {
 		  .then(json => {
 			// 현재 유저 정보 받아왔다면, 로그인 상태로 state 업데이트 하고
 			if (json.username) {
-			  setUser({username : json.username,
-				       user_pk : json.user_pk
-				});
+			  console.log(json.user_comment_like);
+			  const userData = {
+				user_comment_like: [...json.user_comment_like]
+			  };
+			  console.log(userData.user_comment_like.includes(5)); #include라는 함수가 array에 있고 이건 __proto__에 f 뭐시기로 잘 나와있다.
+			  setUser(
+				{
+					username : json.username,
+					user_pk : json.user_pk
+				}
+			  );
 			}else{
 			  //유저가 undefined라면 로그인버튼이 나오도록 modal을 false로 항상 맞춰줌
 			  setModal(false)
@@ -98,7 +107,7 @@ function App() {
 
   return (
     <>
-      <AppRouter isAuthenticated={isAuthenticated} user={user} setModal={setModal} userHasAuthenticated={userHasAuthenticated} />
+      <AppRouter isAuthenticated={isAuthenticated} user={user} setModal={setModal} userHasAuthenticated={userHasAuthenticated} handleLogout={handleLogout} />
     </>
   );
 }

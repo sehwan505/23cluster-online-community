@@ -11,19 +11,23 @@ from rest_framework_jwt.settings import api_settings
 from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer
 from .models import Profile
 
+def get_profile(token):
+    jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+    jwt_payload_get_user_id_handler = api_settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
+	
+    payload = jwt_decode_handler(token)
+    user_id = jwt_payload_get_user_id_handler(payload)
+    profile = Profile.objects.get(user_pk=user_id)
+    return profile
+
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 @authentication_classes((JSONWebTokenAuthentication,))
 def current_user(request):
     try:
         token = request.META['HTTP_AUTHORIZATION']
-        jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
-        jwt_payload_get_user_id_handler = api_settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
-	
-        payload = jwt_decode_handler(token)
-        user_id = jwt_payload_get_user_id_handler(payload)
-        user = Profile.objects.get(id = user_id)
-        serializer = UserSerializer(user)
+        user = get_profile(token)
+        serializer = ProfileSerializer(user)
         return Response(serializer.data)
     except Exception as e:
         return Response(e, status=status.HTTP_400_BAD_REQUEST)
@@ -39,6 +43,8 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProfileUpdateAPI(generics.UpdateAPIView):
+    permission_classes = (permissions.AllowAny,)
+
     lookup_field = "user_pk"
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
