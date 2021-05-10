@@ -94,7 +94,7 @@ useEffect(async() => {
      </table>
 
      {comment.map((comment) => (
-        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} user={user} id={id}/>
+        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user}  />
       ))}
     </>
   );

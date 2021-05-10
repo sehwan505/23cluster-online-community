@@ -20,6 +20,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'writer_name',
             'content',
             'depth',
-            'parent_comment_id'
+            'parent_comment_id',
+			'like_num'
         )
         model = Comment

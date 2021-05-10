@@ -3,6 +3,7 @@ import Post from "components/Post"
 import axios from "axios"
 import CSRFToken from "../components/csrftoken.js"
 import { useHistory, Link } from "react-router-dom";
+import DraftEditor from "../components/Editor.js";
 
 
 function Home(props){
@@ -85,6 +86,7 @@ const onSubmit = async (event) => {
               onChange={onChangeContent}
             >
 			</textarea>
+			<DraftEditor/>
             <input type="submit" value="에딧"/>
         </form>
     </div>

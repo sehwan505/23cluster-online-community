@@ -5,10 +5,9 @@ import AppRouter from "components/Router";
 
 function App() {
 	const [modal, setModal] = useState(false);
-	const [user, setUser] = useState({});
-	const [userProfile, setUserProfile] = useState({});
+	const [user, setUser] = useState([]);
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
-	
+
 	const userHasAuthenticated = (authenticated, username, token) => { 
 	  setisAuthenticated(authenticated)
 	  setUser(username)
@@ -34,12 +33,12 @@ function App() {
 	},[isAuthenticated])
 	
 	
-	useEffect(() => {
+	useEffect(async() => {
 	  // 토큰(access token)이 이미 존재하는 상황이라면 서버에 GET /validate 요청하여 해당 access token이 유효한지 확인
 	  if (isAuthenticated) {
 		// 현재 JWT 토큰 값이 타당한지 GET /validate 요청을 통해 확인하고
 		// 상태 코드가 200이라면 현재 GET /user/current 요청을 통해 user정보를 받아옴
-		fetch('http://localhost:8000/user/verify/', {
+		await fetch('http://localhost:8000/user/verify/', {
 		  method: 'POST',
 		  headers: {
 			'Content-Type': 'application/json'
@@ -58,17 +57,8 @@ function App() {
 		  .then(json => {
 			// 현재 유저 정보 받아왔다면, 로그인 상태로 state 업데이트 하고
 			if (json.username) {
-			  console.log(json.user_comment_like);
-			  const userData = {
-				user_comment_like: [...json.user_comment_like]
-			  };
-			  console.log(userData.user_comment_like.includes(5)); #include라는 함수가 array에 있고 이건 __proto__에 f 뭐시기로 잘 나와있다.
-			  setUser(
-				{
-					username : json.username,
-					user_pk : json.user_pk
-				}
-			  );
+			  //include라는 함수가 array에 있고 이건 __proto__에 f 뭐시기로 잘 나와있다.
+			  setUser(json);
 			}else{
 			  //유저가 undefined라면 로그인버튼이 나오도록 modal을 false로 항상 맞춰줌
 			  setModal(false)
@@ -91,7 +81,7 @@ function App() {
 			})
 			.catch(error => {
 			  console.log(error);
-			});;
+			});
 		  })
 		  .catch(error => {
 			handleLogout();

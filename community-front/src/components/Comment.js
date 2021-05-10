@@ -3,7 +3,7 @@ import axios from "axios";
 import CSRFToken from "../components/csrftoken.js";
 
 
-const Comment = ({ comment, isOwner, user, id }) => {
+const Comment = ({ comment, isOwner, user, post_id }) => {
   const [commentContent , setCommentContent] = useState("");
   const [editing, setEditing] = useState(false);
 
@@ -18,8 +18,8 @@ const Comment = ({ comment, isOwner, user, id }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${id}/`, {
-        post_id:id,
+    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${post_id}/`, {
+        post_id:post_id,
 		parent_comment_id:comment.comment_id,
         content:commentContent,
         writer_id:user.user_pk,
@@ -40,7 +40,6 @@ const Comment = ({ comment, isOwner, user, id }) => {
     const {
       target: { value },
     } = event;
-	console.log(user.user_like_comment);
     setCommentContent(value);
   }
   
@@ -57,6 +56,7 @@ const Comment = ({ comment, isOwner, user, id }) => {
 	.catch((error) => {
 	  console.log(error);
 	})
+	window.location.reload();
   }
 
   const onDeleteClick = async () => {
@@ -89,6 +89,7 @@ const Comment = ({ comment, isOwner, user, id }) => {
                 <tr>depth : {comment.depth}</tr>
                 <tr>id : {comment.parent_comment_id}</tr>
                 <tr>글쓴이 :{comment.writer_name}</tr>
+				<tr>좋아요 수 : {comment.like_num}</tr>
               </th>
               <tfoot>
                 <tr>  내용 : {comment.content}</tr>
@@ -103,6 +104,7 @@ const Comment = ({ comment, isOwner, user, id }) => {
                 <tr>depth : {comment.depth}</tr>
                 <tr>id : {comment.parent_comment_id}</tr>
                 <tr>글쓴이 :{comment.writer_name}</tr>
+				<tr>좋아요 수 : {comment.like_num}</tr>
               </th>
               <tfoot>
                 <tr>내용 : {comment.content}</tr>
@@ -111,18 +113,19 @@ const Comment = ({ comment, isOwner, user, id }) => {
           </button>
           )
           }
-		  {/*{comment.comment_id in user.user_like_comment.comment_id ?
+		  {user.user_comment_like.includes(comment.comment_id) ?
 		  (
-			  <>*/}
-			   <button onClick={onLikeClick}>좋아요</button>
-			  {/*</>
+			  <>
+			  	<button onClick={onLikeClick}>취소</button>
+
+			  </>
 		  ):
 		  (
 			<>
-			 <button onClick={onLikeClick}>좋아요</button>
+				<button onClick={onLikeClick}>좋아요</button>
 			</>
 		  )		  
-		  } */}
+		  }
 		  {isOwner && (
           <>
           <button onClick={onDeleteClick}>삭제</button>
