@@ -1,11 +1,7 @@
     import React from "react";
     import axios from "axios";
     import {Link} from "react-router-dom";
-	import Table from '@material-ui/core/Table';
-	import TableHead from '@material-ui/core/TableHead';
-	import TableBody from '@material-ui/core/TableBody';
-	import TableRow from '@material-ui/core/TableRow';
-	import TableCell from '@material-ui/core/TableCell';
+	import "../css/common.css";
 
     const Post = ({ post, isOwner }) => {
       const onDeleteClick = async () => {
@@ -25,36 +21,33 @@
         <div>
           {
             <>
-			<div>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell>글쓴이</TableCell>
-							<TableCell>제목</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-					<TableRow>
-							<TableCell>{post.writer_name}</TableCell>
-							<TableCell>
-								<Link to={`/detail/${post.id}`}>
-									{post.title}
-								</Link>
-							</TableCell>
-							<TableCell>
-							{isOwner && (
-							<>
-							<button onClick={onDeleteClick}>삭제</button>
-							</>)
-							}
-							</TableCell>
-							</TableRow>
-					</TableBody>
-				</Table>
+			<Link to={`/detail/${post.id}`}>
+			<div className="issue-row-wrap2 green">
+				<ul className="nrml">
+				<li>
+					<table>
+					<tbody>
+					<tr>
+						<td rowSpan="2"><i className="bi bi-hand-thumbs-up"></i>15</td>
+						<td>
+						{post.title}<span>[122]</span>
+						<img src={require("../img/mark-backdrop.jpg").default} />
+						</td>
+						<td>1분 전</td>
+						<td>
+						<img src={require("../img/mark-user.jpg").default} />&nbsp;
+						{post.writer_name}
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</li>            
+				</ul>          
 			</div>
+			</Link>
             </>
           }
-        </div>
+		</div>
       );
     };
     

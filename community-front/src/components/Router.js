@@ -6,6 +6,7 @@ import LoginModal from './LoginModal';
 import Home from "../routes/Home";
 import Detail from "../routes/Detail";
 import Profile from "../routes/Profile";
+import Section from "../routes/Section";
 
 const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated, handleLogout}) => {
   return (
@@ -20,8 +21,9 @@ const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated, hand
               <Profile user={user} handleLogout={handleLogout}/>
             </Route>
             <Route path="/detail/:id"
-              render={(id) => <Detail user={user} post_id={id}/>}
-            />
+              render={(id) => <Detail user={user} post_id={id}/>}/>
+			<Route path="/section/:num" 
+		  	render={(num) => <Section user={user} num={num} />}/>
           </>
         ) : (
 		  <>
@@ -31,6 +33,11 @@ const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated, hand
           <Route exact path="/login">
             <LoginModal setModal={setModal} userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated}/>
           </Route>
+		  <Route path="/section/:num" 
+		  	render={(num) => <Section user={user} num={num} />}/>
+		  <Route path="/detail/:id"
+              render={(id) => <Detail user={user} post_id={id}/>}
+            />
           </>
 		)}
       </Switch>

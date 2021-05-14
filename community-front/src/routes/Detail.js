@@ -15,10 +15,10 @@ function Detail({user, post_id}){
 
 useEffect(async() => {
   try {
-        const res = await fetch(`http://localhost:8000/api/post/detail/${id}`);
+        const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`);
         const posts = await res.json();
         setPost(posts);
-        const res1 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}`);
+        const res1 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/`);
         const comments = await res1.json();
         setComment(comments)
     } 

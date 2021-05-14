@@ -43,8 +43,6 @@ class DetailComment(generics.ListCreateAPIView):
         queryset = Comment.objects.filter(post=post).order_by('parent_comment_id')
         return queryset
 
-
-
 @api_view(["POST"])
 def DeleteComment(request,pk):
     comment = Comment.objects.get(pk=pk)
@@ -158,3 +156,11 @@ def comment_like(request, comment_id):
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+@csrf_exempt
+def upload_image(request):
+    print(request.body ,1)
+    return JsonResponse({'ok':1},status=status.HTTP_200_OK)

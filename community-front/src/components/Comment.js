@@ -113,18 +113,20 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
           </button>
           )
           }
-		  {user.user_comment_like.includes(comment.comment_id) ?
+		  { user &&  
 		  (
-			  <>
-			  	<button onClick={onLikeClick}>취소</button>
-
-			  </>
-		  ):
-		  (
-			<>
-				<button onClick={onLikeClick}>좋아요</button>
-			</>
-		  )		  
+			user.user_comment_like.includes(comment.comment_id) ?
+			(
+				<>
+					<button onClick={onLikeClick}>취소</button>
+				</>
+			):
+			(
+				<>
+					<button onClick={onLikeClick}>좋아요</button>
+				</>
+			)		  
+		  )
 		  }
 		  {isOwner && (
           <>
