@@ -4,7 +4,7 @@ import axios from "axios";
 import '../css/common.css';
 import Header from "../components/Header.js";
 
-function Section({user, num}){
+function Section({user, num, isAuthenticated}){
 	const sec_num = num.match.params.num;
 	const [nweet, setNweet] = useState([]);  
   
@@ -21,7 +21,7 @@ function Section({user, num}){
 	return (
 		<>
 		<div>
-		<Header num={sec_num}/>
+		<Header num={sec_num} isAuthenticated={isAuthenticated}/>
 		<div class="body-wrap">
 			<div class="flox-box" id="sidebar2">
 			<div class="flox-rank-wrap">

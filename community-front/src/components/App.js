@@ -4,7 +4,6 @@ import AppRouter from "components/Router";
 //import Routes from "./Routes";
 
 function App() {
-	const [modal, setModal] = useState(false);
 	const [user, setUser] = useState([]);
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
 
@@ -18,21 +17,8 @@ function App() {
 		setisAuthenticated(false)
 		setUser("")
 		localStorage.removeItem('token');
-		setModal(false)
 	}//로그아웃
-  
-	//회원가입이나 로그인이 성공했을 때 modal을 변경해 로그인 버튼을 없애고 글쓰기 버튼과 정보버튼을 나오게하는 setModal
-	//useEffect의 두번째 인자는 모든 렌더링 후 두번째 인자가 변경될때에만 실행되라는 내용 
-	useEffect(()=>{
-	  if(isAuthenticated){
-		setModal(true)
-	  }
-	  else{
-		setModal(false)
-	  }
-	},[isAuthenticated])
-	
-	
+
 	useEffect(async() => {
 	  // 토큰(access token)이 이미 존재하는 상황이라면 서버에 GET /validate 요청하여 해당 access token이 유효한지 확인
 	  if (isAuthenticated) {
@@ -59,9 +45,9 @@ function App() {
 			if (json.username) {
 			  //include라는 함수가 array에 있고 이건 __proto__에 f 뭐시기로 잘 나와있다.
 			  setUser(json);
+			  setisAuthenticated(true)
 			}else{
 			  //유저가 undefined라면 로그인버튼이 나오도록 modal을 false로 항상 맞춰줌
-			  setModal(false)
 			  setisAuthenticated(false)
 			}
 			// Refresh Token 발급 받아 token의 만료 시간 연장
@@ -77,7 +63,7 @@ function App() {
 			.then(res => res.json())
 			.then((json)=>{
 				localStorage.setItem('token', json.token);
-			//  userHasAuthenticated(true, json.user.username, json.token);
+				//  userHasAuthenticated(true, json.user.username, json.token);
 			})
 			.catch(error => {
 			  console.log(error);
@@ -97,7 +83,7 @@ function App() {
 
   return (
     <>
-      <AppRouter isAuthenticated={isAuthenticated} user={user} setModal={setModal} userHasAuthenticated={userHasAuthenticated} handleLogout={handleLogout} />
+      <AppRouter isAuthenticated={isAuthenticated} user={user} userHasAuthenticated={userHasAuthenticated} handleLogout={handleLogout} />
     </>
   );
 }

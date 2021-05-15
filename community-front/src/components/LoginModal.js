@@ -29,7 +29,6 @@ function LoginModal(props){
     .then(json => {
       if (json.username && json.token) {
         props.userHasAuthenticated(true, json.username, json.token);
-        props.setModal(true);
         history.push("/");
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
@@ -46,7 +45,6 @@ function LoginModal(props){
           // 발급 완료 되었다면 해당 토큰을 클라이언트 Local Storage에 저장
           if (json.user && json.user.username && json.token) {
             props.userHasAuthenticated(true, json.user.username, json.token);
-            props.setModal(true);
             history.push("/");
           }
         })
@@ -82,7 +80,6 @@ function LoginModal(props){
     .then(json => {
       if (json.username && json.token) {
         props.userHasAuthenticated(true, json.username, json.token);
-        props.setModal(true);
         history.push("/");
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
@@ -99,7 +96,6 @@ function LoginModal(props){
           // 발급 완료 되었다면 해당 토큰을 클라이언트 Local Storage에 저장
           if (json.user && json.user.username && json.token) {
             props.userHasAuthenticated(true, json.user.username, json.token);
-            props.setModal(true);
             history.push("/");
           }
         })

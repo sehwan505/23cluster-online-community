@@ -85,7 +85,7 @@ const onSubmit = async (event) => {
         ))}
     </div>*/}
 	<div>
-      <Header num={0}/>
+      <Header num={0} isAuthenticated={props.isAuthenticated}/>
       <div className="body-wrap no-border">
         <div className="flox-box" id="sidebar2">
           <div className="flox-rank-wrap">

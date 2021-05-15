@@ -39,11 +39,11 @@ ol, ul {
   float: left;
 }
 .top-wrap ul li:first-child {
-  min-width: 85px;
-  background-image: url('../img/logo.jpg');
+  min-width: 125px;
+  background-image: url('../img/logo2.png');
   background-size: 128px;
   background-repeat: no-repeat;
-  background-position: -24px -34px;
+  background-position: -10px -34px;
   cursor: pointer;
 }
 .top-wrap ul li:nth-child(2) {
@@ -461,6 +461,9 @@ ol, ul {
 .mypage-wrap ul li:first-child table tr:first-child td:last-child {
   padding-left: 40px;
 }
+.mypage-wrap ul li:first-child table tr:first-child td:last-child button {
+	padding-left: 40px;
+  }
 .mypage-wrap ul li:first-child table tr:not(:first-child) td:last-child {
   padding-left: 40px;
 }

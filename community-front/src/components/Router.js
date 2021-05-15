@@ -8,35 +8,35 @@ import Detail from "../routes/Detail";
 import Profile from "../routes/Profile";
 import Section from "../routes/Section";
 
-const AppRouter = ({ isAuthenticated, user, setModal, userHasAuthenticated, handleLogout}) => {
+const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout}) => {
   return (
     <Router>
       <Switch>
         {isAuthenticated ? (
           <>
             <Route exact path="/">
-              <Home user={user} handleLogout={handleLogout}/>
+              <Home user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
             </Route>
             <Route exact path="/profile">
-              <Profile user={user} handleLogout={handleLogout}/>
+              <Profile user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
             </Route>
             <Route path="/detail/:id"
-              render={(id) => <Detail user={user} post_id={id}/>}/>
+              render={(id) => <Detail user={user} post_id={id} isAuthenticated={isAuthenticated}/>}/>
 			<Route path="/section/:num" 
-		  	render={(num) => <Section user={user} num={num} />}/>
+		  	render={(num) => <Section user={user} num={num} isAuthenticated={isAuthenticated} />}/>
           </>
         ) : (
 		  <>
 		  <Route exact path="/">
-		    <Home user={user} />
+		    <Home user={user} isAuthenticated={isAuthenticated}/>
           </Route>
           <Route exact path="/login">
-            <LoginModal setModal={setModal} userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated}/>
+            <LoginModal userHasAuthenticated={userHasAuthenticated} isAuthenticated={isAuthenticated}/>
           </Route>
 		  <Route path="/section/:num" 
-		  	render={(num) => <Section user={user} num={num} />}/>
+		  	render={(num) => <Section user={user} num={num} isAuthenticated={isAuthenticated} />}/>
 		  <Route path="/detail/:id"
-              render={(id) => <Detail user={user} post_id={id}/>}
+              render={(id) => <Detail user={user} post_id={id} isAuthenticated={isAuthenticated}/>}
             />
           </>
 		)}

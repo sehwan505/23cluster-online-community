@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../css/common.css';
 
-const Header = ({num}) => {
+function Header({num, isAuthenticated}) {
 	return (
 		<>
 		<div class="top-wrap">
@@ -18,8 +18,17 @@ const Header = ({num}) => {
               <input type="checkbox" />
               <span class="slider round"></span>
             </label>
+			{isAuthenticated ? (
+			<>
             <Link to='/profile'><img src={require('../img/user.png').default} /></Link>
-            {/*<div class="dropdown">
+			</>
+			):
+			(
+			<>
+			<Link to='/login'><img src={require('../img/user.png').default} /></Link>
+			</>
+			)}
+			{/*<div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>

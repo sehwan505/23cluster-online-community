@@ -84,33 +84,67 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
           <>          
           { comment.depth ?
           (
-            <table border="3" style={{marginLeft:'50px', backgroundColor:'white'}}>
-              <th>
-                <tr>depth : {comment.depth}</tr>
-                <tr>id : {comment.parent_comment_id}</tr>
-                <tr>글쓴이 :{comment.writer_name}</tr>
-				<tr>좋아요 수 : {comment.like_num}</tr>
-              </th>
-              <tfoot>
-                <tr>  내용 : {comment.content}</tr>
-              </tfoot>
-          </table>
+			<>
+			<div onClick={toggleEditing}>
+				<table className="board-view-table sub-depth">
+				<tr>
+				<td className="bat-comment-row row-top">
+					<img src={require("../img/icon-comment-arrow.jpg").default} className="comment-arrow" />&nbsp;&nbsp;
+					<input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+					<label className="form-check-label" for="flexCheckDefault">
+						{comment.writer_name}
+					</label>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<span className="time">2시간 전</span>
+				</td>
+				<td className="bat-comment-row">
+					<span><img src={require("../img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
+					<span><img src={require("../img/icon-like2.jpg").default} />&nbsp;49</span>&nbsp;&nbsp;
+					<span><img src={require("img/icon-hate2.jpg").default} className="hate" />&nbsp;49</span>
+				</td>
+				</tr>
+				<tr>
+				<td className="bat-comment-row content2">
+					{comment.content}
+				</td>
+				<td className="bat-comment-row">
+					<span><img src={require("img/icon-more.jpg").default} /></span>
+				</td>
+				</tr>
+				</table>
+			</div>
+		  </>
+            
           )          
           : (
-          <button onClick={toggleEditing}>
-          <table border="1">
-
-              <th>
-                <tr>depth : {comment.depth}</tr>
-                <tr>id : {comment.parent_comment_id}</tr>
-                <tr>글쓴이 :{comment.writer_name}</tr>
-				<tr>좋아요 수 : {comment.like_num}</tr>
-              </th>
-              <tfoot>
-                <tr>내용 : {comment.content}</tr>
-              </tfoot>
-          </table>
-          </button>
+			<>
+			<table className="board-view-table yellow">
+            <tr>
+              <td className="bat-comment-row row-top">
+                <span className="best">BEST</span>&nbsp;&nbsp;
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label className="form-check-label" for="flexCheckDefault">
+					{comment.writer_name}
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span className="time">2시간 전</span>
+              </td>
+              <td className="bat-comment-row">
+                <span><img src={require("img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
+                <span><img src={require("img/icon-like2.jpg").default} />&nbsp;49</span>&nbsp;&nbsp;
+                <span><img src={require("img/icon-hate2.jpg").default} className="hate" />&nbsp;49</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="bat-comment-row content2">
+			    {comment.content}
+			  </td>
+              <td className="bat-comment-row">
+                <span><img src={require("img/icon-more.jpg").default} /></span>
+              </td>
+            </tr>
+          	</table>
+			</>
           )
           }
 		  { user &&  
