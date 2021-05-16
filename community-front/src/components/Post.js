@@ -2,8 +2,11 @@
     import axios from "axios";
     import {Link} from "react-router-dom";
 	import "../css/common.css";
+	import timeForToday from "./TimeForToday.js";
 
     const Post = ({ post, isOwner }) => {
+	  const created_at = timeForToday(post.created_at);
+	  
       const onDeleteClick = async () => {
         const ok = window.confirm("진짜 지울거임?");
         if (ok) {
@@ -33,7 +36,7 @@
 						{post.title}<span>[122]</span>
 						<img src={require("../img/mark-backdrop.jpg").default} />
 						</td>
-						<td>1분 전</td>
+						<td>{created_at}</td>
 						<td>
 						<img src={require("../img/mark-user.jpg").default} />&nbsp;
 						{post.writer_name}

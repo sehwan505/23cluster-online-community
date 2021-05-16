@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import axios from "axios";
 import CSRFToken from "../components/csrftoken.js";
+import timeForToday from "./TimeForToday.js";
 
 
 const Comment = ({ comment, isOwner, user, post_id }) => {
   const [commentContent , setCommentContent] = useState("");
   const [editing, setEditing] = useState(false);
+  const created_at = timeForToday(comment.created_at);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -95,12 +97,36 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
 						{comment.writer_name}
 					</label>
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<span className="time">2시간 전</span>
+					<span className="time">{created_at}</span>
 				</td>
 				<td className="bat-comment-row">
 					<span><img src={require("../img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
-					<span><img src={require("../img/icon-like2.jpg").default} />&nbsp;49</span>&nbsp;&nbsp;
-					<span><img src={require("img/icon-hate2.jpg").default} className="hate" />&nbsp;49</span>
+					{
+						user.user_comment_like.includes(comment.comment_id) ?
+						(
+							<>
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							</>
+						):
+						(
+							<>
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							</>
+						)
+					}
+					{
+						user.user_comment_like.includes(comment.comment_id) ?
+						(
+							<>
+								<span onClick={onLikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							</>
+						):
+						(
+							<>
+								<span onClick={onLikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							</>
+						)
+					}
 				</td>
 				</tr>
 				<tr>
@@ -108,7 +134,7 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
 					{comment.content}
 				</td>
 				<td className="bat-comment-row">
-					<span><img src={require("img/icon-more.jpg").default} /></span>
+					<span><img src={require("../img/icon-more.jpg").default} /></span>
 				</td>
 				</tr>
 				</table>
@@ -121,18 +147,42 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
 			<table className="board-view-table yellow">
             <tr>
               <td className="bat-comment-row row-top">
-                <span className="best">BEST</span>&nbsp;&nbsp;
+                {/*<span className="best">BEST</span>&nbsp;&nbsp;*/}
                 <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                 <label className="form-check-label" for="flexCheckDefault">
 					{comment.writer_name}
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <span className="time">2시간 전</span>
+                <span className="time">{created_at}</span>
               </td>
               <td className="bat-comment-row">
                 <span><img src={require("img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
-                <span><img src={require("img/icon-like2.jpg").default} />&nbsp;49</span>&nbsp;&nbsp;
-                <span><img src={require("img/icon-hate2.jpg").default} className="hate" />&nbsp;49</span>
+                {
+					user.user_comment_like.includes(comment.comment_id) ?
+					(
+						<>
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+						</>
+					):
+					(
+						<>
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+						</>
+					)
+				}
+				{
+					user.user_comment_like.includes(comment.comment_id) ?
+					(
+						<>
+							<span onClick={onLikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+						</>
+					):
+					(
+						<>
+							<span onClick={onLikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+						</>
+					)
+				}
               </td>
             </tr>
             <tr>
@@ -147,21 +197,6 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
 			</>
           )
           }
-		  { user &&  
-		  (
-			user.user_comment_like.includes(comment.comment_id) ?
-			(
-				<>
-					<button onClick={onLikeClick}>취소</button>
-				</>
-			):
-			(
-				<>
-					<button onClick={onLikeClick}>좋아요</button>
-				</>
-			)		  
-		  )
-		  }
 		  {isOwner && (
           <>
           <button onClick={onDeleteClick}>삭제</button>

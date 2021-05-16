@@ -7,7 +7,7 @@ function Header({num, isAuthenticated}) {
 		<>
 		<div class="top-wrap">
         <ul>
-          <li><Link to="/">a</Link></li>
+          <Link className="logo" to="/"><li></li></Link>
           <li>
             <input type="text" placeholder="검색어" />&nbsp;
             <img src={require('../img/search.png').default} />

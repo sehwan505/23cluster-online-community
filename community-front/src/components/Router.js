@@ -7,6 +7,7 @@ import Home from "../routes/Home";
 import Detail from "../routes/Detail";
 import Profile from "../routes/Profile";
 import Section from "../routes/Section";
+import Write from "../routes/Write";
 
 const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout}) => {
   return (
@@ -16,6 +17,9 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
           <>
             <Route exact path="/">
               <Home user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
+            </Route>
+			<Route exact path="/write">
+              <Write user={user} isAuthenticated={isAuthenticated}/>
             </Route>
             <Route exact path="/profile">
               <Profile user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>

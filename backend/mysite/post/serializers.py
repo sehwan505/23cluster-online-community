@@ -9,6 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
             'writer_name',
             'title',
             'content',
+			'created_at'
         )
         model = Post
 
@@ -21,6 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'content',
             'depth',
             'parent_comment_id',
-			'like_num'
+			'like_num',
+			'created_at'
         )
         model = Comment

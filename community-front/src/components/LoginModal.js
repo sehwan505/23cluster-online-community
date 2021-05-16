@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router'
 import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
+import "../css/login.css";
 
 function LoginModal(props){
   let [JoinLogin,setJoinLogin] = useState('로그인')
@@ -126,17 +127,48 @@ function LoginModal(props){
                 cookiePolicy={'single_host_origin'} />
             </div>
 			<div>
-				<KakaoLogin
-					buttonText="카카오 로그인"
-					jsKey={'8bddd75ad7eb715e2ef60468da308305'}
-					onSuccess={responseKakao}
-					onFailure={responseKakao}
-					getProfile={true}
-				/>
+				
 			</div>
           </section>
         </div>
       </div>
+	<div class="body">
+		<div class="box">
+			<p class="login">로그인</p>
+
+			<div>
+				<KakaoLogin
+				buttonText="카카오 로그인"
+				jsKey={'8bddd75ad7eb715e2ef60468da308305'}
+				onSuccess={responseKakao}
+				onFailure={responseKakao}
+				getProfile={true}
+				className="yellow_kakao"
+				/>	
+			</div>
+			<div>
+				<a class="blue" href="{% provider_login_url 'facebook' %}">
+					<div class="facebook"></div>
+					<div class="facebooktext">
+						<p>페이스북으로 로그인</p>
+					</div>
+				</a>
+			</div>
+			<div>
+				<GoogleLogin
+						buttonText="구글 로그인"
+						clientId="993167427573-hbdhu576tcrqmhljcp8tfjbohtfu5li7.apps.googleusercontent.com"
+						onSuccess={responseGoogle}
+						onFailure={responseGoogle}
+						cookiePolicy={'single_host_origin'}
+						className="gray"></GoogleLogin>
+			</div>
+			<p class="small">회원가입</p>
+			<div class="line"></div>
+			<p class="small2">이메일 로그인</p>
+		</div>
+	</div>
+
     </>
   )
 }

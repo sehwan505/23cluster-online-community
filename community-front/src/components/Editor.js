@@ -1,13 +1,15 @@
-import React, {useState, Component, useEffect} from "react";
+import React, {useState} from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import axios from "axios"
-import CSRFToken from "../components/csrftoken.js"
+import axios from "axios";
+import CSRFToken from "../components/csrftoken.js";
+import {useHistory} from "react-router-dom";
 
 const DraftEditor = ({user}) => {
   const editorRef = React.createRef();
   const [content, setContent] = useState({});
   const [postTitle , setPostTitle] = useState("");
+  const history = useHistory();
 
   const handleClick = (event) => {
 	event.preventDefault();
@@ -36,13 +38,12 @@ const DraftEditor = ({user}) => {
         writer_name: user.username,
 		csrfmiddlewaretoken	: csrftoken
     }, config).then((response) => {
-		console.log("Ab");
+	  history.push('/');
     })
     .catch((error) => {
     // 예외 처리
 	  console.log(error);
 	})
-    window.location.reload();
   }
 
   const onChangeTitle = (event) => {

@@ -79,6 +79,11 @@ function App() {
 		  console.log(error)
 		});
 	  }
+	  else{
+		  setUser({
+			  user_comment_like : []
+		  });
+	  }
 	},[isAuthenticated])
 
   return (

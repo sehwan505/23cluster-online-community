@@ -60,7 +60,16 @@ useEffect(async() => {
       target: { value },
     } = event;
     setCommentContent(value);
-  }
+  };
+  const url_copy = () => {
+	var dummy = document.createElement("textarea");
+	document.body.appendChild(dummy);
+	dummy.value = window.location.href;
+	dummy.select();
+	document.execCommand("copy");
+	document.body.removeChild(dummy);
+  };
+  
 
    {/*<div>
       <span>
@@ -159,8 +168,8 @@ useEffect(async() => {
                 </div>
               </td>
               <td class="btn-area">
-                <img src={require("../img/btn-usr-copy.jpg").default} />
-                <img src={require("img/btn-report.jpg").default} />
+                <span onClick={url_copy}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
+                <span><img src={require("img/btn-report.jpg").default} /></span>
               </td>
             </tr>
             <tr>
@@ -259,6 +268,61 @@ useEffect(async() => {
               </td>
             </tr>            
           </table>
+		  <div class="issue-row-box">
+          <div class="issue-row-wrap2-top">
+            <span>글쓰기</span>
+          </div>  
+          <div class="issue-row-wrap2 yellow">
+            <ul class="nrml">
+              <li>
+                <table>
+                  <tr>
+                    <td rowspan="2"><i class="bi bi-hand-thumbs-up"></i>15</td>
+                    <td>
+                      피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데 <span>[122]</span>
+                      <img src="img/mark-backdrop.jpg" />
+                    </td>
+                    <td>1분 전</td>
+                    <td>
+                      <img src="img/mark-user.jpg" />&nbsp;
+                      Aporia_Zero
+                    </td>
+                  </tr>
+                </table>
+              </li>            
+            </ul>          
+          </div> 
+          <table class="board-insert-table">
+            <tr>
+              <td class="paging">
+                <a></a>
+                <a class="on">1</a>
+                <a>2</a>
+                <a>3</a>
+                <a>4</a>
+                <a>5</a>
+                <a>6</a>
+                <a>7</a>
+                <a>8</a>
+                <a></a>
+              </td>
+            </tr>
+          </table>
+          <table class="board-search-wrap">
+            <tr>
+              <td>
+                <div>
+                  <select class="form-select">
+                    <option>제목</option>
+                  </select>
+                </div>
+                <div>
+                  <input type="text" placeholder="검색어" /><img src="img/mark-search.jpg" />
+                </div>                
+              </td>           
+            </tr>
+          </table><br/><br/><br/>
+        </div>
         </div>
 	  </div>
     </>

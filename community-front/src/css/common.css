@@ -38,7 +38,8 @@ ol, ul {
 .top-wrap ul li {
   float: left;
 }
-.top-wrap ul li:first-child {
+/*logo를 추가할 때는 link를 바깥에 두고 그 안에 원하는 tag를 넣은 뒤 link에 class주면됨*/
+.logo{ 
   min-width: 125px;
   background-image: url('../img/logo2.png');
   background-size: 128px;
@@ -461,9 +462,14 @@ ol, ul {
 .mypage-wrap ul li:first-child table tr:first-child td:last-child {
   padding-left: 40px;
 }
-.mypage-wrap ul li:first-child table tr:first-child td:last-child button {
-	padding-left: 40px;
-  }
+.mypage-wrap ul li:first-child table tr td button {
+	border: 1px solid #ced2d1;
+  border-radius: 5px;
+  color: #ced2d1;
+  padding: 6px 10px 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
 .mypage-wrap ul li:first-child table tr:not(:first-child) td:last-child {
   padding-left: 40px;
 }
