@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Post from "components/Post";
 import axios from "axios";
-import '../css/common.css';
-import Header from "../components/Header.js";
+import 'css/common.css';
+import Header from "components/Header.js";
 
 function Section({user, num, isAuthenticated}){
 	const sec_num = num.match.params.num;
-	const [nweet, setNweet] = useState([]);  
-  
+	const [postList, setpostList] = useState([]);  
+
   	useEffect(async() => {
 	  try {
-		  const res = await fetch('http://localhost:8000/api/post');
+		  const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/`);
 		  const posts = await res.json();
-		  setNweet(posts);
+		  setpostList(posts);
 	  } 
 	  catch (e) {
 		  console.log(e);
 	  }
- 	}, []);
+ 	}, [sec_num]);
 	return (
 		<>
 		<div>
@@ -96,7 +96,7 @@ function Section({user, num, isAuthenticated}){
 				</li>            
 				</ul>
 			</div>
-			{nweet.map((post) => (
+			{postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>
         	))}
 			</div>

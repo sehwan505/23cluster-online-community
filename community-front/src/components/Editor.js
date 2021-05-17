@@ -9,6 +9,7 @@ const DraftEditor = ({user}) => {
   const editorRef = React.createRef();
   const [content, setContent] = useState({});
   const [postTitle , setPostTitle] = useState("");
+  const [section , setSection] = useState("1");
   const history = useHistory();
 
   const handleClick = (event) => {
@@ -24,7 +25,7 @@ const DraftEditor = ({user}) => {
 	setContent({
 		content: editorRef.current.getInstance().getMarkdown(),
 	});
-	console.log(content);
+	console.log(section);
 	var csrftoken = CSRFToken();
 	const config = {
 		headers: {
@@ -36,6 +37,7 @@ const DraftEditor = ({user}) => {
         content: content.content,
         writer_id: user.user_pk,
         writer_name: user.username,
+		section : section,
 		csrfmiddlewaretoken	: csrftoken
     }, config).then((response) => {
 	  history.push('/');
@@ -53,6 +55,14 @@ const DraftEditor = ({user}) => {
     setPostTitle(value);
   }
 
+  const onChangeSection = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSection(value);
+	console.log(value);
+  }
+
   const uploadImage = (blob) => {
 	let formData = new FormData();
 
@@ -64,7 +74,7 @@ const DraftEditor = ({user}) => {
         method: 'POST',
 		headers: {
 			'Content-type' : 'multipart/form-data' ,
-			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+			'Authorization' : `JWT ${localStorage.getItem('token')}`
 		},
         body: {
 			data: formData,
@@ -100,6 +110,12 @@ const DraftEditor = ({user}) => {
         type="text"
         onChange={onChangeTitle}
       />
+	  <select name="section" onChange={onChangeSection} value={section} >
+			<option value="1">정치</option>
+			<option value="2">게임</option>
+			<option value="3">연예</option>
+			<option value="4">유머</option>
+	  </select>
       <Editor
         previewStyle="vertical"
         height="300px"

@@ -45,10 +45,10 @@ function Header({num, isAuthenticated}) {
         <ul>
 		  {
 		  <>
-		  <Link to="/section/1"><li class={num === "1" ? "on" : ""}>정치</li></Link>
-          <Link to="/section/2"><li class={num == "2" ? "on" : ""}>게임</li></Link>
-          <Link to="/section/3"><li class={num == "3" ? "on" : ""}>연애</li></Link>
-		  <Link to="/section/4"><li class={num == "4" ? "on" : ""}>유머</li></Link>
+		  <Link to="/section/1/"><li class={num === "1" ? "on" : ""}>정치</li></Link>
+          <Link to="/section/2/"><li class={num == "2" ? "on" : ""}>게임</li></Link>
+          <Link to="/section/3/"><li class={num == "3" ? "on" : ""}>연애</li></Link>
+		  <Link to="/section/4/"><li class={num == "4" ? "on" : ""}>유머</li></Link>
 		  </>
 		  }
 		</ul>

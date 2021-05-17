@@ -20,7 +20,7 @@ function Home(props){
 
 useEffect(async() => {
     try {
-        const res = await fetch('http://localhost:8000/api/post');
+        const res = await fetch('http://localhost:8000/api/post/section/1/');
         const posts = await res.json();
         setNweet(posts);
     } 

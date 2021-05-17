@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Comment from "components/Comment";
-import Header from "../components/Header";
+import Header from "components/Header";
 import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
-import CSRFToken from "../components/csrftoken.js"
+import CSRFToken from "components/csrftoken.js"
+import Post from "components/Post";
 import ReactMarkdown from "react-markdown";
 import "../css/common.css";
 
@@ -12,22 +13,27 @@ function Detail({user, post_id, isAuthenticated}){
   const [commentContent , setCommentContent] = useState("");
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
+  const [postList, setPostList] = useState([]);
   const history = useHistory();
   const id = post_id.match.params.id;
 
 useEffect(async() => {
   try {
-        const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`);
-        const posts = await res.json();
-        setPost(posts);
-        const res1 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/`);
-        const comments = await res1.json();
-        setComment(comments)
+	    window.scrollTo(0,0);
+        const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
+		const posts = await res.json()
+		setPost(posts);
+		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/`);
+		const post_list = await res1.json();
+		setPostList(post_list);
+        const res2 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/`);
+        const comments = await res2.json();
+        setComment(comments);
     } 
     catch (e) {
         console.log(e);
     }
-}, []);
+}, [post_id]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -270,28 +276,11 @@ useEffect(async() => {
           </table>
 		  <div class="issue-row-box">
           <div class="issue-row-wrap2-top">
-            <span>글쓰기</span>
+            <Link to="/write"><span>글쓰기</span></Link>
           </div>  
-          <div class="issue-row-wrap2 yellow">
-            <ul class="nrml">
-              <li>
-                <table>
-                  <tr>
-                    <td rowspan="2"><i class="bi bi-hand-thumbs-up"></i>15</td>
-                    <td>
-                      피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데 <span>[122]</span>
-                      <img src="img/mark-backdrop.jpg" />
-                    </td>
-                    <td>1분 전</td>
-                    <td>
-                      <img src="img/mark-user.jpg" />&nbsp;
-                      Aporia_Zero
-                    </td>
-                  </tr>
-                </table>
-              </li>            
-            </ul>          
-          </div> 
+          {postList.map((post) => (
+            <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>
+        	))} 
           <table class="board-insert-table">
             <tr>
               <td class="paging">

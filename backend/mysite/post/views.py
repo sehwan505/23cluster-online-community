@@ -15,8 +15,13 @@ from login.views import get_profile
 
 class ListPost(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Post.objects.all().order_by('-created_at')
+    #queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
+
+    def get_queryset(self, **kwargs):
+        pk = self.kwargs.get('pk')
+        queryset = Post.objects.filter(section=pk).order_by('-created_at')
+        return queryset
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.AllowAny,)
@@ -65,12 +70,14 @@ def DeletePost(request,pk):
 @csrf_exempt
 def AddPost(request):
     payload = json.loads(request.body)
+    print(payload)
     try:
         post = Post.objects.create(
             title=payload["title"],
             content=payload["content"],
             writer_id=payload["writer_id"],
-            writer_name=payload["writer_name"]
+            writer_name=payload["writer_name"],
+			section=payload["section"],
         )
         serializer = PostSerializer(post)
         return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_201_CREATED)

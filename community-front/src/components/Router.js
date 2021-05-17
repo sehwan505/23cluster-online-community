@@ -26,7 +26,7 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
             </Route>
             <Route path="/detail/:id"
               render={(id) => <Detail user={user} post_id={id} isAuthenticated={isAuthenticated}/>}/>
-			<Route path="/section/:num" 
+			<Route path="/section/:num"
 		  	render={(num) => <Section user={user} num={num} isAuthenticated={isAuthenticated} />}/>
           </>
         ) : (
