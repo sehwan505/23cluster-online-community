@@ -7,6 +7,7 @@ import CSRFToken from "components/csrftoken.js"
 import Post from "components/Post";
 import ReactMarkdown from "react-markdown";
 import "../css/common.css";
+import useEffectOnlyOnUpdate from "components/customHook";
 
 
 function Detail({user, post_id, isAuthenticated}){
@@ -35,7 +36,7 @@ useEffect(async() => {
     }
 }, [post_id]);
 
-  const onSubmit = async (event) => {
+const onSubmit = async (event) => {
     event.preventDefault();
     if(commentContent === ""){
       document.getElementsByName("comment").focus();
@@ -59,7 +60,7 @@ useEffect(async() => {
     .catch((error) => {
     // 예외 처리
     })
-    window.location.reload();
+	window.location.reload();
   }
   const onChangeContent = (event) => {
     const {
@@ -229,12 +230,12 @@ useEffect(async() => {
             </tr>
             <tr>
               <td class="bat-comment-cnt" colspan="2">
-                댓글 &nbsp;&nbsp;&nbsp;<span>10</span>&nbsp;개
+                댓글 &nbsp;&nbsp;&nbsp;<span>{comment.length}</span>&nbsp;개
               </td>
             </tr>
           </table>
 		  {comment.map((comment) => (
-        	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user}  />
+        	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user} isAuthenticated={isAuthenticated} />
 		  ))}
 		</div>
 		<table class="board-insert-table">
@@ -256,7 +257,7 @@ useEffect(async() => {
             </tr>
             <tr>
               <td>
-                <span>등록</span>
+                <span onClick={onSubmit}>등록</span>
               </td>
             </tr>
             <tr>
@@ -279,7 +280,7 @@ useEffect(async() => {
             <Link to="/write"><span>글쓰기</span></Link>
           </div>  
           {postList.map((post) => (
-            <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>
+            <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id} />
         	))} 
           <table class="board-insert-table">
             <tr>
@@ -306,7 +307,7 @@ useEffect(async() => {
                   </select>
                 </div>
                 <div>
-                  <input type="text" placeholder="검색어" /><img src="img/mark-search.jpg" />
+                  <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default} />
                 </div>                
               </td>           
             </tr>

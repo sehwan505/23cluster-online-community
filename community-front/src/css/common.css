@@ -999,6 +999,9 @@ input:checked + .slider:before {
   border: 0px;
   border-bottom: 1px solid #ced2d1;
 }
+.board-view-table td.bat-comment-row img.more{
+  height:20px;
+}
 .board-view-table tr:nth-child(odd) td.bat-comment-row {
   border: 0px;
 }
@@ -1081,6 +1084,10 @@ input:checked + .slider:before {
   padding: 3px 16px;
   cursor: pointer;
   font-weight: normal;
+}
+.board-insert-table tr:nth-child(3) td span:hover {
+	background-color: #56ab8a;
+	color : #fff;
 }
 .board-insert-table tr:last-child td {
   width: 100%;

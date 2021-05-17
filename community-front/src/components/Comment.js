@@ -4,7 +4,7 @@ import CSRFToken from "../components/csrftoken.js";
 import timeForToday from "./TimeForToday.js";
 
 
-const Comment = ({ comment, isOwner, user, post_id }) => {
+const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const [commentContent , setCommentContent] = useState("");
   const [editing, setEditing] = useState(false);
   const created_at = timeForToday(comment.created_at);
@@ -190,30 +190,48 @@ const Comment = ({ comment, isOwner, user, post_id }) => {
 			    {comment.content}
 			  </td>
               <td className="bat-comment-row">
-                <span><img src={require("img/icon-more.jpg").default} /></span>
+                <span onClick={toggleEditing}><img className="more" src={require("img/icon-more.jpg").default} /></span>
               </td>
             </tr>
           	</table>
 			</>
           )
           }
-		  {isOwner && (
-          <>
-          <button onClick={onDeleteClick}>삭제</button>
-          </>)
-          }
           {editing && (
             <>
-            <form onSubmit={onSubmit}>
-            <input
-              value={commentContent}
-              placeholder="대댓글"
-              type="text"
-              onChange={onChangeContent}
-              name="comment"
-            />
-            <input type="submit" value="에딧"/>
-            </form>
+            <table class="board-insert-table">
+            <tr>
+              <td>
+                <label class="form-check-label">
+                  {isAuthenticated ? user.username : "로그인이 필요합니다"}
+                </label>
+              </td>
+            </tr>           
+            <tr>
+              <td>
+                <textarea value={commentContent}
+              			type="text"
+              			onChange={onChangeContent} 
+						placeholder="댓글을 남겨보세요">
+				</textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span onClick={onSubmit}>등록</span>
+              </td>
+			  
+            </tr>
+			<tr>
+			  {/*<td>
+			  {isOwner && (
+			  <>
+			    <span onClick={onDeleteClick}>삭제</span>
+			  </>)
+			  }
+			  </td>*/}
+			</tr>          
+            </table>
             </>
           )}
         </>
