@@ -39,7 +39,7 @@ ol, ul {
   float: left;
 }
 /*logo를 추가할 때는 link를 바깥에 두고 그 안에 원하는 tag를 넣은 뒤 link에 class주면됨*/
-.logo{ 
+.top-wrap .logo{ 
   min-width: 125px;
   background-image: url('../img/logo2.png');
   background-size: 128px;
@@ -74,24 +74,16 @@ ol, ul {
   max-width: 35px;
   cursor: pointer;
 }
-.top-wrap ul li:last-child {
+.top-wrap ul li:nth-child(3) {
   width: 150px;
   text-align: right;
   margin-right: 12px;
 }
-.top-wrap ul li:last-child img {
+.top-wrap ul li:nth-child(3) img {
   max-width: 35px;
   cursor: pointer;
 }
-.top-wrap ul li:last-child i {
-  color: #8a8a8a;
-  position: relative;
-  top: 2px;
-  left: 2px;
-  cursor: pointer;
-  font-size: 12px;
-}
-.top-wrap ul li:last-child .bubble-text {
+.top-wrap ul li:nth-child(3) .bubble-text {
   font-size: 12px;
   color: #969696;
   position: relative;
@@ -104,12 +96,12 @@ ol, ul {
   border-bottom: 5px solid #56ac8a;
 }
 .nav-bar ul {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .nav-bar li {
   /* width: 180px; */
-  width: 168px;
+  width: 180px;
   float: left;
   color: #efefef;
   font-size: 20px;
@@ -1172,11 +1164,11 @@ input:checked + .slider:before {
     width: auto;
   }
   .nav-bar li {
-    width: calc(100% / 3);
+    width: calc(100% / 4);
     float: left;
     color: #efefef;
     font-size: 20px;
-    line-height: 80px;
+    line-height: 60px;
     text-align: center;
   }  
   .top-wrap ul li:last-child i {
@@ -1195,12 +1187,11 @@ input:checked + .slider:before {
     padding: 7px 15px;
   }  
 }
-@media screen and (max-width: 1580px) {
-  .flox-box {
-    display: none;
-  }
-}
+
 @media screen and (max-width: 800px) {
+  .flox-box {
+	display: none;
+  }	
   .issue-wrap > div ul {
     margin: 12px 12px;
   }  

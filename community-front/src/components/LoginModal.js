@@ -5,7 +5,6 @@ import KakaoLogin from 'react-kakao-login';
 import "../css/login.css";
 
 function LoginModal(props){
-  let [JoinLogin,setJoinLogin] = useState('로그인')
   const history = useHistory()
 
   //구글 아이디로 회원가입 및 이미 회원일경우
@@ -117,7 +116,7 @@ function LoginModal(props){
       <div className="login-container">
         <div className="login-box">
           <section className="social-box">
-            <h4>소셜 계정으로 {JoinLogin}</h4>
+            <h4>소셜 계정으로 로그인</h4>
             <div className="googlebox">
               <GoogleLogin
                 buttonText="구글 로그인"

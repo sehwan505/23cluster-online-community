@@ -4,10 +4,10 @@ import Header from "../components/Header.js";
 import DraftEditor from "../components/Editor.js";
 
 
-function Write({user, isAuthenticated}){
+function Write({user, handleLogout, isAuthenticated}){
 	return (
 		<>
-		<Header num={0} isAuthenticated={isAuthenticated} />
+		<Header num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated}  />
 		<DraftEditor user={user} />
 		</>
 	);

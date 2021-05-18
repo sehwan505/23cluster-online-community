@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../css/common.css';
 
-function Header({num, isAuthenticated}) {
+function Header({num, handleLogout, isAuthenticated}) {
+	const [checked, setChecked] = useState(localStorage.getItem('checked'));
+
+	const checkedHandler = () =>{
+		localStorage.setItem('checked', !checked);
+		setChecked(!checked);
+	}
 	return (
 		<>
-		<div class="top-wrap">
+		<div className="top-wrap">
         <ul>
           <Link className="logo" to="/"><li></li></Link>
           <li>
@@ -13,10 +19,10 @@ function Header({num, isAuthenticated}) {
             <img src={require('../img/search.png').default} />
           </li>
           <li>
-		    <span class="bubble-text">버블필터</span>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider round"></span>
+		    <span className="bubble-text">버블필터</span>
+            <label className="switch">
+              <input type="checkbox" checked={checked} onClick={checkedHandler}/>
+              <span className="slider round"></span>
             </label>
 			{isAuthenticated ? (
 			<>
@@ -28,27 +34,46 @@ function Header({num, isAuthenticated}) {
 			<Link to='/login'><img src={require('../img/user.png').default} /></Link>
 			</>
 			)}
-			{/*<div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
-                    <li><a class="dropdown-item" href="/profile">프로필</a></li>        
-                </ul>
-            </div>*/}
-			<i class="bi bi-caret-down-fill"></i>
           </li>
+		  <li>
+		    {isAuthenticated ? (
+			<>
+            <div class="btn-group caret">
+			<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            	<div class="dropdown-item" onClick={handleLogout}>로그아웃</div>
+            	<Link to="/profile"><div class="dropdown-item">프로필</div></Link>
+            	<hr />
+            	<Link to="/write"><div class="dropdown-item">글쓰기</div></Link>
+            	</div>
+			</div>
+			</>
+			):
+			(
+			<>
+			<div class="btn-group caret">
+			<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            	<Link to="/login"><div class="dropdown-item">로그인</div></Link>
+            </div>
+			</div>
+			</>
+			)}
+			
+		  </li>
         </ul>        
       </div>
-      <div class="nav-bar">
+      <div className="nav-bar">
         <ul>
 		  {
 		  <>
-		  <Link to="/section/1/"><li class={num === "1" ? "on" : ""}>정치</li></Link>
-          <Link to="/section/2/"><li class={num == "2" ? "on" : ""}>게임</li></Link>
-          <Link to="/section/3/"><li class={num == "3" ? "on" : ""}>연애</li></Link>
-		  <Link to="/section/4/"><li class={num == "4" ? "on" : ""}>유머</li></Link>
+		  <Link to="/section/1/"><li className={num === "1" ? "on" : ""}>시사</li></Link>
+          <Link to="/section/2/"><li className={num == "2" ? "on" : ""}>유머</li></Link>
+          <Link to="/section/3/"><li className={num == "3" ? "on" : ""}>연애</li></Link>
+		  <Link to="/section/4/"><li className={num == "4" ? "on" : ""}>스포츠</li></Link>
+		  <Link to="/section/5/"><li className={num == "5" ? "on" : ""}>본진</li></Link>
 		  </>
 		  }
 		</ul>

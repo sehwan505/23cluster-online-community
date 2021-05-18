@@ -4,7 +4,7 @@ import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
 
-function Section({user, num, isAuthenticated}){
+function Section({user, num, handleLogout, isAuthenticated}){
 	const sec_num = num.match.params.num;
 	const [postList, setpostList] = useState([]);  
 
@@ -18,12 +18,35 @@ function Section({user, num, isAuthenticated}){
 		  console.log(e);
 	  }
  	}, [sec_num]);
+
+	 const scrollHeight = 120;
+	 const scrollHeight2 = 120;
+	 function sidebar(){
+	 
+	if(window.scrollTop() > scrollHeight){
+	 let top = window.scrollTop() - scrollHeight + 20;
+	 document.getElementById('sidebar').style.top = top +'px';
+	}else{
+	 document.getElementById('sidebar').style.top = '20px';
+	}
+	if(window.scrollTop() > scrollHeight2){
+	 let top = window.scrollTop() - scrollHeight2 + 20;
+	 document.getElementById('sidebar2').style.top = top +'px';
+	}else{
+	 document.getElementById('sidebar2').style.top = '20px';
+	}    
+	}
+
+	const onScroll = () =>{
+		sidebar();
+	}
+
 	return (
 		<>
 		<div>
-		<Header num={sec_num} isAuthenticated={isAuthenticated}/>
+		<Header num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 		<div class="body-wrap">
-			<div class="flox-box" id="sidebar2">
+			<div class="flox-box" onscroll={onScroll}>
 			<div class="flox-rank-wrap">
 				<div>해시태크 순위</div>
 				<ul>

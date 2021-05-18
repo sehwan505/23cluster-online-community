@@ -16,6 +16,8 @@ function Home(props){
   const [postContent , setPostContent] = useState("");
   const [nweet, setNweet] = useState([]);
   const history = useHistory();
+  const scrollHeight = 120;
+  const scrollHeight2 = 120;
 
 
 useEffect(async() => {
@@ -29,42 +31,15 @@ useEffect(async() => {
     }
 }, []);
 
-const onSubmit = async (event) => {
-    event.preventDefault();
-	var csrftoken = CSRFToken();
-	const config = {
-		headers: {
-			'Authorization' : `JWT ${localStorage.getItem('token')}`	
-		}
-	}
-    await axios.post('http://127.0.0.1:8000/api/post/add/', {
-        title: postTitle,
-        content: postContent,
-        writer_id: props.user.user_pk,
-        writer_name: props.user.username,
-		csrfmiddlewaretoken	: csrftoken
-    }, config).then((response) => {
-		console.log("Ab");
-    })
-    .catch((error) => {
-    // 예외 처리
-    })
-    window.location.reload();
-  }
-  const onChangeTitle = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPostTitle(value);
-  }
-
-  const onChangeContent = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPostContent(value);
-  }
-
+  const scrollHandler = () => {
+  
+	if(window.scrollTop() > scrollHeight){
+	let top = window.scrollTop() - scrollHeight + 20;
+	document.getElementById('sidebar').style.top = top +'px';
+	}else{
+	document.getElementById('sidebar').style.top = '20px';
+  }};
+  
   return (
     <>
     {/*<div align="center">
@@ -85,9 +60,9 @@ const onSubmit = async (event) => {
         ))}
     </div>*/}
 	<div>
-      <Header num={0} isAuthenticated={props.isAuthenticated}/>
+      <Header num={0} handleLogout={props.handleLogout} isAuthenticated={props.isAuthenticated}/>
       <div className="body-wrap no-border">
-        <div className="flox-box" id="sidebar2">
+        <div className="flox-box" onScroll={scrollHandler} id="sidebar">
           <div className="flox-rank-wrap">
             <div>해시태크 순위</div>
             <ul>

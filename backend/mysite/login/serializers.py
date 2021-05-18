@@ -42,4 +42,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user_pk' ,'username','user_comment_like')
+        fields = ('user_pk' ,'username','introduction','user_comment_like', 'category', 'point')

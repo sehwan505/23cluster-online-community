@@ -19,15 +19,15 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
               <Home user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
             </Route>
 			<Route exact path="/write">
-              <Write user={user} isAuthenticated={isAuthenticated}/>
+              <Write user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
             </Route>
             <Route exact path="/profile">
               <Profile user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
             </Route>
             <Route path="/detail/:id"
-              render={(id) => <Detail user={user} post_id={id} isAuthenticated={isAuthenticated}/>}/>
+              render={(id) => <Detail user={user} post_id={id} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>}/>
 			<Route path="/section/:num"
-		  	render={(num) => <Section user={user} num={num} isAuthenticated={isAuthenticated} />}/>
+		  	render={(num) => <Section user={user} num={num} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />}/>
           </>
         ) : (
 		  <>

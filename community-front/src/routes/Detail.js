@@ -10,7 +10,7 @@ import "../css/common.css";
 import useEffectOnlyOnUpdate from "components/customHook";
 
 
-function Detail({user, post_id, isAuthenticated}){
+function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentContent , setCommentContent] = useState("");
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
@@ -114,7 +114,7 @@ const onSubmit = async (event) => {
   return (
 	  <>
 	  <div>
-	  <Header num={0} isAuthenticated={isAuthenticated} />
+	  <Header num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
 	  <div class="body-wrap">
         <div class="flox-box" id="sidebar">
           <div class="flox-rank-wrap2">

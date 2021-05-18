@@ -7,6 +7,7 @@ import "../css/common.css";
 function Profile({user, handleLogout, isAuthenticated}){
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(user.username);
+  const [introduction, setIntroduction] = useState(user.introduction);
   const [usernameModal, setUsernameModal] = useState(true);
 
   const onSubmit = async (event) =>{
@@ -23,11 +24,32 @@ function Profile({user, handleLogout, isAuthenticated}){
     }
 	window.location.reload();
   }
+  const onSubmitIntroduction = async (event) =>{
+    event.preventDefault();
+    if(user.introduction !== introduction){
+		await axios.put(`http://localhost:8000/user/profile/${user.user_pk}/update/`, {
+			introduction: introduction
+		}).then((response) => {
+			console.log("Ab");
+		})
+		.catch((error) => {
+		// 예외 처리
+		})
+    }
+	window.location.reload();
+  }
   const onChange = (event) => {
     const {
       target: { value },
     } = event;
     setNewDisplayName(value);
+  };
+
+  const onChangeIntroduction = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setIntroduction(value);
   };
 
   const nameChange = () =>{
@@ -67,8 +89,8 @@ function Profile({user, handleLogout, isAuthenticated}){
                 </tr>
                 <tr>
 				  <td>
-					<form onSubmit={onSubmit}>	 
-						<input type="text" value="123"  value={newDisplayName == null ? '' : newDisplayName} onChange={onChange}/>
+					<form onSubmit={onSubmitIntroduction}>	 
+						<input type="text" value="123"  value={introduction == null ? '' : introduction} onChange={onChangeIntroduction}/>
 						<button>변경</button>
 					</form>
                   </td>
@@ -92,12 +114,12 @@ function Profile({user, handleLogout, isAuthenticated}){
                   <td>
                     <span><img src={require("img/mark-point.jpg").default} /></span>
                     <span>포인트</span>
-                    <span>50p</span>
+                    <span>{user.point}p</span>
                   </td>
                   <td>
                     <span><img src={require("img/mark-comment.jpg").default} /></span>
                     <span>댓글 수</span>
-                    <span>10</span>
+                    <span>10 </span>
                   </td>                  
                 </tr>                                                               
               </table>

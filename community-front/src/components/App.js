@@ -6,6 +6,7 @@ import AppRouter from "components/Router";
 function App() {
 	const [user, setUser] = useState([]);
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
+	const [checked, setChecked] = useState(localStorage.getItem('checked'));
 
 	const userHasAuthenticated = (authenticated, username, token) => { 
 	  setisAuthenticated(authenticated)
@@ -33,8 +34,8 @@ function App() {
 			token: localStorage.getItem('token')
 		  })
 		})
-		.then(res => {
-		  fetch('http://localhost:8000/user/current/', {
+		.then(async(res) => {
+		  await fetch('http://localhost:8000/user/current/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
 			}
@@ -88,7 +89,8 @@ function App() {
 
   return (
     <>
-      <AppRouter isAuthenticated={isAuthenticated} user={user} userHasAuthenticated={userHasAuthenticated} handleLogout={handleLogout} />
+      <AppRouter isAuthenticated={isAuthenticated} user={user} userHasAuthenticated={userHasAuthenticated} 
+	  handleLogout={handleLogout} checked={checked} />
     </>
   );
 }
