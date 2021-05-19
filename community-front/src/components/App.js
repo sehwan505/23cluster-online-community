@@ -18,6 +18,7 @@ function App() {
 		setisAuthenticated(false)
 		setUser("")
 		localStorage.removeItem('token');
+		window.location.href = '/';
 	}//로그아웃
 
 	useEffect(async() => {

@@ -10,7 +10,21 @@ class PostSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'section',
-			'created_at',
+            'like_num',
+            'created_at',
+        )
+        model = Post
+
+class PostListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'writer_id',
+            'writer_name',
+            'title',
+            'section',
+            'like_num',
+            'created_at',
         )
         model = Post
 

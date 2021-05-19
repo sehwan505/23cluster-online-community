@@ -7,15 +7,15 @@ import CSRFToken from "components/csrftoken.js"
 import Post from "components/Post";
 import ReactMarkdown from "react-markdown";
 import "../css/common.css";
-import useEffectOnlyOnUpdate from "components/customHook";
-
+import Pagination from "components/Pagination"
 
 function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentContent , setCommentContent] = useState("");
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
   const [postList, setPostList] = useState([]);
-  const history = useHistory();
+  const [pageNum, setPageNum] = useState(localStorage.getItem('pageNum') ? localStorage.getItem('pageNum') : 1);
+  const [itemsCount, setItemsCount] = useState(0);
   const id = post_id.match.params.id;
 
 useEffect(async() => {
@@ -24,9 +24,6 @@ useEffect(async() => {
         const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 		const posts = await res.json()
 		setPost(posts);
-		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/`);
-		const post_list = await res1.json();
-		setPostList(post_list);
         const res2 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/`);
         const comments = await res2.json();
         setComment(comments);
@@ -35,6 +32,24 @@ useEffect(async() => {
         console.log(e);
     }
 }, [post_id]);
+
+useEffect(async() => {
+	try{
+		const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
+		const posts = await res.json()
+		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
+		const post_list = await res1.json();
+		if (res1.status == 404){
+			alert("오류, 새로고침 해주세요");
+			window.location.href = '/';
+		}
+		setItemsCount(post_list.count);
+		setPostList(post_list.results);
+    }
+	catch(e){
+		console.log(e);
+	}
+},[pageNum]);
 
 const onSubmit = async (event) => {
     event.preventDefault();
@@ -114,7 +129,7 @@ const onSubmit = async (event) => {
   return (
 	  <>
 	  <div>
-	  <Header num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
+	  <Header user={user} num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
 	  <div class="body-wrap">
         <div class="flox-box" id="sidebar">
           <div class="flox-rank-wrap2">
@@ -282,22 +297,7 @@ const onSubmit = async (event) => {
           {postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id} />
         	))} 
-          <table class="board-insert-table">
-            <tr>
-              <td class="paging">
-                <a></a>
-                <a class="on">1</a>
-                <a>2</a>
-                <a>3</a>
-                <a>4</a>
-                <a>5</a>
-                <a>6</a>
-                <a>7</a>
-                <a>8</a>
-                <a></a>
-              </td>
-            </tr>
-          </table>
+          <Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum}/>
           <table class="board-search-wrap">
             <tr>
               <td>

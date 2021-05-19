@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.pagination import PageNumberPagination
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, permissions
@@ -10,13 +11,15 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Post,Comment
 from login.models import Profile
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostSerializer, CommentSerializer, PostListSerializer
 from login.views import get_profile
+from .pagination import ResultsSetPagination
 
 class ListPost(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
     #queryset = Post.objects.all().order_by('-created_at')
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
+    pagination_class = ResultsSetPagination
 
     def get_queryset(self, **kwargs):
         pk = self.kwargs.get('pk')
@@ -27,16 +30,6 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-
-class DetailComment(generics.ListCreateAPIView):
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = CommentSerializer
-
-    def get_queryset(self, **kwargs):
-        pk = self.kwargs.get('pk')
-        post = Post.objects.get(pk=pk)
-        queryset = Comment.objects.filter(post=post).order_by('parent_comment_id')
-        return queryset
 
 class DetailComment(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)

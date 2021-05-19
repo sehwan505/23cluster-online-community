@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../css/common.css';
 
-function Header({num, handleLogout, isAuthenticated}) {
+function Header({user, num, handleLogout, isAuthenticated}) {
 	const [checked, setChecked] = useState(localStorage.getItem('checked'));
+	const color = ['red', 'yellow', 'green', 'purple'];
 
 	const checkedHandler = () =>{
 		localStorage.setItem('checked', !checked);
@@ -24,16 +25,7 @@ function Header({num, handleLogout, isAuthenticated}) {
               <input type="checkbox" checked={checked} onClick={checkedHandler}/>
               <span className="slider round"></span>
             </label>
-			{isAuthenticated ? (
-			<>
-            <Link to='/profile'><img src={require('../img/user.png').default} /></Link>
-			</>
-			):
-			(
-			<>
-			<Link to='/login'><img src={require('../img/user.png').default} /></Link>
-			</>
-			)}
+			<img src={require('../img/user.png').default} />
           </li>
 		  <li>
 		    {isAuthenticated ? (
@@ -42,7 +34,7 @@ function Header({num, handleLogout, isAuthenticated}) {
 			<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            	<div class="dropdown-item" onClick={handleLogout}>로그아웃</div>
+            	<div class="dropdown-item" onClick={handleLogout} style={{cursor: "pointer"}}>로그아웃</div>
             	<Link to="/profile"><div class="dropdown-item">프로필</div></Link>
             	<hr />
             	<Link to="/write"><div class="dropdown-item">글쓰기</div></Link>

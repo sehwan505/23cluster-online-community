@@ -60,7 +60,7 @@ useEffect(async() => {
         ))}
     </div>*/}
 	<div>
-      <Header num={0} handleLogout={props.handleLogout} isAuthenticated={props.isAuthenticated}/>
+      <Header user={props.user} num={0} handleLogout={props.handleLogout} isAuthenticated={props.isAuthenticated}/>
       <div className="body-wrap no-border">
         <div className="flox-box" onScroll={scrollHandler} id="sidebar">
           <div className="flox-rank-wrap">

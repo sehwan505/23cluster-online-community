@@ -111,10 +111,11 @@ const DraftEditor = ({user}) => {
         onChange={onChangeTitle}
       />
 	  <select name="section" onChange={onChangeSection} value={section} >
-			<option value="1">정치</option>
-			<option value="2">게임</option>
+			<option value="1">시사</option>
+			<option value="2">유머</option>
 			<option value="3">연예</option>
-			<option value="4">유머</option>
+			<option value="4">스포츠</option>
+			<optoin value="5">본진</optoin>
 	  </select>
       <Editor
         previewStyle="vertical"

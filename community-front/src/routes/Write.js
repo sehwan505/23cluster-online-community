@@ -7,7 +7,7 @@ import DraftEditor from "../components/Editor.js";
 function Write({user, handleLogout, isAuthenticated}){
 	return (
 		<>
-		<Header num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated}  />
+		<Header user={user} num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated}  />
 		<DraftEditor user={user} />
 		</>
 	);

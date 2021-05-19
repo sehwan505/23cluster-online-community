@@ -3,34 +3,42 @@ import Post from "components/Post";
 import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
+import Pagination from "components/Pagination";
 
 function Section({user, num, handleLogout, isAuthenticated}){
 	const sec_num = num.match.params.num;
-	const [postList, setpostList] = useState([]);  
+	const [postList, setPostList] = useState([]);
+	const [pageNum, setPageNum] = useState(1);
+	const [itemsCount, setItemsCount] = useState(0);
 
   	useEffect(async() => {
 	  try {
-		  const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/`);
+		  const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
+		  if (res.status == 404){
+			  alert("오류, 새로고침 해주세요");
+			  window.location.href = '/';
+		  }
 		  const posts = await res.json();
-		  setpostList(posts);
+		  setItemsCount(posts.count);
+		  setPostList(posts.results);
 	  } 
 	  catch (e) {
 		  console.log(e);
 	  }
- 	}, [sec_num]);
+ 	}, [sec_num, pageNum]);
 
 	 const scrollHeight = 120;
 	 const scrollHeight2 = 120;
 	 function sidebar(){
 	 
-	if(window.scrollTop() > scrollHeight){
-	 let top = window.scrollTop() - scrollHeight + 20;
+	if(window.scrollTop > scrollHeight){
+	 let top = window.scrollTop - scrollHeight + 20;
 	 document.getElementById('sidebar').style.top = top +'px';
 	}else{
 	 document.getElementById('sidebar').style.top = '20px';
 	}
-	if(window.scrollTop() > scrollHeight2){
-	 let top = window.scrollTop() - scrollHeight2 + 20;
+	if(window.scrollTop > scrollHeight2){
+	 let top = window.scrollTop - scrollHeight2 + 20;
 	 document.getElementById('sidebar2').style.top = top +'px';
 	}else{
 	 document.getElementById('sidebar2').style.top = '20px';
@@ -44,7 +52,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	return (
 		<>
 		<div>
-		<Header num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
+		<Header user={user} num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 		<div class="body-wrap">
 			<div class="flox-box" onscroll={onScroll}>
 			<div class="flox-rank-wrap">
@@ -123,6 +131,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>
         	))}
 			</div>
+			<Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum}/>
 		</div>
 		</div>
 		</>

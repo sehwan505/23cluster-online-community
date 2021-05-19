@@ -31,7 +31,7 @@
 					<table>
 					<tbody>
 					<tr>
-						<td rowSpan="2"><i className="bi bi-hand-thumbs-up"></i>15</td>
+						<td rowSpan="2"><i className="bi bi-hand-thumbs-up"></i>{post.like_num}</td>
 						<td>
 						{post.title}<span>[122]</span>
 						<img src={require("../img/mark-backdrop.jpg").default} />
