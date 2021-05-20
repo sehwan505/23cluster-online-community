@@ -6,7 +6,6 @@ import AppRouter from "components/Router";
 function App() {
 	const [user, setUser] = useState([]);
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
-	const [checked, setChecked] = useState(localStorage.getItem('checked'));
 
 	const userHasAuthenticated = (authenticated, username, token) => { 
 	  setisAuthenticated(authenticated)
@@ -91,7 +90,7 @@ function App() {
   return (
     <>
       <AppRouter isAuthenticated={isAuthenticated} user={user} userHasAuthenticated={userHasAuthenticated} 
-	  handleLogout={handleLogout} checked={checked} />
+	  handleLogout={handleLogout} />
     </>
   );
 }

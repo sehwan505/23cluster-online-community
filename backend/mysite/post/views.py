@@ -34,6 +34,7 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
 class DetailComment(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = CommentSerializer
+    pagination_class = ResultsSetPagination
 
     def get_queryset(self, **kwargs):
         pk = self.kwargs.get('pk')
@@ -72,6 +73,8 @@ def AddPost(request):
             writer_name=payload["writer_name"],
 			section=payload["section"],
         )
+        profile = Profile.objects.get(user_pk = payload["writer_id"])
+        profile.user_postlist.add(post)
         serializer = PostSerializer(post)
         return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
     except ObjectDoesNotExist as e:
@@ -106,6 +109,8 @@ def AddComment(request,pk):
                 parent_comment_id=payload["parent_comment_id"],
                 depth=payload["depth"]
             )
+        profile = Profile.objects.get(user_pk = payload["writer_id"])
+        profile.user_postlist.add(post)
         serializer = CommentSerializer(comment)
         return JsonResponse({'comments': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
@@ -120,7 +125,8 @@ def AddComment(request,pk):
 @authentication_classes((JSONWebTokenAuthentication,))
 def post_like(request, post_id):
     try:
-        post = get_object_or_404(Post, id = post_id)
+        if (post := get_object_or_404(Post, id = post_id)):
+            return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
         check_like_post = profile.user_post_like.filter(id=post_id)
         if check_like_post.exists():

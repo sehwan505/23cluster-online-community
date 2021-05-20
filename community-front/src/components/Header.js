@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import '../css/common.css';
 
 function Header({user, num, handleLogout, isAuthenticated}) {
-	const [checked, setChecked] = useState(localStorage.getItem('checked'));
+	const [checked, setChecked] = useState(Boolean(localStorage.getItem('checked')));
 	const color = ['red', 'yellow', 'green', 'purple'];
 
 	const checkedHandler = () =>{
 		localStorage.setItem('checked', !checked);
 		setChecked(!checked);
 	}
+
 	return (
 		<>
 		<div className="top-wrap">
@@ -22,7 +23,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
           <li>
 		    <span className="bubble-text">버블필터</span>
             <label className="switch">
-              <input type="checkbox" checked={checked} onClick={checkedHandler}/>
+              <input type="checkbox" checked={checked} onClick={checkedHandler} readOnly/>
               <span className="slider round"></span>
             </label>
 			<img src={require('../img/user.png').default} />
@@ -30,25 +31,25 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 		  <li>
 		    {isAuthenticated ? (
 			<>
-            <div class="btn-group caret">
-			<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <div className="btn-group caret">
+			<a className="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 			</a>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            	<div class="dropdown-item" onClick={handleLogout} style={{cursor: "pointer"}}>로그아웃</div>
-            	<Link to="/profile"><div class="dropdown-item">프로필</div></Link>
+			<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            	<div className="dropdown-item" onClick={handleLogout} style={{cursor: "pointer"}}>로그아웃</div>
+            	<Link to="/profile"><div className="dropdown-item">프로필</div></Link>
             	<hr />
-            	<Link to="/write"><div class="dropdown-item">글쓰기</div></Link>
+            	<Link to="/write"><div className="dropdown-item">글쓰기</div></Link>
             	</div>
 			</div>
 			</>
 			):
 			(
 			<>
-			<div class="btn-group caret">
-			<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			<div className="btn-group caret">
+			<a className="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 			</a>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            	<Link to="/login"><div class="dropdown-item">로그인</div></Link>
+			<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            	<Link to="/login"><div className="dropdown-item">로그인</div></Link>
             </div>
 			</div>
 			</>

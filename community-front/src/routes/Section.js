@@ -11,21 +11,35 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	const [pageNum, setPageNum] = useState(1);
 	const [itemsCount, setItemsCount] = useState(0);
 
-  	useEffect(async() => {
-	  try {
-		  const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
-		  if (res.status == 404){
-			  alert("오류, 새로고침 해주세요");
-			  window.location.href = '/';
-		  }
-		  const posts = await res.json();
-		  setItemsCount(posts.count);
-		  setPostList(posts.results);
-	  } 
-	  catch (e) {
-		  console.log(e);
+	async function fetchSection(){
+		try {
+			const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
+			if (res.status == 404){
+				alert("오류, 새로고침 해주세요");
+				window.location.href = '/';
+			}
+			const posts = await res.json();
+			setItemsCount(posts.count);
+			setPostList(posts.results);
+		} 
+		catch (e) {
+			console.log(e);
+		}
+	}
+
+	useEffect(()=>{
+	  if (pageNum == 1){
+		fetchSection();
 	  }
- 	}, [sec_num, pageNum]);
+	  else{
+		setPageNum(1);
+		localStorage.setItem('pageNum',1);
+	  }
+	},[sec_num]);
+
+  	useEffect(async() => {
+	  fetchSection();
+ 	}, [pageNum]);
 
 	 const scrollHeight = 120;
 	 const scrollHeight2 = 120;
@@ -45,7 +59,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	}    
 	}
 
-	const onScroll = () =>{
+	const onscroll = () =>{
 		sidebar();
 	}
 
@@ -53,13 +67,13 @@ function Section({user, num, handleLogout, isAuthenticated}){
 		<>
 		<div>
 		<Header user={user} num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
-		<div class="body-wrap">
-			<div class="flox-box" onscroll={onScroll}>
-			<div class="flox-rank-wrap">
+		<div className="body-wrap">
+			<div className="flox-box" onScroll={onscroll}>
+			<div className="flox-rank-wrap">
 				<div>해시태크 순위</div>
 				<ul>
-				<li class="on">1</li>
-				<li class="on">가나다라마바사</li>
+				<li className="on">1</li>
+				<li className="on">가나다라마바사</li>
 				<li>2</li>
 				<li>가나다라마바사</li>
 				<li>3</li>
@@ -81,7 +95,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</ul>            
 			</div>
 			</div>
-			<div class="issue-wrap">
+			<div className="issue-wrap">
 			<div>
 				<ul>
 				<li>
@@ -89,7 +103,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</li>
 				<li>
 					<div>
-					<select class="form-select">
+					<select className="form-select">
 						<option>제목</option>
 					</select>
 					</div>
@@ -100,28 +114,28 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</ul>            
 			</div>
 			</div>
-			<div class="issue-row-box">
-			<div class="issue-row-wrap">       
-				<ul class="noti">
+			<div className="issue-row-box">
+			<div className="issue-row-wrap">       
+				<ul className="noti">
 				<li>
 					<table>              
 					<tr>
-						<td rowspan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
+						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
 						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="newline">2일 잔 kein</td>
+						<td colSpan="2" className="newline">2일 잔 kein</td>
 					</tr>                
 					</table>
 				</li>
 				<li>
 					<table>              
 					<tr>
-						<td rowspan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
+						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
 						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="newline">2일 잔 kein</td>
+						<td colSpan="2" className="newline">2일 잔 kein</td>
 					</tr>                
 					</table>
 				</li>            

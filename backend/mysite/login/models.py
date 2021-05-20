@@ -13,10 +13,10 @@ class Profile(models.Model):
    username = models.CharField(max_length=6,default="unknown")
    point = models.PositiveIntegerField(default=20, blank=True)
    category = models.PositiveIntegerField(default=0, blank=True)
-   user_commentlist = models.ManyToManyField('post.Comment', blank=True, related_name='user_commentlist')
-   user_comment_like = models.ManyToManyField('post.Comment', blank=True, related_name='user_comment_like')
-   user_postlist = models.ManyToManyField('post.Post', blank=True, related_name='user_postlist')
-   user_post_like = models.ManyToManyField('post.Post', blank=True, related_name='user_post_like')
+   user_commentlist = models.ManyToManyField('post.Comment', blank=True, default=None , related_name='user_commentlist')
+   user_comment_like = models.ManyToManyField('post.Comment', blank=True, default=None ,related_name='user_comment_like')
+   user_postlist = models.ManyToManyField('post.Post', blank=True, default=None , related_name='user_postlist')
+   user_post_like = models.ManyToManyField('post.Post', blank=True, default=None ,related_name='user_post_like')
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

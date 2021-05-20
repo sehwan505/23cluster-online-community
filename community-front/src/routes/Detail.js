@@ -16,39 +16,66 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [postList, setPostList] = useState([]);
   const [pageNum, setPageNum] = useState(localStorage.getItem('pageNum') ? localStorage.getItem('pageNum') : 1);
   const [itemsCount, setItemsCount] = useState(0);
+  const [commentItemsCount, setCommentItemsCount] = useState(0);
+  const [commentPageNum, setCommentPageNum] = useState(1);
+  const history = useHistory();
   const id = post_id.match.params.id;
 
-useEffect(async() => {
-  try {
-	    window.scrollTo(0,0);
-        const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
-		const posts = await res.json()
-		setPost(posts);
-        const res2 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/`);
-        const comments = await res2.json();
-        setComment(comments);
-    } 
-    catch (e) {
-        console.log(e);
-    }
+  async function fetchComment(){
+	try {
+		const res2 = await fetch(`http://localhost:8000/api/post/detail_comment/${id}/?page=${commentPageNum}`);
+		const comments = await res2.json();
+		setComment(comments.results);
+		setCommentItemsCount(comments.count);
+	} 
+	catch (e) {
+		console.log(e);
+	}
+  }
+  useEffect(() => {
+	async function fetchPost(){
+		try {
+			window.scrollTo(0,0);
+			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
+			const posts = await res.json()
+			setPost(posts);
+			if (commentPageNum == 1){
+				fetchComment();
+			}
+			else{
+				setCommentPageNum(1);
+			}
+		}
+		catch (e) {
+			console.log(e);
+		}
+	}
+	fetchPost();
 }, [post_id]);
 
 useEffect(async() => {
-	try{
-		const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
-		const posts = await res.json()
-		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
-		const post_list = await res1.json();
-		if (res1.status == 404){
-			alert("오류, 새로고침 해주세요");
-			window.location.href = '/';
+	fetchComment();
+}, [commentPageNum]);
+
+useEffect(() => {
+	async function fetchPostList(){
+		try{
+			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
+			const posts = await res.json()
+			const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
+			const post_list = await res1.json();
+			if (res1.status == 404){
+				alert("오류, 새로고침 해주세요");
+				window.location.href = '/';
+			}
+			setItemsCount(post_list.count);
+			setPostList(post_list.results);
 		}
-		setItemsCount(post_list.count);
-		setPostList(post_list.results);
-    }
-	catch(e){
-		console.log(e);
+		catch(e){
+			console.log(e);
+		}
 	}
+	fetchPostList();
 },[pageNum]);
 
 const onSubmit = async (event) => {
@@ -75,7 +102,7 @@ const onSubmit = async (event) => {
     .catch((error) => {
     // 예외 처리
     })
-	window.location.reload();
+	history.go(0);
   }
   const onChangeContent = (event) => {
     const {
@@ -195,22 +222,22 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="tooltip-wrap" colspan="2">
+              <td class="tooltip-wrap" colSpan="2">
                 <span></span>
                 <span>"* 이 게시글은 (분류)사람들이 많이보는 게시글입니다."</span>
               </td>
             </tr>             
             <tr>
-              <td class="content" colspan="2"><ReactMarkdown>{post.content}</ReactMarkdown></td>
+              <td class="content" colSpan="2"><ReactMarkdown>{post.content}</ReactMarkdown></td>
             </tr>
             <tr>
-              <td class="bat-title" colspan="2">베팅 시스템</td>
+              <td class="bat-title" colSpan="2">베팅 시스템</td>
             </tr>    
             <tr>
-              <td class="bat-subtitle" colspan="2">주제: 탕수육</td>
+              <td class="bat-subtitle" colSpan="2">주제: 탕수육</td>
             </tr>
             <tr>
-              <td class="bat-stat" colspan="2">
+              <td class="bat-stat" colSpan="2">
                 <table>
                   <tr>
                     <td><img src={require("img/icon-bat01.jpg").default} /></td>
@@ -228,14 +255,14 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="bat-vs" colspan="2">
+              <td class="bat-vs" colSpan="2">
                 <span>찍먹</span>
                  vs
                 <span>부먹</span>
               </td>
             </tr>
             <tr>
-              <td class="bat-dollor" colspan="2">
+              <td class="bat-dollor" colSpan="2">
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
@@ -244,8 +271,8 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="bat-comment-cnt" colspan="2">
-                댓글 &nbsp;&nbsp;&nbsp;<span>{comment.length}</span>&nbsp;개
+              <td class="bat-comment-cnt" colSpan="2">
+                댓글 &nbsp;&nbsp;&nbsp;<span>{commentItemsCount}</span>&nbsp;개
               </td>
             </tr>
           </table>
@@ -275,21 +302,10 @@ const onSubmit = async (event) => {
                 <span onClick={onSubmit}>등록</span>
               </td>
             </tr>
-            <tr>
-              <td class="paging">
-                <a></a>
-                <a class="on">1</a>
-                <a>2</a>
-                <a>3</a>
-                <a>4</a>
-                <a>5</a>
-                <a>6</a>
-                <a>7</a>
-                <a>8</a>
-                <a>a</a>
-              </td>
-            </tr>            
+			<tr>
+			</tr>
           </table>
+		  <Pagination itemsCount={commentItemsCount} pageSize={10} currentPage={commentPageNum} setPageNum={setCommentPageNum}/>
 		  <div class="issue-row-box">
           <div class="issue-row-wrap2-top">
             <Link to="/write"><span>글쓰기</span></Link>

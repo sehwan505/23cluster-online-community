@@ -131,9 +131,9 @@ function LoginModal(props){
           </section>
         </div>
       </div>
-	<div class="body">
-		<div class="box">
-			<p class="login">로그인</p>
+	<div className="body">
+		<div className="box">
+			<p className="login">로그인</p>
 
 			<div>
 				<KakaoLogin
@@ -146,9 +146,9 @@ function LoginModal(props){
 				/>	
 			</div>
 			<div>
-				<a class="blue" href="{% provider_login_url 'facebook' %}">
-					<div class="facebook"></div>
-					<div class="facebooktext">
+				<a className="blue" href="{% provider_login_url 'facebook' %}">
+					<div className="facebook"></div>
+					<div className="facebooktext">
 						<p>페이스북으로 로그인</p>
 					</div>
 				</a>
@@ -162,9 +162,9 @@ function LoginModal(props){
 						cookiePolicy={'single_host_origin'}
 						className="gray"></GoogleLogin>
 			</div>
-			<p class="small">회원가입</p>
-			<div class="line"></div>
-			<p class="small2">이메일 로그인</p>
+			<p className="small">회원가입</p>
+			<div className="line"></div>
+			<p className="small2">이메일 로그인</p>
 		</div>
 	</div>
 

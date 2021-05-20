@@ -8,7 +8,9 @@ function Write({user, handleLogout, isAuthenticated}){
 	return (
 		<>
 		<Header user={user} num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated}  />
-		<DraftEditor user={user} />
+		<div className="body-wrap">
+			<DraftEditor user={user} />
+		</div>
 		</>
 	);
 }

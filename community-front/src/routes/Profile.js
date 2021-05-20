@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
@@ -11,12 +11,11 @@ function Profile({user, handleLogout, isAuthenticated}){
 
   const onsubmit = async (event) =>{
     event.preventDefault();
-    if(user.username !== newDisplayName){
+    if(user.username.localeCompare(newDisplayName)){
 		await axios.put(`http://localhost:8000/user/profile/${user.user_pk}/update/`, {
 			username: newDisplayName,
-			introduction: introduction
 		}).then((response) => {
-			alert("변경되었습니다");
+			alert("이름이 변경되었습니다");
 		})
 		.catch((error) => {
 		// 예외 처리
@@ -28,12 +27,11 @@ function Profile({user, handleLogout, isAuthenticated}){
   }
   const onSubmitIntroduction = async (event) =>{
     event.preventDefault();
-    if(user.introduction !== introduction){
+    if(user.introduction.localeCompare(introduction)){
 		await axios.put(`http://localhost:8000/user/profile/${user.user_pk}/update/`, {
 			introduction: introduction,
-			username: newDisplayName
 		}).then((response) => {
-			alert("변경되었습니다");
+			alert("자기소개가 변경되었습니다");
 		})
 		.catch((error) => {
 		// 예외 처리
@@ -56,6 +54,7 @@ function Profile({user, handleLogout, isAuthenticated}){
     } = event;
     setIntroduction(value);
   };
+
 //  {/*<Link to="/">홈</Link> <br/>
 //        <span>{user.username}</span>
 //        <button onClick={handleLogout}>로그아웃</button>
