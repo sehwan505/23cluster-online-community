@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../css/common.css';
 
 function Header({user, num, handleLogout, isAuthenticated}) {
-	const [checked, setChecked] = useState(Boolean(localStorage.getItem('checked')));
+	const [checked, setChecked] = useState(JSON.parse(localStorage.getItem('checked')));
 	const color = ['red', 'yellow', 'green', 'purple'];
 
 	const checkedHandler = () =>{

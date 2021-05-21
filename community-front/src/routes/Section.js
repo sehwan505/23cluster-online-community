@@ -28,7 +28,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	}
 
 	useEffect(()=>{
-	  if (pageNum == 1){
+	  if (pageNum == 1 && localStorage.getItem('pageNum') == 1){
 		fetchSection();
 	  }
 	  else{
@@ -37,7 +37,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	  }
 	},[sec_num]);
 
-  	useEffect(async() => {
+  	useEffect(() => {
 	  fetchSection();
  	}, [pageNum]);
 

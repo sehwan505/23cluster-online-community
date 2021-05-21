@@ -32,8 +32,8 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 		console.log(e);
 	}
   }
-  useEffect(() => {
-	async function fetchPost(){
+  
+  useEffect(async() => {
 		try {
 			window.scrollTo(0,0);
 			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
@@ -49,33 +49,30 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 		catch (e) {
 			console.log(e);
 		}
-	}
-	fetchPost();
+
 }, [post_id]);
 
-useEffect(async() => {
+useEffect(() => {
 	fetchComment();
 }, [commentPageNum]);
 
-useEffect(() => {
-	async function fetchPostList(){
-		try{
-			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
-			const posts = await res.json()
-			const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
-			const post_list = await res1.json();
-			if (res1.status == 404){
-				alert("오류, 새로고침 해주세요");
-				window.location.href = '/';
-			}
-			setItemsCount(post_list.count);
-			setPostList(post_list.results);
+useEffect(async() => {
+	try{
+		const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
+		const posts = await res.json()
+		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
+		const post_list = await res1.json();
+		if (res1.status == 404){
+			alert("오류, 새로고침 해주세요");
+			window.location.href = '/';
 		}
-		catch(e){
-			console.log(e);
-		}
+		setItemsCount(post_list.count);
+		setPostList(post_list.results);
+		console.log(user);
 	}
-	fetchPostList();
+	catch(e){
+		console.log(e);
+	}
 },[pageNum]);
 
 const onSubmit = async (event) => {
