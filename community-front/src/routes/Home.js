@@ -5,6 +5,8 @@ import CSRFToken from "../components/csrftoken.js"
 import { useHistory, Link } from "react-router-dom";
 import '../css/common.css';
 import Header from "../components/Header.js";
+import StickyBox from "react-sticky-box";
+
 //import search_png from '../img/search.png';
 //import user_png from "../img/user.png";
 
@@ -59,11 +61,12 @@ useEffect(async() => {
             <Post key={post.id} post={post} isOwner={props.user.user_pk === post.writer_id}/>
         ))}
     </div>*/}
+	
 	<div>
       <Header user={props.user} num={0} handleLogout={props.handleLogout} isAuthenticated={props.isAuthenticated}/>
       <div className="body-wrap no-border">
-        <div className="flox-box" onScroll={scrollHandler} id="sidebar">
-          <div className="flox-rank-wrap">
+		<StickyBox offsetTop={20}>
+	    <div className="flox-rank-wrap">
             <div>해시태크 순위</div>
             <ul>
               <li className="on">1</li>
@@ -88,7 +91,7 @@ useEffect(async() => {
               <li>가나다라마바사</li>              
             </ul>            
           </div>
-        </div>
+		</StickyBox>
         <div className="card-wrap">
           <div>
             <span>123456789</span>

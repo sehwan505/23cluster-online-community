@@ -2,18 +2,30 @@ import React, {useState} from "react";
 import axios from "axios";
 import CSRFToken from "../components/csrftoken.js";
 import timeForToday from "./TimeForToday.js";
+import { useHistory } from "react-router";
 
 
 const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const [commentContent , setCommentContent] = useState("");
   const [editing, setEditing] = useState(false);
   const created_at = timeForToday(comment.created_at);
+  const history = useHistory();
 
   const onSubmit = async (event) => {
     event.preventDefault();
     if(commentContent === ""){
       document.getElementsByName("comment").focus();
     }
+	if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
     var csrftoken = CSRFToken();
 	const config = {
 		headers: {
@@ -35,7 +47,6 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
     // 예외 처리
     })
     toggleEditing();
-    window.location.reload();
   }
 
   const onChangeContent = (event) => {
@@ -82,7 +93,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const toggleEditing = () => setEditing((prev) => !prev);
   return (
     <div>
-      {
+        {
           <>          
           { comment.depth ?
           (
@@ -220,7 +231,6 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
               <td>
                 <span onClick={onSubmit}>등록</span>
               </td>
-			  
             </tr>
 			<tr>
 			  {/*<td>

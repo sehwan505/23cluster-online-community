@@ -8,6 +8,9 @@ import Post from "components/Post";
 import ReactMarkdown from "react-markdown";
 import "../css/common.css";
 import Pagination from "components/Pagination"
+import timeForToday from "components/TimeForToday"
+import StickyBox from "react-sticky-box";
+
 
 function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentContent , setCommentContent] = useState("");
@@ -19,6 +22,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentItemsCount, setCommentItemsCount] = useState(0);
   const [commentPageNum, setCommentPageNum] = useState(1);
   const history = useHistory();
+  const section_name = ['','시사', '유머', '연예', '스포츠','본진'];
   const id = post_id.match.params.id;
 
   async function fetchComment(){
@@ -27,7 +31,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 		const comments = await res2.json();
 		setComment(comments.results);
 		setCommentItemsCount(comments.count);
-	} 
+	}
 	catch (e) {
 		console.log(e);
 	}
@@ -35,6 +39,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   
   useEffect(async() => {
 		try {
+			console.log("A");
 			window.scrollTo(0,0);
 			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 			const posts = await res.json()
@@ -77,8 +82,19 @@ useEffect(async() => {
 
 const onSubmit = async (event) => {
     event.preventDefault();
-    if(commentContent === ""){
+    if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
+	if(commentContent === ""){
       document.getElementsByName("comment").focus();
+	  return ;
     }
 	var csrftoken = CSRFToken();
 	const config = {
@@ -153,9 +169,9 @@ const onSubmit = async (event) => {
   return (
 	  <>
 	  <div>
-	  <Header user={user} num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
+	  <Header user={user} num={post.section} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
 	  <div class="body-wrap">
-        <div class="flox-box" id="sidebar">
+		<StickyBox offsetTop={20}>
           <div class="flox-rank-wrap2">
             <table>
               <tr>
@@ -182,12 +198,12 @@ const onSubmit = async (event) => {
               </tr>                            
             </table>           
           </div>
-        </div>
+		</StickyBox>
         <div class="board-view-box">
           <table class="board-view-table">
             <tr>
               <td class="title">
-                게시판게시판
+                {section_name[post.section]}게시판
               </td>
               <td class="depth">
                 <a>1depth</a> / <a>2depth</a> / 3depth
@@ -201,7 +217,7 @@ const onSubmit = async (event) => {
                 <span>#디자인</span>
               </td>
               <td class="date">
-                2021.04.18 20:16
+                {timeForToday(post.created_at)}
               </td>
             </tr>    
             <tr>

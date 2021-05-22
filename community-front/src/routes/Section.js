@@ -4,6 +4,7 @@ import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
+import StickyBox from "react-sticky-box";
 
 function Section({user, num, handleLogout, isAuthenticated}){
 	const sec_num = num.match.params.num;
@@ -68,7 +69,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 		<div>
 		<Header user={user} num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 		<div className="body-wrap">
-			<div className="flox-box" onScroll={onscroll}>
+			<StickyBox offsetTop={20}>
 			<div className="flox-rank-wrap">
 				<div>해시태크 순위</div>
 				<ul>
@@ -94,7 +95,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				<li>가나다라마바사</li>              
 				</ul>            
 			</div>
-			</div>
+			</StickyBox>
 			<div className="issue-wrap">
 			<div>
 				<ul>

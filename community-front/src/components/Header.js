@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import '../css/common.css';
 
 function Header({user, num, handleLogout, isAuthenticated}) {
 	const [checked, setChecked] = useState(JSON.parse(localStorage.getItem('checked')));
 	const color = ['red', 'yellow', 'green', 'purple'];
+	const [searchQuery, setSearchQuery] = useState("");
+	const history = useHistory();
 
 	const checkedHandler = () =>{
 		localStorage.setItem('checked', !checked);
 		setChecked(!checked);
 	}
+
+	const search = () =>{
+		history.push(`/search?query=${searchQuery}`)
+	};
+
+	const onChange = (event) => {
+		const {
+		  target: { value },
+		} = event;
+		setSearchQuery(value);
+	};
 
 	return (
 		<>
@@ -17,8 +30,8 @@ function Header({user, num, handleLogout, isAuthenticated}) {
         <ul>
           <Link className="logo" to="/"><li></li></Link>
           <li>
-            <input type="text" placeholder="검색어" />&nbsp;
-            <img src={require('../img/search.png').default} />
+            <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery}/>&nbsp;
+            <img src={require('../img/search.png').default} onClick={search}/>
           </li>
           <li>
 		    <span className="bubble-text">버블필터</span>

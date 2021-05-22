@@ -8,6 +8,7 @@ import Detail from "../routes/Detail";
 import Profile from "../routes/Profile";
 import Section from "../routes/Section";
 import Write from "../routes/Write";
+import Search from "../routes/Search";
 
 const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout}) => {
   return (
@@ -28,6 +29,9 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
               render={(id) => <Detail user={user} post_id={id} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>}/>
 			<Route path="/section/:num"
 		  	render={(num) => <Section user={user} num={num} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />}/>
+			<Route path="/search">
+			  <Search user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
+		    </Route>
           </>
         ) : (
 		  <>
@@ -42,6 +46,9 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
 		  <Route path="/detail/:id"
               render={(id) => <Detail user={user} post_id={id} isAuthenticated={isAuthenticated}/>}
             />
+		  <Route path="/search">
+			<Search user={user} isAuthenticated={isAuthenticated} />
+		  </Route>
           </>
 		)}
       </Switch>

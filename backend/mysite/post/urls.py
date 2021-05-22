@@ -13,4 +13,5 @@ urlpatterns = [
 	path('like_post/<int:post_id>/', views.post_like),
 	path('like_comment/<int:comment_id>/', views.comment_like),
 	path('upload_image/', views.upload_image),
+	path('search/', views.search_query)
 ]

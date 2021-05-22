@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, permissions
 import json
-from django.core.exceptions import ObjectDoesNotExist
 from .models import Post,Comment
 from login.models import Profile
 from .serializers import PostSerializer, CommentSerializer, PostListSerializer
@@ -170,3 +171,17 @@ def comment_like(request, comment_id):
 def upload_image(request):
     print(request.body ,1)
     return JsonResponse({'ok':1},status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def search_query(request):
+    posts = None
+    query = None
+    if request.GET['query']:
+        query = request.GET.get('query')
+        posts = Post.objects.all().filter(Q(title__contains=query) | Q(content__contains=query))
+        #Q(one_line__contains=query) | Q(content_list__contains=query))
+        serializer = PostSerializer(posts, many=True)
+        return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_200_OK)

@@ -9,6 +9,12 @@ function Profile({user, handleLogout, isAuthenticated}){
   const [newDisplayName, setNewDisplayName] = useState(user.username);
   const [introduction, setIntroduction] = useState(user.introduction);
 
+  useEffect(()=>{
+	  console.log(user);
+	  setNewDisplayName(user.username);
+	  setIntroduction(user.introduction);
+  },[]);
+
   const onsubmit = async (event) =>{
     event.preventDefault();
     if(user.username.localeCompare(newDisplayName)){
