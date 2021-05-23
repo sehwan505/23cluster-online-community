@@ -6,10 +6,10 @@ import "../css/login.css";
 
 function LoginModal(props){
   const history = useHistory()
+  const [modal, setModal] = useState(false);
 
   //구글 아이디로 회원가입 및 이미 회원일경우
   let responseGoogle = async (res)=>{
-	console.log(res);
     let email = res.profileObj.email
     let id_token = res.profileObj.googleId
     let data = {
@@ -26,10 +26,10 @@ function LoginModal(props){
       body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(json => {
+    .then(async json => {
       if (json.username && json.token) {
-		props.userHasAuthenticated(true, json.username, json.token);
-        history.goBack();
+		await props.userHasAuthenticated(true, json.username, json.token);
+		history.goBack();
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
@@ -41,10 +41,10 @@ function LoginModal(props){
           body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(json => {
+        .then(async json => {
           // 발급 완료 되었다면 해당 토큰을 클라이언트 Local Storage에 저장
           if (json.user && json.user.username && json.token) {
-            props.userHasAuthenticated(true, json.user.username, json.token);
+            await props.userHasAuthenticated(true, json.user.username, json.token);
             history.goBack();
           }
         })
@@ -57,15 +57,15 @@ function LoginModal(props){
     .catch(error => {
       console.log(error);
       window.gapi && window.gapi.auth2.getAuthInstance().signOut();
-    });  
+    });
   }//구글 아이디로 회원가입 및 이미 회원일경우
 
   let responseKakao = (res)=>{
     let nickname = res.profile.kakao_account.profile.nickname
     let id_token = res.profile.id
     let data = {
-      username: nickname,
-      password: id_token,
+      username: id_token,
+      password: nickname,
       provider: 'kakao'
     }
 
@@ -77,10 +77,10 @@ function LoginModal(props){
       body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(json => {
+    .then(async json => {
       if (json.username && json.token) {
-        props.userHasAuthenticated(true, json.username, json.token);
-        history.push("/");
+        await props.userHasAuthenticated(true, json.username, json.token);
+		history.goBack();
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
@@ -92,11 +92,11 @@ function LoginModal(props){
           body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(json => {
+        .then(async json => {
           // 발급 완료 되었다면 해당 토큰을 클라이언트 Local Storage에 저장
           if (json.user && json.user.username && json.token) {
-            props.userHasAuthenticated(true, json.user.username, json.token);
-            history.push("/");
+            await props.userHasAuthenticated(true, json.user.username, json.token);
+            history.goBack();
           }
         })
         .catch(error => {

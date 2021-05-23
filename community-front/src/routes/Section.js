@@ -104,12 +104,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</li>
 				<li>
 					<div>
-					<select className="form-select">
-						<option>제목</option>
-					</select>
-					</div>
-					<div>
-					<input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default}/>
+					  <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default}/>
 					</div>                
 				</li>
 				</ul>            

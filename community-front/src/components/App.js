@@ -7,10 +7,23 @@ function App() {
 	const [user, setUser] = useState([]);
 	let [isAuthenticated, setisAuthenticated] = useState(localStorage.getItem('token') ? true : false);
 
+	const asyncLocalStorage = {
+		setItem: function (key, value) {
+			return Promise.resolve().then(function () {
+				localStorage.setItem(key, value);
+			});
+		},
+		getItem: function (key) {
+			return Promise.resolve().then(function () {
+				return localStorage.getItem(key);
+			});
+		}
+	};
+	
 	const userHasAuthenticated = (authenticated, username, token) => { 
+	  asyncLocalStorage.setItem('token', token);
+      setUser(username)
 	  setisAuthenticated(authenticated)
-	  setUser(username)
-	  localStorage.setItem('token', token);
 	}//회원가입이나 로그인이 성공했을 때 토큰을 저장
   
 	const handleLogout = () => {
@@ -38,6 +51,11 @@ function App() {
 			token: localStorage.getItem('token')
 		  })
 		});
+		if (!res.ok)
+		{
+			handleLogout();
+			window.location.href('/');
+		}
 		let res1 = await fetch('http://localhost:8000/user/current/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
@@ -48,10 +66,10 @@ function App() {
 		if (json.username) {
 		  //include라는 함수가 array에 있고 이건 __proto__에 f 뭐시기로 잘 나와있다.
 		  setUser(json);
-		  setisAuthenticated(true)
+		  setisAuthenticated(true);
 		}else{
 		  //유저가 undefined라면 로그인버튼이 나오도록 modal을 false로 항상 맞춰줌
-		  setisAuthenticated(false)
+		  setisAuthenticated(false);
 		}
 		// Refresh Token 발급 받아 token의 만료 시간 연장
 		let res2 = await fetch('http://localhost:8000/user/refresh/', {

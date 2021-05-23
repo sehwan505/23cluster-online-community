@@ -12,13 +12,16 @@ from .serializers import UserSerializer, UserSerializerWithToken, ProfileSeriali
 from .models import Profile
 
 def get_profile(token):
-    jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
-    jwt_payload_get_user_id_handler = api_settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
-	
-    payload = jwt_decode_handler(token)
-    user_id = jwt_payload_get_user_id_handler(payload)
-    profile = Profile.objects.get(user_pk=user_id)
-    return profile
+    try:
+        jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+        jwt_payload_get_user_id_handler = api_settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
+
+        payload = jwt_decode_handler(token)
+        user_id = jwt_payload_get_user_id_handler(payload)
+        profile = Profile.objects.get(user_pk=user_id)
+        return profile
+    except:
+        return 0
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))

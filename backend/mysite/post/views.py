@@ -24,7 +24,10 @@ class ListPost(generics.ListCreateAPIView):
 
     def get_queryset(self, **kwargs):
         pk = self.kwargs.get('pk')
-        queryset = Post.objects.filter(section=pk).order_by('-created_at')
+        if (pk == 5):
+        	queryset = Post.objects.filter(section=pk).order_by('-created_at')
+        else:
+            queryset = Post.objects.filter(section=pk).order_by('-created_at') 
         return queryset
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
@@ -111,7 +114,7 @@ def AddComment(request,pk):
                 depth=payload["depth"]
             )
         profile = Profile.objects.get(user_pk = payload["writer_id"])
-        profile.user_postlist.add(post)
+        profile.user_commentlist.add(comment)
         serializer = CommentSerializer(comment)
         return JsonResponse({'comments': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
@@ -184,4 +187,16 @@ def search_query(request):
         serializer = PostSerializer(posts, many=True)
         return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_200_OK)
     else:
-        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def profile_comment_post(request):
+    profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
+    if (profile != 0):
+        serializer = CommentSerializer(profile.user_commentlist, many=True)
+        serializer2 = PostSerializer(profile.user_postlist, many=True)
+        return JsonResponse({'comments': serializer.data, 'posts':serializer2.data}, safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

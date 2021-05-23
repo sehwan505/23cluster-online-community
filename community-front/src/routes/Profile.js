@@ -3,16 +3,36 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import "../css/common.css";
+import timeForToday from "components/TimeForToday"
 
 function Profile({user, handleLogout, isAuthenticated}){
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(user.username);
   const [introduction, setIntroduction] = useState(user.introduction);
+  const [comment, setComment] = useState([]);
+  const [post, setPost] = useState([]);
+
+  async function fetchComment(){
+	try {
+		const config = {
+			headers: {
+				'Authorization' : `JWT ${localStorage.getItem('token')}`	
+			}
+		}
+		const res2 = await axios.post(`http://localhost:8000/api/post/profile/`,{} ,config);
+		console.log(res2);
+		setComment(res2.data.comments);
+		setPost(res2.data.posts);
+	}
+	catch (e) {
+		console.log(e);
+	}
+  }
 
   useEffect(()=>{
 	  console.log(user);
 	  setNewDisplayName(user.username);
-	  setIntroduction(user.introduction);
+	  fetchComment();
   },[]);
 
   const onsubmit = async (event) =>{
@@ -111,7 +131,7 @@ function Profile({user, handleLogout, isAuthenticated}){
                   <td>
                     <span><img src={require("../img/mark-book.jpg").default} /></span>
                     <span>게시글 수</span>
-                    <span>5</span>
+                    <span>{post.length}</span>
                   </td>
                   <td>
                     <span><img src={require("img/mark-point.jpg").default} /></span>
@@ -121,7 +141,7 @@ function Profile({user, handleLogout, isAuthenticated}){
                   <td>
                     <span><img src={require("img/mark-comment.jpg").default} /></span>
                     <span>댓글 수</span>
-                    <span>10</span>
+                    <span>{comment.length}</span>
                   </td>                  
                 </tr>                                                               
               </table>
@@ -236,14 +256,12 @@ function Profile({user, handleLogout, isAuthenticated}){
           </span>
           <table className="mypage-wrap3-table">
             <colgroup>
-              <col width="20%" />
               <col width="*" />
               <col width="10%" />
               <col width="15%" />
               <col width="15%" />
             </colgroup>            
             <tr>
-              <th>제목</th>
               <th>댓글 내용</th>
               <th>추천 수</th>
               <th>날짜</th>
@@ -251,20 +269,16 @@ function Profile({user, handleLogout, isAuthenticated}){
                 <span>바로가기</span>
               </th>
             </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>             
+			{comment.map((comment) => (
+				<>
+				<tr>
+					<td>{comment.content}</td>
+					<td>{comment.like_num}</td>
+					<td>{timeForToday(comment.created_at)}</td>
+					<td></td>
+				</tr>
+				</>
+		  	))}          
           </table>          
         </div>
 
@@ -282,27 +296,24 @@ function Profile({user, handleLogout, isAuthenticated}){
             </colgroup>            
             <tr>
               <th>제목</th>
-              <th>댓글 내용</th>
+              <th>포스트 내용</th>
               <th>추천 수</th>
               <th>날짜</th>
               <th>
                 <span>바로가기</span>
               </th>
             </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>             
+            {post.map((post) => (
+				<>
+				<tr>
+					<td>{post.title}</td>
+					<td>{post.content}</td>
+					<td>{post.like_num}</td>
+					<td>{timeForToday(post.created_at)}</td>
+					<td></td>
+				</tr>
+				</>
+		  	))}              
           </table>          
         </div>
         <div className="mypage-wrap4">

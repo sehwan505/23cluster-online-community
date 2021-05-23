@@ -39,7 +39,6 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   
   useEffect(async() => {
 		try {
-			console.log("A");
 			window.scrollTo(0,0);
 			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 			const posts = await res.json()
@@ -321,8 +320,12 @@ const onSubmit = async (event) => {
 		  <Pagination itemsCount={commentItemsCount} pageSize={10} currentPage={commentPageNum} setPageNum={setCommentPageNum}/>
 		  <div class="issue-row-box">
           <div class="issue-row-wrap2-top">
-            <Link to="/write"><span>글쓰기</span></Link>
-          </div>  
+            {isAuthenticated && 	
+			  <>
+			  <Link to="/write"><span>글쓰기</span></Link>
+              </>
+            }
+		  </div>  
           {postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id} />
         	))} 

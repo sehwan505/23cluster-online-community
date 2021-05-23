@@ -32,18 +32,15 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         model = User
         fields = ('token', 'username', 'password')
 
-class LikeRelatedField(serializers.RelatedField): #user_like_comment를 serilizing하기 위한 필드 만들기
+class RelatedField(serializers.RelatedField): #user_like_comment를 serilizing하기 위한 필드 만들기
     def to_representation(self, instance):
         return instance.comment_id
-class CommentRelatedField(serializers.RelatedField): #user_like_comment를 serilizing하기 위한 필드 만들기
-    def to_representation(self, instance):
-        return instance
 
 #profile 
 class ProfileSerializer(serializers.ModelSerializer):
-    user_comment_like = LikeRelatedField(many=True, read_only=True)
-    user_commentlist = CommentRelatedField(many=True, read_only=True)
+    user_comment_like = RelatedField(many=True, read_only=True)
+    user_commentlist = RelatedField(many=True, read_only=True)
 
     class Meta:
         model = Profile
-        fields = ('user_pk' ,'username','introduction','user_comment_like', 'user_commentlist' ,'category', 'point')
+        fields = ('user_pk' ,'username','introduction','user_comment_like', 'user_commentlist' , 'category', 'point')
