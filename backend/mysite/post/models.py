@@ -25,6 +25,7 @@ class Post(models.Model):
     section = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     like_num = models.PositiveIntegerField(default=0, blank=True)
+    unlike_num = models.PositiveIntegerField(default=0, blank=True)
     view_num = models.PositiveIntegerField(default=0)
     #betting = models.OneToOneField(Betting, on_delete=models.CASCADE, null=True)
 	#hashtag = models.TextFiled()
@@ -41,3 +42,4 @@ class Comment(models.Model):
     depth = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     like_num = models.PositiveIntegerField(default=0, blank=True)
+    unlike_num = models.PositiveIntegerField(default=0, blank=True)

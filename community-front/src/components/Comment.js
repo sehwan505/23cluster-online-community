@@ -47,6 +47,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
     // 예외 처리
     })
     toggleEditing();
+	history.go(0);
   }
 
   const onChangeContent = (event) => {
@@ -69,11 +70,11 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 	.catch((error) => {
 	  console.log(error);
 	})
-	window.location.reload();
+	history.go(0);
   }
 
   const onDeleteClick = async () => {
-    const ok = window.confirm("진짜 지울거임?");
+    const ok = window.confirm("진짜 지우시겠습니까?");
     if (ok) {
 		const config = {
 			headers: {
@@ -88,9 +89,10 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
           console.log(error);
         })
     }
-    window.location.reload();
+    history.go(0);
   };
   const toggleEditing = () => setEditing((prev) => !prev);
+{/*<span><img src={require("img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;*/} 
   return (
     <div>
         {
@@ -98,8 +100,11 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
           { comment.depth ?
           (
 			<>
-			<div onClick={toggleEditing}>
-				<table className="board-view-table sub-depth">
+				<table className="board-view-table sub-depth" style={{tableLayout:"fixed"}}>
+				<colgroup>
+					<col width="75%"/>
+					<col width="*"/>
+				</colgroup>
 				<tr>
 				<td className="bat-comment-row row-top">
 					<img src={require("../img/icon-comment-arrow.jpg").default} className="comment-arrow" />&nbsp;&nbsp;
@@ -111,7 +116,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					<span className="time">{created_at}</span>
 				</td>
 				<td className="bat-comment-row">
-					<span><img src={require("../img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
+
 					{
 						user.user_comment_like.includes(comment.comment_id) ?
 						(
@@ -144,18 +149,27 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				<td className="bat-comment-row content2">
 					{comment.content}
 				</td>
-				<td className="bat-comment-row">
-					<span><img src={require("../img/icon-more.jpg").default} /></span>
+				<td className="bat-comment-row caret" style={{paddingLeft:"21%"}}>
+					<div className="btn-group dropstart three-dot">
+					<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} /></span>
+					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						{isOwner &&
+						<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
+						<div className="dropdown-item" onClick={toggleEditing} style={{cursor: "pointer"}}>대댓글 쓰기</div>
+					</div>
+					</div>		
 				</td>
 				</tr>
 				</table>
-			</div>
 		  </>
-            
-          )          
+          )
           : (
 			<>
-			<table className="board-view-table yellow">
+			<table className="board-view-table yellow" style={{tableLayout:"fixed"}}>
+			<colgroup>
+				<col width="75%"/>
+				<col width="*"/>
+			</colgroup>
             <tr>
               <td className="bat-comment-row row-top">
                 {/*<span className="best">BEST</span>&nbsp;&nbsp;*/}
@@ -167,7 +181,6 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
                 <span className="time">{created_at}</span>
               </td>
               <td className="bat-comment-row">
-                <span><img src={require("img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;
                 {
 					user.user_comment_like.includes(comment.comment_id) ?
 					(
@@ -200,9 +213,16 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
               <td className="bat-comment-row content2">
 			    {comment.content}
 			  </td>
-              <td className="bat-comment-row">
-                <span onClick={toggleEditing}><img className="more" src={require("img/icon-more.jpg").default} /></span>
-              </td>
+              <td className="bat-comment-row caret" style={{paddingLeft:"21%"}}>
+				<div className="btn-group dropstart three-dot">
+				<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} /></span>
+				<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					{isOwner &&
+					<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
+					<div className="dropdown-item" onClick={toggleEditing} style={{cursor: "pointer"}}>대댓글 쓰기</div>
+				</div>
+				</div>		
+			  </td>
             </tr>
           	</table>
 			</>
@@ -223,7 +243,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
                 <textarea value={commentContent}
               			type="text"
               			onChange={onChangeContent} 
-						placeholder="댓글을 남겨보세요">
+						placeholder="대댓글을 남겨보세요">
 				</textarea>
               </td>
             </tr>

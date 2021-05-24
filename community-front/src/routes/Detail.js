@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Comment from "components/Comment";
 import Header from "components/Header";
 import axios from "axios";
@@ -24,6 +24,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const history = useHistory();
   const section_name = ['','시사', '유머', '연예', '스포츠','본진'];
   const id = post_id.match.params.id;
+  const focusRef = useRef([React.createRef(), React.createRef()]);
 
   async function fetchComment(){
 	try {
@@ -116,13 +117,31 @@ const onSubmit = async (event) => {
     })
 	history.go(0);
   }
+  const onDeleteClick = async () => {
+    const ok = window.confirm("진짜 지우시겠습니까?");
+    if (ok) {
+		const config = {
+			headers: {
+				'Authorization' : `JWT ${localStorage.getItem('token')}`	
+			}
+		}
+        await axios.post(`http://127.0.0.1:8000/api/post/delete_post/${id}/`, {
+        }, config).then((response) => {
+        // 응답 처리
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+    history.go('/');
+  };
   const onChangeContent = (event) => {
     const {
       target: { value },
     } = event;
     setCommentContent(value);
   };
-  const url_copy = () => {
+  const urlCopy = () => {
 	var dummy = document.createElement("textarea");
 	document.body.appendChild(dummy);
 	dummy.value = window.location.href;
@@ -130,41 +149,18 @@ const onSubmit = async (event) => {
 	document.execCommand("copy");
 	document.body.removeChild(dummy);
   };
-  
-
-   {/*<div>
-      <span>
-        {user.username}
-      </span>
-    </div>
-    <div>
-        <form onSubmit={onSubmit}>
-            <input
-              value={commentContent}
-              placeholder="고쳐라"
-              type="text"
-              onChange={onChangeContent}
-              name="comment"
-            />
-            <input type="submit" value="에딧"/>
-        </form>
-    </div>
-    <table border="1">
-        <th>
-          <tr>글쓴이 :{post.writer_name}</tr>
-        </th>
-          <td>
-            <tr>제목 : {post.title}</tr>
-                
-          </td>
-          <tfoot>
-            <tr>내용 : <ReactMarkdown>{post.content}</ReactMarkdown></tr>
-          </tfoot>
-     </table>
-
-     {comment.map((comment) => (
-        <Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user}  />
-      ))}*/}
+  const sidebarUp = () =>{
+	window.scrollTo(0,0);
+  }
+  const sidebarDown = () =>{
+	focusRef.current[0].current.scrollIntoView({behavior:"smooth"});
+  }
+  const sidebarComment = () =>{
+	focusRef.current[1].current.scrollIntoView({behavior:"smooth"});
+  }
+  const sidebarRefresh = () =>{
+	history.go(0);
+  }
   return (
 	  <>
 	  <div>
@@ -175,13 +171,13 @@ const onSubmit = async (event) => {
             <table>
               <tr>
                 <td>
-                  <img src={require("../img/sidebar-up.jpg").default} />
-                  <img src={require("../img/sidebar-down.jpg").default} />
+                  <img src={require("../img/sidebar-up.jpg").default} onClick={sidebarUp} />
+                  <img src={require("../img/sidebar-down.jpg").default} onClick={sidebarDown}/>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <img src={require("img/sidebar-comment.jpg").default} />
+                  <img src={require("img/sidebar-comment.jpg").default} onClick={sidebarComment} />
                 </td>
               </tr>              
               <tr>
@@ -192,7 +188,7 @@ const onSubmit = async (event) => {
               </tr>              
               <tr>
                 <td>
-                  <img src={require("img/sidebar-refresh.jpg").default} />
+                  <img src={require("img/sidebar-refresh.jpg").default}  onClick={sidebarRefresh} />
                 </td>
               </tr>                            
             </table>           
@@ -229,9 +225,12 @@ const onSubmit = async (event) => {
                 </div>
               </td>
               <td class="btn-area">
-                <span onClick={url_copy}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
+                <span onClick={urlCopy}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
                 <span><img src={require("img/btn-report.jpg").default} /></span>
-              </td>
+				{post.writer_id == user.user_pk &&
+				  <button onClick={onDeleteClick}>삭제</button>
+				}
+			  </td>
             </tr>
             <tr>
               <td class="tooltip-wrap" colSpan="2">
@@ -283,7 +282,7 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="bat-comment-cnt" colSpan="2">
+              <td class="bat-comment-cnt" colSpan="2" ref={focusRef.current[0]}>
                 댓글 &nbsp;&nbsp;&nbsp;<span>{commentItemsCount}</span>&nbsp;개
               </td>
             </tr>
@@ -294,7 +293,7 @@ const onSubmit = async (event) => {
 		</div>
 		<table class="board-insert-table">
             <tr>
-              <td>
+              <td ref={focusRef.current[1]}>
                 <label class="form-check-label">
                   {isAuthenticated ? user.username : "로그인이 필요합니다"}
                 </label>

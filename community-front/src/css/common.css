@@ -988,10 +988,7 @@ input:checked + .slider:before {
   border: 0px;
   border-bottom: 1px solid #ced2d1;
 }
-.board-view-table td.bat-comment-row img.more{
-  height:20px;
-}
-.board-view-table tr:nth-child(odd) td.bat-comment-row {
+.board-view-table tr:nth-child(even) td.bat-comment-row {
   border: 0px;
 }
 .board-view-table td.bat-comment-row:first-child span.best {
@@ -1029,6 +1026,12 @@ input:checked + .slider:before {
 }
 .board-view-table td.bat-comment-row:first-child.content2 {
   font-size: 14px;
+}
+.board-view-table td.bat-comment-row img.more{
+	height:20px;
+}
+.board-view-table td.bat-comment-row{
+	height:20px;
 }
 .board-view-table.on tr td {
   background: #eef3f7;

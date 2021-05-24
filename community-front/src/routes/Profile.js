@@ -11,6 +11,7 @@ function Profile({user, handleLogout, isAuthenticated}){
   const [introduction, setIntroduction] = useState(user.introduction);
   const [comment, setComment] = useState([]);
   const [post, setPost] = useState([]);
+  const [profile, setProfile] = useState([]);
 
   async function fetchComment(){
 	try {
@@ -19,10 +20,10 @@ function Profile({user, handleLogout, isAuthenticated}){
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-		const res2 = await axios.post(`http://localhost:8000/api/post/profile/`,{} ,config);
-		console.log(res2);
-		setComment(res2.data.comments);
-		setPost(res2.data.posts);
+		const res = await axios.post(`http://localhost:8000/api/post/profile/`,{} ,config);
+		console.log(res);
+		setComment(res.data.comments);
+		setPost(res.data.posts);
 	}
 	catch (e) {
 		console.log(e);
@@ -45,6 +46,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 		})
 		.catch((error) => {
 		// 예외 처리
+		   alert("변경에 실패했습니다");
 		})
     }
 	else{
@@ -57,10 +59,12 @@ function Profile({user, handleLogout, isAuthenticated}){
 		await axios.put(`http://localhost:8000/user/profile/${user.user_pk}/update/`, {
 			introduction: introduction,
 		}).then((response) => {
+			
 			alert("자기소개가 변경되었습니다");
 		})
 		.catch((error) => {
 		// 예외 처리
+	        alert("변경에 실패했습니다");
 		})
     }
 	else{
@@ -272,7 +276,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 			{comment.map((comment) => (
 				<>
 				<tr>
-					<td>{comment.content}</td>
+					<td>{comment.content.length > 40 ? comment.content.slice(0,40) + "..." : comment.content}</td>
 					<td>{comment.like_num}</td>
 					<td>{timeForToday(comment.created_at)}</td>
 					<td></td>
@@ -307,7 +311,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 				<>
 				<tr>
 					<td>{post.title}</td>
-					<td>{post.content}</td>
+					<td>{post.content.length > 40 ? post.content.slice(0,40) + "..." : post.content}</td>
 					<td>{post.like_num}</td>
 					<td>{timeForToday(post.created_at)}</td>
 					<td></td>

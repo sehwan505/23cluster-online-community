@@ -5,12 +5,15 @@ import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
 import StickyBox from "react-sticky-box";
+import { useHistory } from "react-router";
 
 function Section({user, num, handleLogout, isAuthenticated}){
 	const sec_num = num.match.params.num;
 	const [postList, setPostList] = useState([]);
 	const [pageNum, setPageNum] = useState(1);
 	const [itemsCount, setItemsCount] = useState(0);
+	const [searchQuery, setSearchQuery] = useState("");
+	const history = useHistory();
 
 	async function fetchSection(){
 		try {
@@ -42,28 +45,15 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	  fetchSection();
  	}, [pageNum]);
 
-	 const scrollHeight = 120;
-	 const scrollHeight2 = 120;
-	 function sidebar(){
-	 
-	if(window.scrollTop > scrollHeight){
-	 let top = window.scrollTop - scrollHeight + 20;
-	 document.getElementById('sidebar').style.top = top +'px';
-	}else{
-	 document.getElementById('sidebar').style.top = '20px';
-	}
-	if(window.scrollTop > scrollHeight2){
-	 let top = window.scrollTop - scrollHeight2 + 20;
-	 document.getElementById('sidebar2').style.top = top +'px';
-	}else{
-	 document.getElementById('sidebar2').style.top = '20px';
-	}    
-	}
-
-	const onscroll = () =>{
-		sidebar();
-	}
-
+	 const onChange = (event) => {
+		const {
+		  target: { value },
+		} = event;
+		setSearchQuery(value);
+	};
+	const search = () =>{
+		history.push(`/search?query=${searchQuery}`)
+	};
 	return (
 		<>
 		<div>
@@ -104,7 +94,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</li>
 				<li>
 					<div>
-					  <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default}/>
+					  <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery} /><img src={require("img/mark-search.jpg").default} onClick={search}/>
 					</div>                
 				</li>
 				</ul>            
