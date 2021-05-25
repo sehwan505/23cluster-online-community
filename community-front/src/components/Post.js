@@ -33,7 +33,7 @@
 					<tr>
 						<td rowSpan="2"><i className="bi bi-hand-thumbs-up"></i>{post.like_num}</td>
 						<td>
-						{post.title}<span>[122]</span>
+						{post.title}<span>[{post.view_num}]</span>
 						<img src={require("../img/mark-backdrop.jpg").default} />
 						</td>
 						<td>{created_at}</td>

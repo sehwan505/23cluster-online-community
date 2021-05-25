@@ -39,8 +39,9 @@ class RelatedField(serializers.RelatedField): #user_like_commentë¥¼ serilizingí•
 #profile 
 class ProfileSerializer(serializers.ModelSerializer):
     user_comment_like = RelatedField(many=True, read_only=True)
+    user_comment_unlike = RelatedField(many=True, read_only=True)
     user_commentlist = RelatedField(many=True, read_only=True)
 
     class Meta:
         model = Profile
-        fields = ('user_pk' ,'username','introduction','user_comment_like', 'user_commentlist' , 'category', 'point')
+        fields = ('user_pk' ,'username','introduction','user_comment_like', 'user_comment_unlike', 'user_commentlist', 'category', 'point')

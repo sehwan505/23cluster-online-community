@@ -12,6 +12,9 @@ class PostSerializer(serializers.ModelSerializer):
             'section',
             'like_num',
             'created_at',
+			'hashtag1',
+			'hashtag2',
+			'hashtag3',
         )
         model = Post
 
@@ -24,6 +27,7 @@ class PostListSerializer(serializers.ModelSerializer):
             'title',
             'section',
             'like_num',
+			'view_num',
             'created_at',
         )
         model = Post
@@ -38,6 +42,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'depth',
             'parent_comment_id',
 			'like_num',
+			'unlike_num',
 			'created_at'
         )
         model = Comment

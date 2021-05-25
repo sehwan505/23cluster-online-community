@@ -12,6 +12,7 @@ urlpatterns = [
     path('add_comment/<int:pk>/', views.AddComment),
 	path('like_post/<int:post_id>/', views.post_like),
 	path('like_comment/<int:comment_id>/', views.comment_like),
+	path('unlike_comment/<int:comment_id>/', views.comment_unlike),
 	path('upload_image/', views.upload_image),
 	path('search/', views.search_query),
 	path('profile/', views.profile_comment_post)

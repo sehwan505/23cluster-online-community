@@ -111,26 +111,12 @@ function LoginModal(props){
     });  
   }//카카오 아이디로 회원가입 및 이미 회원일경우
 
+  const responseFacebook = () =>{
+	  alert("아직 미구현입니다");
+  }
+
   return(
     <>
-      <div className="login-container">
-        <div className="login-box">
-          <section className="social-box">
-            <h4>소셜 계정으로 로그인</h4>
-            <div className="googlebox">
-              <GoogleLogin
-                buttonText="구글 로그인"
-                clientId="993167427573-hbdhu576tcrqmhljcp8tfjbohtfu5li7.apps.googleusercontent.com"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'} />
-            </div>
-			<div>
-				
-			</div>
-          </section>
-        </div>
-      </div>
 	<div className="body">
 		<div className="box">
 			<p className="login">로그인</p>
@@ -146,7 +132,7 @@ function LoginModal(props){
 				/>	
 			</div>
 			<div>
-				<a className="blue" href="{% provider_login_url 'facebook' %}">
+				<a className="blue" onClick={responseFacebook}>
 					<div className="facebook"></div>
 					<div className="facebooktext">
 						<p>페이스북으로 로그인</p>

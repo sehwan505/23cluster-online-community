@@ -28,7 +28,10 @@ class Post(models.Model):
     unlike_num = models.PositiveIntegerField(default=0, blank=True)
     view_num = models.PositiveIntegerField(default=0)
     #betting = models.OneToOneField(Betting, on_delete=models.CASCADE, null=True)
-	#hashtag = models.TextFiled()
+    hashtag1 = models.CharField(default="", max_length=10)
+    hashtag2 = models.CharField(default="", max_length=10)
+    hashtag3 = models.CharField(default="", max_length=10)
+	
 
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)

@@ -5,6 +5,6 @@ import App from "./components/App";
 ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>, //나중에 지우자
   document.getElementById("root")
 );

@@ -14,8 +14,9 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     if(commentContent === ""){
-      document.getElementsByName("comment").focus();
-    }
+		alert("댓글 내용이 없습니다");
+		return ;
+	}
 	if (!isAuthenticated){
 		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
 		if (ok){
@@ -64,6 +65,21 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 		}
 	}
 	await axios.post(`http://127.0.0.1:8000/api/post/like_comment/${comment.comment_id}/`, {
+	}, config).then((response) => {
+	// 응답 처리
+	})
+	.catch((error) => {
+	  console.log(error);
+	})
+	history.go(0);
+  }
+  const onUnlikeClick = async () => {
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	await axios.post(`http://127.0.0.1:8000/api/post/unlike_comment/${comment.comment_id}/`, {
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -131,15 +147,15 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 						)
 					}
 					{
-						user.user_comment_like.includes(comment.comment_id) ?
+						user.user_comment_unlike.includes(comment.comment_id) ?
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						):
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						)
 					}
@@ -155,7 +171,6 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						{isOwner &&
 						<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
-						<div className="dropdown-item" onClick={toggleEditing} style={{cursor: "pointer"}}>대댓글 쓰기</div>
 					</div>
 					</div>		
 				</td>
@@ -195,15 +210,15 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					)
 				}
 				{
-					user.user_comment_like.includes(comment.comment_id) ?
+					user.user_comment_unlike.includes(comment.comment_id) ?
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					):
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					)
 				}

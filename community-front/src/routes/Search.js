@@ -4,61 +4,64 @@ import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
-import StickyBox from "react-sticky-box";
 import { useHistory } from "react-router";
+import StickyBox from "react-sticky-box";
 
-function Section({user, num, handleLogout, isAuthenticated}){
-	const sec_num = num.match.params.num;
+function Search({user, handleLogout, isAuthenticated}){
 	const [postList, setPostList] = useState([]);
 	const [pageNum, setPageNum] = useState(1);
 	const [itemsCount, setItemsCount] = useState(0);
-	const [searchQuery, setSearchQuery] = useState("");
 	const history = useHistory();
+	const query = window.location.search;
 
-	async function fetchSection(){
+	async function fetchSearch(){
 		try {
-			console.log("a");
-			const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
+			const res = await fetch(`http://localhost:8000/api/post/search/${query}`);
 			if (res.status == 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}
 			const posts = await res.json();
+			console.log(posts);
 			setItemsCount(posts.count);
-			setPostList(posts.results);
+			setPostList(posts.posts);
 		} 
 		catch (e) {
 			console.log(e);
 		}
 	}
 
-	useEffect(()=>{
-	  if (pageNum == 1 && localStorage.getItem('pageNum') == 1){
-		fetchSection();
-	  }
-	  else{
-		setPageNum(1);
-		localStorage.setItem('pageNum',1);
-	  }
-	},[sec_num]);
-
   	useEffect(() => {
-	  fetchSection();
- 	}, [pageNum]);
+	  console.log(query);
+	  fetchSearch();
+ 	}, [history]);
 
-	 const onChange = (event) => {
-		const {
-		  target: { value },
-		} = event;
-		setSearchQuery(value);
-	};
-	const search = () =>{
-		history.push(`/search?query=${searchQuery}`)
-	};
+	 const scrollHeight = 120;
+	 const scrollHeight2 = 120;
+	 function sidebar(){
+	 
+	if(window.scrollTop > scrollHeight){
+	 let top = window.scrollTop - scrollHeight + 20;
+	 document.getElementById('sidebar').style.top = top +'px';
+	}else{
+	 document.getElementById('sidebar').style.top = '20px';
+	}
+	if(window.scrollTop > scrollHeight2){
+	 let top = window.scrollTop - scrollHeight2 + 20;
+	 document.getElementById('sidebar2').style.top = top +'px';
+	}else{
+	 document.getElementById('sidebar2').style.top = '20px';
+	}    
+	}
+
+	const onscroll = () =>{
+		sidebar();
+	}
+
 	return (
 		<>
 		<div>
-		<Header user={user} num={sec_num} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
+		<Header user={user} num={0} handleLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 		<div className="body-wrap">
 			<StickyBox offsetTop={20}>
 			<div className="flox-rank-wrap">
@@ -95,48 +98,30 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</li>
 				<li>
 					<div>
-					  <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery} /><img src={require("img/mark-search.jpg").default} onClick={search}/>
+					<select className="form-select">
+						<option>제목</option>
+					</select>
+					</div>
+					<div>
+					<input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default}/>
 					</div>                
 				</li>
 				</ul>            
 			</div>
 			</div>
-			<div className="issue-row-box">
 			<div className="issue-row-wrap">       
-				<ul className="noti">
-				<li>
-					<table>              
-					<tr>
-						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
-						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
-					</tr>
-					<tr>
-						<td colSpan="2" className="newline">2일 잔 kein</td>
-					</tr>                
-					</table>
-				</li>
-				<li>
-					<table>              
-					<tr>
-						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
-						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
-					</tr>
-					<tr>
-						<td colSpan="2" className="newline">2일 잔 kein</td>
-					</tr>                
-					</table>
-				</li>            
-				</ul>
+				<p>{query.slice(7)}의 검색 결과입니다</p>
 			</div>
+			<div className="issue-row-box">
 			{postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>
         	))}
 			</div>
-			<Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum} isComment={false}/>
+			{/*<Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum}/>*/}
 		</div>
 		</div>
 		</>
 	)
 }
 
-export default Section;
+export default Search;

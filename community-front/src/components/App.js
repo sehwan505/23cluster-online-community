@@ -36,7 +36,8 @@ function App() {
 	useEffect(() => {
 	  // 토큰(access token)이 이미 존재하는 상황이라면 서버에 GET /validate 요청하여 해당 access token이 유효한지 확인
 	  setUser({
-		user_comment_like : []
+		user_comment_like : [],
+		user_comment_unlike : [],		
 	  });
 	  async function init(){
 	  if (isAuthenticated) {

@@ -65,6 +65,10 @@ useEffect(async() => {
 	try{
 		const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 		const posts = await res.json()
+		if (res.status == 404){
+			alert("오류, 새로고침 해주세요");
+			window.location.href = '/';
+		}
 		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
 		const post_list = await res1.json();
 		if (res1.status == 404){
@@ -73,7 +77,6 @@ useEffect(async() => {
 		}
 		setItemsCount(post_list.count);
 		setPostList(post_list.results);
-		console.log(user);
 	}
 	catch(e){
 		console.log(e);
@@ -93,7 +96,7 @@ const onSubmit = async (event) => {
 		}
 	}
 	if(commentContent === ""){
-      document.getElementsByName("comment").focus();
+      alert("댓글 내용이 없습니다");
 	  return ;
     }
 	var csrftoken = CSRFToken();
@@ -113,8 +116,8 @@ const onSubmit = async (event) => {
     // 응답 처리	
     })
     .catch((error) => {
-    // 예외 처리
-    })
+	  alert("오류 발생");
+	})
 	history.go(0);
   }
   const onDeleteClick = async () => {
@@ -127,13 +130,13 @@ const onSubmit = async (event) => {
 		}
         await axios.post(`http://127.0.0.1:8000/api/post/delete_post/${id}/`, {
         }, config).then((response) => {
-        // 응답 처리
+		  alert('삭제 완료');
+		  history.push('/');
         })
         .catch((error) => {
           console.log(error);
         })
     }
-    history.go('/');
   };
   const onChangeContent = (event) => {
     const {
@@ -165,9 +168,9 @@ const onSubmit = async (event) => {
 	  <>
 	  <div>
 	  <Header user={user} num={post.section} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
-	  <div class="body-wrap">
+	  <div className="body-wrap">
 		<StickyBox offsetTop={20}>
-          <div class="flox-rank-wrap2">
+          <div className="flox-rank-wrap2">
             <table>
               <tr>
                 <td>
@@ -194,37 +197,37 @@ const onSubmit = async (event) => {
             </table>           
           </div>
 		</StickyBox>
-        <div class="board-view-box">
-          <table class="board-view-table">
+        <div className="board-view-box">
+          <table className="board-view-table">
             <tr>
-              <td class="title">
+              <td className="title">
                 {section_name[post.section]}게시판
               </td>
-              <td class="depth">
+              <td className="depth">
                 <a>1depth</a> / <a>2depth</a> / 3depth
               </td>
             </tr>
             <tr>
-              <td class="subtitle">
+              <td className="subtitle">
                 {post.title}
-                <span>#web</span>
-                <span>#UI</span>
-                <span>#디자인</span>
+                {post.hashtag1 && <span>#{post.hashtag1}</span>}
+                {post.hashtag2 && <span>#{post.hashtag2}</span>}
+                {post.hashtag3 && <span>#{post.hashtag3}</span>}
               </td>
-              <td class="date">
+              <td className="date">
                 {timeForToday(post.created_at)}
               </td>
             </tr>    
             <tr>
-              <td class="nickname">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                  <label class="form-check-label" for="flexCheckDefault" >
+              <td className="nickname">
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                  <label className="form-check-label" htmlFor="flexCheckDefault" >
                     {post.writer_name}
                   </label>
                 </div>
               </td>
-              <td class="btn-area">
+              <td className="btn-area">
                 <span onClick={urlCopy}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
                 <span><img src={require("img/btn-report.jpg").default} /></span>
 				{post.writer_id == user.user_pk &&
@@ -233,22 +236,22 @@ const onSubmit = async (event) => {
 			  </td>
             </tr>
             <tr>
-              <td class="tooltip-wrap" colSpan="2">
+              <td className="tooltip-wrap" colSpan="2">
                 <span></span>
                 <span>"* 이 게시글은 (분류)사람들이 많이보는 게시글입니다."</span>
               </td>
             </tr>             
             <tr>
-              <td class="content" colSpan="2"><ReactMarkdown>{post.content}</ReactMarkdown></td>
+              <td className="content" colSpan="2"><ReactMarkdown>{post.content}</ReactMarkdown></td>
             </tr>
             <tr>
-              <td class="bat-title" colSpan="2">베팅 시스템</td>
+              <td className="bat-title" colSpan="2">베팅 시스템</td>
             </tr>    
             <tr>
-              <td class="bat-subtitle" colSpan="2">주제: 탕수육</td>
+              <td className="bat-subtitle" colSpan="2">주제: 탕수육</td>
             </tr>
             <tr>
-              <td class="bat-stat" colSpan="2">
+              <td className="bat-stat" colSpan="2">
                 <table>
                   <tr>
                     <td><img src={require("img/icon-bat01.jpg").default} /></td>
@@ -266,14 +269,14 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="bat-vs" colSpan="2">
+              <td className="bat-vs" colSpan="2">
                 <span>찍먹</span>
                  vs
                 <span>부먹</span>
               </td>
             </tr>
             <tr>
-              <td class="bat-dollor" colSpan="2">
+              <td className="bat-dollor" colSpan="2">
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
@@ -282,7 +285,7 @@ const onSubmit = async (event) => {
               </td>
             </tr>
             <tr>
-              <td class="bat-comment-cnt" colSpan="2" ref={focusRef.current[0]}>
+              <td className="bat-comment-cnt" colSpan="2" ref={focusRef.current[0]}>
                 댓글 &nbsp;&nbsp;&nbsp;<span>{commentItemsCount}</span>&nbsp;개
               </td>
             </tr>
@@ -291,10 +294,10 @@ const onSubmit = async (event) => {
         	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user} isAuthenticated={isAuthenticated} />
 		  ))}
 		</div>
-		<table class="board-insert-table">
+		<table className="board-insert-table">
             <tr>
               <td ref={focusRef.current[1]}>
-                <label class="form-check-label">
+                <label className="form-check-label">
                   {isAuthenticated ? user.username : "로그인이 필요합니다"}
                 </label>
               </td>
@@ -316,9 +319,9 @@ const onSubmit = async (event) => {
 			<tr>
 			</tr>
           </table>
-		  <Pagination itemsCount={commentItemsCount} pageSize={10} currentPage={commentPageNum} setPageNum={setCommentPageNum}/>
-		  <div class="issue-row-box">
-          <div class="issue-row-wrap2-top">
+		  <Pagination itemsCount={commentItemsCount} pageSize={10} currentPage={commentPageNum} setPageNum={setCommentPageNum} isComment={true}/>
+		  <div className="issue-row-box">
+          <div className="issue-row-wrap2-top">
             {isAuthenticated && 	
 			  <>
 			  <Link to="/write"><span>글쓰기</span></Link>
@@ -328,15 +331,10 @@ const onSubmit = async (event) => {
           {postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id} />
         	))} 
-          <Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum}/>
-          <table class="board-search-wrap">
+          <Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum} isComment={false}/>
+          <table className="board-search-wrap">
             <tr>
               <td>
-                <div>
-                  <select class="form-select">
-                    <option>제목</option>
-                  </select>
-                </div>
                 <div>
                   <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default} />
                 </div>                

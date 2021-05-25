@@ -10,6 +10,7 @@ const DraftEditor = ({user}) => {
   const [content, setContent] = useState({});
   const [postTitle , setPostTitle] = useState("");
   const [section , setSection] = useState("1");
+  const [hashtag, setHashtag] = useState("");
   const history = useHistory();
 
   const handleClick = (event) => {
@@ -25,7 +26,15 @@ const DraftEditor = ({user}) => {
 	setContent({
 		content: editorRef.current.getInstance().getMarkdown(),
 	});
-	console.log(section);
+	if (postTitle == "")
+	{
+		alert("제목이 없습니다");
+		return ;
+	}
+	if(content.content == ""){
+		alert("내용이 없습니다");
+		return ;
+	}
 	var csrftoken = CSRFToken();
 	const config = {
 		headers: {
@@ -38,6 +47,7 @@ const DraftEditor = ({user}) => {
         writer_id: user.user_pk,
         writer_name: user.username,
 		section : section,
+		hashtag : hashtag,
 		csrfmiddlewaretoken	: csrftoken
     }, config).then((response) => {
 	  history.push('/');
@@ -53,6 +63,13 @@ const DraftEditor = ({user}) => {
       target: { value },
     } = event;
     setPostTitle(value);
+  }
+
+  const onChangeHashtag = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setHashtag(value);
   }
 
   const onChangeSection = (event) => {
@@ -108,6 +125,7 @@ const DraftEditor = ({user}) => {
         value={postTitle}
         placeholder="제목"
         type="text"
+		name="title"
         onChange={onChangeTitle}
       />
 	  <select name="section" onChange={onChangeSection} value={section} >
@@ -117,11 +135,19 @@ const DraftEditor = ({user}) => {
 			<option value="4">스포츠</option>
 			<optoin value="5">본진</optoin>
 	  </select>
+	  <br />
+	  <input
+        value={hashtag}
+        placeholder="해시태그 최대 3개"
+        type="text"
+        onChange={onChangeHashtag}
+      />
       <Editor
         previewStyle="vertical"
         height="300px"
         initialEditType="wysiwyg"
         placeholder="글쓰기"
+		name="content"
         ref={editorRef}
 		hooks={{
 			addImageBlobHook: onAddImageBlob

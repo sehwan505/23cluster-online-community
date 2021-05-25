@@ -7,8 +7,8 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import status, permissions
+from rest_framework.response import Response
 import json
 from .models import Post,Comment
 from login.models import Profile
@@ -30,10 +30,29 @@ class ListPost(generics.ListCreateAPIView):
             queryset = Post.objects.filter(section=pk).order_by('-created_at') 
         return queryset
 
-class DetailPost(generics.RetrieveUpdateDestroyAPIView):
+class DetailPost(generics.RetrieveAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        obj.view_num += 1
+        obj.save()
+        self.check_object_permissions(self.request, obj)
+        return obj		
+
 
 class DetailComment(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
@@ -62,20 +81,36 @@ def DeletePost(request,pk):
 
     return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
+import re
+def find_hashtag(hashtag):
+    print(hashtag)
+    pattern = '#([0-9a-zA-Z가-힣_-]*)'
+    hash_w = re.compile(pattern)
+    hash_tag = hash_w.findall(hashtag)
+    list = ["", "", ""]
+    j = 0
+    for i in hash_tag:
+        list[j] = i
+        j+=1
+    return list
+
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
 @csrf_exempt
 def AddPost(request):
     payload = json.loads(request.body)
-    print(payload)
     try:
+        hashtag = find_hashtag(payload["hashtag"])
         post = Post.objects.create(
             title=payload["title"],
             content=payload["content"],
             writer_id=payload["writer_id"],
             writer_name=payload["writer_name"],
 			section=payload["section"],
+			hashtag1=hashtag[0],
+			hashtag2=hashtag[1],
+			hashtag3=hashtag[2],
         )
         profile = Profile.objects.get(user_pk = payload["writer_id"])
         profile.user_postlist.add(post)
@@ -153,14 +188,35 @@ def comment_like(request, comment_id):
     try:
         comment = get_object_or_404(Comment, comment_id = comment_id)
         profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:]) #앞의 JWT를 뗴고 token을 보냄
-        check_like_post = profile.user_comment_like.filter(comment_id = comment_id)
-        if check_like_post.exists():
+        check_like_comment = profile.user_comment_like.filter(comment_id = comment_id)
+        if check_like_comment.exists():
             profile.user_comment_like.remove(comment)
             comment.like_num -= 1
             comment.save()
         else:
             profile.user_comment_like.add(comment)
             comment.like_num += 1
+            comment.save()
+        return JsonResponse({},status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def comment_unlike(request, comment_id):
+    try:
+        comment = get_object_or_404(Comment, comment_id = comment_id)
+        profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:]) #앞의 JWT를 뗴고 token을 보냄
+        check_unlike_comment = profile.user_comment_unlike.filter(comment_id = comment_id)
+        if check_unlike_comment.exists():
+            profile.user_comment_unlike.remove(comment)
+            comment.unlike_num -= 1
+            comment.save()
+        else:
+            profile.user_comment_unlike.add(comment)
+            comment.unlike_num += 1
             comment.save()
         return JsonResponse({},status=status.HTTP_200_OK)
     except Exception as e:
