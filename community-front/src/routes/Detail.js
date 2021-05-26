@@ -122,6 +122,8 @@ const onSubmit = async (event) => {
   }
   const onDeleteClick = async () => {
     const ok = window.confirm("진짜 지우시겠습니까?");
+	if (post.writer_id != user.user_pk)
+		return ;
     if (ok) {
 		const config = {
 			headers: {
@@ -164,6 +166,64 @@ const onSubmit = async (event) => {
   const sidebarRefresh = () =>{
 	history.go(0);
   }
+  const sidebarLike = async () => {
+	if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
+	if (user.user_post_like.includes(parseInt(id))){
+		alert("이미 좋아요를 누르셨습니다.");
+		return ;
+	}
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	await axios.post(`http://127.0.0.1:8000/api/post/like_post/${id}/`, {
+	}, config).then((response) => {
+	// 응답 처리
+	})
+	.catch((error) => {
+	  console.log(error);
+	})
+	history.go(0);
+  }
+  const sidebarUnlike = async () => {
+	if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
+	if (user.user_post_unlike.includes(parseInt(id))){
+		alert("이미 싫어요를 누르셨습니다.");
+		return ;
+	}
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	await axios.post(`http://127.0.0.1:8000/api/post/unlike_post/${id}/`, {
+	}, config).then((response) => {
+	// 응답 처리
+	})
+	.catch((error) => {
+	  console.log(error);
+	})
+	history.go(0);
+  }
   return (
 	  <>
 	  <div>
@@ -185,8 +245,8 @@ const onSubmit = async (event) => {
               </tr>              
               <tr>
                 <td>
-                  <img src={require("../img/sidebar-like.jpg").default} />
-                  <img src={require("img/sidebar-hate.jpg").default} />
+                  <img src={require("../img/sidebar-like.jpg").default} onClick={sidebarLike}/>
+                  <img src={require("img/sidebar-hate.jpg").default} onClick={sidebarUnlike}/>
                 </td>
               </tr>              
               <tr>
@@ -228,7 +288,7 @@ const onSubmit = async (event) => {
                 </div>
               </td>
               <td className="btn-area">
-                <span onClick={urlCopy}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
+                <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
                 <span><img src={require("img/btn-report.jpg").default} /></span>
 				{post.writer_id == user.user_pk &&
 				  <button onClick={onDeleteClick}>삭제</button>

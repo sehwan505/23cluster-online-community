@@ -35,11 +35,14 @@ function App() {
 
 	useEffect(() => {
 	  // 토큰(access token)이 이미 존재하는 상황이라면 서버에 GET /validate 요청하여 해당 access token이 유효한지 확인
+	  
+	  async function init(){
 	  setUser({
 		user_comment_like : [],
-		user_comment_unlike : [],		
+		user_comment_unlike : [],
+		user_post_like : [],
+		user_post_unlike : [],	
 	  });
-	  async function init(){
 	  if (isAuthenticated) {
 		// 현재 JWT 토큰 값이 타당한지 GET /validate 요청을 통해 확인하고
 		// 상태 코드가 200이라면 현재 GET /user/current 요청을 통해 user정보를 받아옴

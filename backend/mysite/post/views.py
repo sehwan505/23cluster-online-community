@@ -164,22 +164,35 @@ def AddComment(request,pk):
 @authentication_classes((JSONWebTokenAuthentication,))
 def post_like(request, post_id):
     try:
-        if (post := get_object_or_404(Post, id = post_id)):
+        post = get_object_or_404(Post, id = post_id)
+        if (post == 404):
             return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
-        check_like_post = profile.user_post_like.filter(id=post_id)
-        if check_like_post.exists():
-            profile.user_post_like.remove(post)
-            post.like_num -= 1
-            post.save()
-        else:
-            profile.user_post_like.add(post)
-            post.like_num += 1
-            post.save()
+        profile.user_post_like.add(post)
+        post.like_num += 1
+        post.save()
         return JsonResponse({},status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def post_unlike(request, post_id):
+    try:
+        post = get_object_or_404(Post, id = post_id)
+        if (post == 404):
+            return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
+        profile.user_post_unlike.add(post)
+        post.like_num -= 1
+        post.save()
+        return JsonResponse({},status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
