@@ -46,6 +46,7 @@ const DraftEditor = ({user}) => {
         content: content.content,
         writer_id: user.user_pk,
         writer_name: user.username,
+		writer_category:user.category,
 		section : section,
 		hashtag : hashtag,
 		csrfmiddlewaretoken	: csrftoken

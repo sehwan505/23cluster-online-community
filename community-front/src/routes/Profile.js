@@ -75,6 +75,8 @@ function Profile({user, handleLogout, isAuthenticated}){
     const {
       target: { value },
     } = event;
+	if (value.length > 6)
+		value = value.substr(0, 6);
     setNewDisplayName(value);
   };
 
@@ -85,6 +87,34 @@ function Profile({user, handleLogout, isAuthenticated}){
     setIntroduction(value);
   };
 
+  const onResignClick = async () =>{
+	const ok = window.confirm("탈퇴하시면 복구가 불가능합니다. 탈퇴하시겠습니까?");
+	if (ok){
+		let res = await fetch('http://localhost:8000/user/resign/', {
+			headers: {
+			  Authorization : localStorage.getItem('token')
+			}
+		});
+		if (res.ok)
+		{
+			handleLogout();
+			alert("탈퇴가 완료되었습니다.");
+		}
+		else{
+			alert("탈퇴에 실패했습니다.\n문의 주세요.");
+		}
+	}
+  }
+
+  const onRefreshClick = async () => {
+	const config = {
+		headers: {
+			'Authorization' : `JWT ${localStorage.getItem('token')}`	
+		}
+	}
+	await axios.post('http://127.0.0.1:8000/user/refresh_category/', {
+    }, config)
+  } 
 //  {/*<Link to="/">홈</Link> <br/>
 //        <span>{user.username}</span>
 //        <button onClick={handleLogout}>로그아웃</button>
@@ -108,10 +138,10 @@ function Profile({user, handleLogout, isAuthenticated}){
               <table>
                 <tr>
                   <td rowSpan="5">
-				    <span className="mypage-picture" style={{background : `url(require("../img/user.png"))`}}></span>
+				    <span className={`mypage-picture-${user.category}`} style={{background : `url(require("../img/user.png"))`}}></span>
                   </td>
                   <td>
-                    <input type="text" value={newDisplayName == null ? '' : newDisplayName} onChange={onChange} />
+                    <input type="text" value={newDisplayName == null ? '' : newDisplayName} onChange={onChange} maxLength={6} />
                     <span onClick={onsubmit}>변경</span>
                   </td>
                 </tr>
@@ -122,10 +152,10 @@ function Profile({user, handleLogout, isAuthenticated}){
                   </td>
                 </tr>              
                 <tr>
-                  <td><span>색 바꾸기 <span>20P</span></span></td>
+                  <td><span >색 바꾸기 <span>20P</span></span></td>
                 </tr>
                 <tr>
-                  <td><span>재평가</span></td>
+                  <td><span onClick={onRefreshClick}>재평가</span></td>
                 </tr>                                                                
               </table>
             </li>
@@ -321,7 +351,7 @@ function Profile({user, handleLogout, isAuthenticated}){
           </table>          
         </div>
         <div className="mypage-wrap4">
-          <span>회원탈퇴</span>
+          <span onClick={onResignClick}>회원탈퇴</span>
         </div>
       </div>
 	</div>

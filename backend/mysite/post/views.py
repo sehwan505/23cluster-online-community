@@ -51,8 +51,7 @@ class DetailPost(generics.RetrieveAPIView):
         obj.view_num += 1
         obj.save()
         self.check_object_permissions(self.request, obj)
-        return obj		
-
+        return obj
 
 class DetailComment(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
@@ -107,6 +106,7 @@ def AddPost(request):
             content=payload["content"],
             writer_id=payload["writer_id"],
             writer_name=payload["writer_name"],
+            writer_category=payload["writer_category"],
 			section=payload["section"],
 			hashtag1=hashtag[0],
 			hashtag2=hashtag[1],
@@ -135,6 +135,7 @@ def AddComment(request,pk):
                 content=payload["content"],
                 writer_id=payload["writer_id"],
                 writer_name=payload["writer_name"],
+				writer_category=payload["writer_category"],
                 depth=payload["depth"],
             )
             comment.parent_comment_id = comment.comment_id
@@ -145,6 +146,7 @@ def AddComment(request,pk):
                 content=payload["content"],
                 writer_id=payload["writer_id"],
                 writer_name=payload["writer_name"],
+				writer_category=payload["writer_category"],
                 parent_comment_id=payload["parent_comment_id"],
                 depth=payload["depth"]
             )
@@ -251,7 +253,7 @@ def search_query(request):
     query = None
     if request.GET['query']:
         query = request.GET.get('query')
-        posts = Post.objects.all().filter(Q(title__contains=query) | Q(content__contains=query))
+        posts = Post.objects.all().filter(Q(title__contains=query) | Q(content__contains=query)).order_by('-created_at') 
         #Q(one_line__contains=query) | Q(content_list__contains=query))
         serializer = PostSerializer(posts, many=True)
         return JsonResponse({'posts': serializer.data}, safe=False, status=status.HTTP_200_OK)

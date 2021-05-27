@@ -10,6 +10,8 @@ class Profile(models.Model):
    user_pk = models.IntegerField(blank=True, default=1)
    created_at = models.DateTimeField(auto_now_add=True)
    introduction = models.TextField(blank=True)
+   gender = models.PositiveIntegerField(default=0, blank=True)
+   age = models.PositiveIntegerField(default=0, blank=True)
    username = models.CharField(max_length=6,default="unknown")
    point = models.PositiveIntegerField(default=20, blank=True)
    category = models.PositiveIntegerField(default=0, blank=True)

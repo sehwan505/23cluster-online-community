@@ -20,7 +20,8 @@ def get_profile(token):
         user_id = jwt_payload_get_user_id_handler(payload)
         profile = Profile.objects.get(user_pk=user_id)
         return profile
-    except:
+    except Exception as e:
+        print(e)
         return 0
 
 @api_view(['GET'])
@@ -33,7 +34,8 @@ def current_user(request):
         serializer = ProfileSerializer(user)
         return Response(serializer.data)
     except Exception as e:
-        return Response(e, status=status.HTTP_400_BAD_REQUEST)
+        print(e)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserList(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -53,13 +55,43 @@ class ProfileUpdateAPI(generics.UpdateAPIView):
     serializer_class = ProfileSerializer
 
 @api_view(['GET'])
-def validate_jwt_token(request):
-    print('a')
+@permission_classes((permissions.IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def resign_user(request):
     try:
-        token = request.META['HTTP_AUTHORIZATION']
-        data = {'token': token}
-        valid_data = VerifyJSONWebTokenSerializer().validate(data)
+        token = request.META['HTTP_AUTHORIZATION'][4:]
+        user = get_profile(token)
+        user.user.delete()
+        user.delete()
+        return Response(status=status.HTTP_200_OK)
     except Exception as e:
-        return Response(e)
+        print(e)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(status=status.HTTP_200_OK)
+from sklearn.cluster import KMeans
+import pandas as pd
+import joblib
+import os
+from django.conf import settings 
+
+@api_view(['POST'])
+@permission_classes((permissions.IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def refresh_category(request):
+    try:
+        token = request.META['HTTP_AUTHORIZATION'][4:]
+        user = get_profile(token)
+        X = pd.DataFrame([[0, 0, 0, 0, 0, 0]], columns=['gender', 'age', 'category_1',  'category_2',  'category_3',  'category_4'])
+        X["gender"] = user.gender
+        X["age"] = user.age
+        X["category_1"] = 0
+        X["category_2"] = 0
+        X["category_3"] = 0
+        X["category_4"] = 0
+        loaded_model = joblib.load(os.path.join(settings.BASE_DIR, './login/kms.pkl'))
+        user.category = loaded_model.predict(X)
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status=status.HTTP_500_INTERNAL_ERROR)

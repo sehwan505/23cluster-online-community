@@ -110,8 +110,9 @@ const onSubmit = async (event) => {
         content:commentContent,
         writer_id:user.user_pk,
         writer_name:user.username,
-        depth:0,
-		csrfmiddlewaretoken	: csrftoken
+        writer_category:user.category,
+		depth:0,
+		csrfmiddlewaretoken	: csrftoken,
     }, config).then((response) => {
     // 응답 처리	
     })
@@ -224,6 +225,45 @@ const onSubmit = async (event) => {
 	})
 	history.go(0);
   }
+//  <td className="bat-title" colSpan="2">베팅 시스템</td>
+//  </tr>    
+//  <tr>
+//	<td className="bat-subtitle" colSpan="2">주제: 탕수육</td>
+//  </tr>
+//  <tr>
+//	<td className="bat-stat" colSpan="2">
+//	  <table>
+//		<tr>
+//		  <td><img src={require("img/icon-bat01.jpg").default} /></td>
+//		  <td>3만</td>
+//		  <td>3만</td>
+//		  <td><img src={require("img/icon-bat01.jpg").default} /></td>
+//		</tr>
+//		<tr>
+//		  <td><img src={require("img/icon-bat02.jpg").default} /></td>
+//		  <td>10%</td>
+//		  <td>10%</td>
+//		  <td><img src={require("img/icon-bat02.jpg").default} /></td>
+//		</tr>
+//	  </table>
+//	</td>
+//  </tr>
+//  <tr>
+//	<td className="bat-vs" colSpan="2">
+//	  <span>찍먹</span>
+//	   vs
+//	  <span>부먹</span>
+//	</td>
+//  </tr>
+//  <tr>
+//	<td className="bat-dollor" colSpan="2">
+//	  <span>1</span>
+//	  <span>2</span>
+//	  <span>3</span>
+//	  <span>4</span>
+//	  <span>5</span>
+//	</td>
+//  </tr>
   return (
 	  <>
 	  <div>
@@ -281,7 +321,7 @@ const onSubmit = async (event) => {
             <tr>
               <td className="nickname">
                 <div className="form-check">
-                  <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+				  <span className={`profile-picture-${post.writer_category}`}></span>
                   <label className="form-check-label" htmlFor="flexCheckDefault" >
                     {post.writer_name}
                   </label>
@@ -303,46 +343,6 @@ const onSubmit = async (event) => {
             </tr>             
             <tr>
               <td className="content" colSpan="2"><ReactMarkdown>{post.content}</ReactMarkdown></td>
-            </tr>
-            <tr>
-              <td className="bat-title" colSpan="2">베팅 시스템</td>
-            </tr>    
-            <tr>
-              <td className="bat-subtitle" colSpan="2">주제: 탕수육</td>
-            </tr>
-            <tr>
-              <td className="bat-stat" colSpan="2">
-                <table>
-                  <tr>
-                    <td><img src={require("img/icon-bat01.jpg").default} /></td>
-                    <td>3만</td>
-                    <td>3만</td>
-                    <td><img src={require("img/icon-bat01.jpg").default} /></td>
-                  </tr>
-                  <tr>
-                    <td><img src={require("img/icon-bat02.jpg").default} /></td>
-                    <td>10%</td>
-                    <td>10%</td>
-                    <td><img src={require("img/icon-bat02.jpg").default} /></td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td className="bat-vs" colSpan="2">
-                <span>찍먹</span>
-                 vs
-                <span>부먹</span>
-              </td>
-            </tr>
-            <tr>
-              <td className="bat-dollor" colSpan="2">
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>5</span>
-              </td>
             </tr>
             <tr>
               <td className="bat-comment-cnt" colSpan="2" ref={focusRef.current[0]}>

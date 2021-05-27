@@ -65,6 +65,10 @@ function App() {
 			  Authorization : localStorage.getItem('token')
 			}
 		  });
+		if (!res1.ok)
+		{
+		  handleLogout();
+		}
 		let json = await res1.json();
 		// 현재 유저 정보 받아왔다면, 로그인 상태로 state 업데이트 하고
 		if (json.username) {

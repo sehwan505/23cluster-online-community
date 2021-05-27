@@ -17,7 +17,6 @@ function Section({user, num, handleLogout, isAuthenticated}){
 
 	async function fetchSection(){
 		try {
-			console.log("a");
 			const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
 			if (res.status == 404){
 				alert("오류, 새로고침 해주세요");

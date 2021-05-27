@@ -39,6 +39,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
         content:commentContent,
         writer_id:user.user_pk,
         writer_name:user.username,
+		writer_category:user.category,
         depth:1,
 		csrfmiddlewaretoken	: csrftoken
     }, config).then((response) => {
@@ -65,6 +66,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 		}
 	}
 	await axios.post(`http://127.0.0.1:8000/api/post/like_comment/${comment.comment_id}/`, {
+		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -80,6 +82,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 		}
 	}
 	await axios.post(`http://127.0.0.1:8000/api/post/unlike_comment/${comment.comment_id}/`, {
+		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -124,7 +127,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				<tr>
 				<td className="bat-comment-row row-top">
 					<img src={require("../img/icon-comment-arrow.jpg").default} className="comment-arrow" />&nbsp;&nbsp;
-					<input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+					<span className={`profile-picture-${comment.writer_category}`}></span>
 					<label className="form-check-label" for="flexCheckDefault">
 						{comment.writer_name}
 					</label>
@@ -188,7 +191,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
             <tr>
               <td className="bat-comment-row row-top">
                 {/*<span className="best">BEST</span>&nbsp;&nbsp;*/}
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+				<span className={`profile-picture-${comment.writer_category}`}></span>
                 <label className="form-check-label" for="flexCheckDefault">
 					{comment.writer_name}
                 </label>

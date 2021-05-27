@@ -58,16 +58,16 @@ INSTALLED_APPS = [
 
 	#구글
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+#    'allauth',
+#    'allauth.account',
+#    'allauth.socialaccount',
+#    'allauth.socialaccount.providers.google',
 
-    #페이스북
-    'allauth.socialaccount.providers.facebook',
+#    #페이스북
+#    'allauth.socialaccount.providers.facebook',
 
-    #카카오
-    'allauth.socialaccount.providers.kakao',
+#    #카카오
+#    'allauth.socialaccount.providers.kakao',
 ]
 
 REST_FRAMEWORK = { #drf 설정
