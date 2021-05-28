@@ -417,7 +417,7 @@ ol, ul {
   padding: 25px;
   border-radius: 0 5px 5px 0;
 }
-.mypage-picture-0 {
+.mypage-picture-1 {
   width: 120px;
   height: 120px;
   border-radius: 50% !important;
@@ -425,7 +425,7 @@ ol, ul {
   text-align: center;
   display: inline-block;
 }
-.mypage-picture-1 {
+.mypage-picture-2 {
 	width: 120px;
 	height: 120px;
 	background-color: #eed869;
@@ -433,7 +433,7 @@ ol, ul {
 	text-align: center;
 	display: inline-block;
 }
-.mypage-picture-2 {
+.mypage-picture-3 {
 	width: 120px;
 	height: 120px;
 	background-color: #56ab8a;
@@ -441,7 +441,7 @@ ol, ul {
 	text-align: center;
 	display: inline-block;
 }
-.mypage-picture-3 {
+.mypage-picture-4 {
 	width: 120px;
 	height: 120px;
 	background-color: #da8df3;
@@ -859,28 +859,28 @@ span.profile-picture{
 	border-left: 0;
 	border-right: 0;
 }
-span.profile-picture-0 {
+span.profile-picture-1 {
 	width: 10px;
 	height: 10px;
 	border-radius: 50% !important;
 	background-color: #fa7973;
 	display: inline-block;
   }
-span.profile-picture-1 {
+span.profile-picture-2 {
 	  width: 10px;
 	  height: 10px;
 	  background-color: #eed869;
 	  border-radius: 50% !important;
 	  display: inline-block;
   }
-span.profile-picture-2 {
+span.profile-picture-3 {
 	  width: 10px;
 	  height: 10px;
 	  background-color: #56ab8a;
 	  border-radius: 50% !important;
 	  display: inline-block;
   }
-span.profile-picture-3 {
+span.profile-picture-4 {
 	  width: 10px;
 	  height: 10px;
 	  background-color: #da8df3;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Post from "components/Post";
-import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
@@ -18,7 +17,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	async function fetchSection(){
 		try {
 			const res = await fetch(`http://localhost:8000/api/post/section/${sec_num}/?page=${pageNum}`);
-			if (res.status == 404){
+			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}
@@ -32,7 +31,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	}
 
 	useEffect(()=>{
-	  if (pageNum == 1 && localStorage.getItem('pageNum') == 1){
+	  if (pageNum === 1 && localStorage.getItem('pageNum') === '1'){
 		fetchSection();
 	  }
 	  else{
@@ -90,11 +89,11 @@ function Section({user, num, handleLogout, isAuthenticated}){
 			<div>
 				<ul>
 				<li>
-					<img src={require("img/btn-issue.jpg").default} />
+					<img src={require("img/btn-issue.jpg").default} alt={"오류"}/>
 				</li>
 				<li>
 					<div>
-					  <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery} /><img src={require("img/mark-search.jpg").default} onClick={search}/>
+					  <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery} /><img src={require("img/mark-search.jpg").default} alt={"오류"} onClick={search}/>
 					</div>                
 				</li>
 				</ul>            
@@ -104,25 +103,29 @@ function Section({user, num, handleLogout, isAuthenticated}){
 			<div className="issue-row-wrap">       
 				<ul className="noti">
 				<li>
-					<table>              
+					<table>
+					<tbody>          
 					<tr>
-						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
-						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
+						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default} alt={"오류"} /></td>
+						<td>공지보고 가세요</td>
 					</tr>
 					<tr>
-						<td colSpan="2" className="newline">2일 잔 kein</td>
-					</tr>                
+						<td colSpan="2" className="newline">2일 전 sehwan</td>
+					</tr>
+					</tbody>             
 					</table>
 				</li>
 				<li>
-					<table>              
+					<table>
+					<tbody>              
 					<tr>
-						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default } /></td>
+						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default} alt={"오류"} /></td>
 						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
 					</tr>
 					<tr>
 						<td colSpan="2" className="newline">2일 잔 kein</td>
-					</tr>                
+					</tr> 
+					</tbody>               
 					</table>
 				</li>            
 				</ul>

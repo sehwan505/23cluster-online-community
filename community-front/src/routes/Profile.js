@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import "../css/common.css";
 import timeForToday from "components/TimeForToday"
 
 function Profile({user, handleLogout, isAuthenticated}){
-  const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(user.username);
   const [introduction, setIntroduction] = useState(user.introduction);
   const [comment, setComment] = useState([]);
   const [post, setPost] = useState([]);
-  const [profile, setProfile] = useState([]);
 
   async function fetchComment(){
 	try {
@@ -21,7 +18,6 @@ function Profile({user, handleLogout, isAuthenticated}){
 			}
 		}
 		const res = await axios.post(`http://localhost:8000/api/post/profile/`,{} ,config);
-		console.log(res);
 		setComment(res.data.comments);
 		setPost(res.data.posts);
 	}
@@ -31,7 +27,6 @@ function Profile({user, handleLogout, isAuthenticated}){
   }
 
   useEffect(()=>{
-	  console.log(user);
 	  setNewDisplayName(user.username);
 	  fetchComment();
   },[]);
@@ -72,11 +67,11 @@ function Profile({user, handleLogout, isAuthenticated}){
 	}
   }
   const onChange = (event) => {
-    const {
+    let {
       target: { value },
     } = event;
-	if (value.length > 6)
-		value = value.substr(0, 6);
+	if (value.length > 7)
+		value = value.substr(0, 7);
     setNewDisplayName(value);
   };
 
@@ -136,12 +131,13 @@ function Profile({user, handleLogout, isAuthenticated}){
           <ul>
             <li>
               <table>
+				<tbody>
                 <tr>
                   <td rowSpan="5">
 				    <span className={`mypage-picture-${user.category}`} style={{background : `url(require("../img/user.png"))`}}></span>
                   </td>
                   <td>
-                    <input type="text" value={newDisplayName == null ? '' : newDisplayName} onChange={onChange} maxLength={6} />
+                    <input type="text" value={newDisplayName == null ? '' : newDisplayName} onChange={onChange} maxLength={7} />
                     <span onClick={onsubmit}>변경</span>
                   </td>
                 </tr>
@@ -156,28 +152,31 @@ function Profile({user, handleLogout, isAuthenticated}){
                 </tr>
                 <tr>
                   <td><span onClick={onRefreshClick}>재평가</span></td>
-                </tr>                                                                
+                </tr> 
+				</tbody>                                                              
               </table>
             </li>
             <li>
               <table>
+				<tbody>
                 <tr>
                   <td>
-                    <span><img src={require("../img/mark-book.jpg").default} /></span>
+                    <span><img src={require("../img/mark-book.jpg").default} alt={"오류"} /></span>
                     <span>게시글 수</span>
                     <span>{post.length}</span>
                   </td>
                   <td>
-                    <span><img src={require("img/mark-point.jpg").default} /></span>
+                    <span><img src={require("img/mark-point.jpg").default} alt={"오류"} /></span>
                     <span>포인트</span>
                     <span>{user.point}P</span>
                   </td>
                   <td>
-                    <span><img src={require("img/mark-comment.jpg").default} /></span>
+                    <span><img src={require("img/mark-comment.jpg").default} alt={"오류"}/></span>
                     <span>댓글 수</span>
                     <span>{comment.length}</span>
                   </td>                  
-                </tr>                                                               
+                </tr>
+				</tbody>                                                            
               </table>
             </li>            
           </ul>  
@@ -294,7 +293,8 @@ function Profile({user, handleLogout, isAuthenticated}){
               <col width="10%" />
               <col width="15%" />
               <col width="15%" />
-            </colgroup>            
+            </colgroup>        
+			<tbody>    
             <tr>
               <th>댓글 내용</th>
               <th>추천 수</th>
@@ -305,14 +305,15 @@ function Profile({user, handleLogout, isAuthenticated}){
             </tr>
 			{comment.map((comment) => (
 				<>
-				<tr>
+				<tr key={comment.comment_id}>
 					<td>{comment.content.length > 40 ? comment.content.slice(0,40) + "..." : comment.content}</td>
 					<td>{comment.like_num}</td>
 					<td>{timeForToday(comment.created_at)}</td>
 					<td></td>
 				</tr>
 				</>
-		  	))}          
+		  	))}         
+			</tbody>
           </table>          
         </div>
 
@@ -327,7 +328,8 @@ function Profile({user, handleLogout, isAuthenticated}){
               <col width="10%" />
               <col width="15%" />
               <col width="15%" />
-            </colgroup>            
+            </colgroup>  
+			<tbody>          
             <tr>
               <th>제목</th>
               <th>포스트 내용</th>
@@ -339,7 +341,7 @@ function Profile({user, handleLogout, isAuthenticated}){
             </tr>
             {post.map((post) => (
 				<>
-				<tr>
+				<tr key={post.id}>
 					<td>{post.title}</td>
 					<td>{post.content.length > 40 ? post.content.slice(0,40) + "..." : post.content}</td>
 					<td>{post.like_num}</td>
@@ -347,7 +349,8 @@ function Profile({user, handleLogout, isAuthenticated}){
 					<td></td>
 				</tr>
 				</>
-		  	))}              
+		  	))}     
+			</tbody>         
           </table>          
         </div>
         <div className="mypage-wrap4">

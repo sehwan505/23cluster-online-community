@@ -12,7 +12,7 @@ class Profile(models.Model):
    introduction = models.TextField(blank=True)
    gender = models.PositiveIntegerField(default=0, blank=True)
    age = models.PositiveIntegerField(default=0, blank=True)
-   username = models.CharField(max_length=6,default="unknown")
+   username = models.CharField(max_length=7,default="unknown")
    point = models.PositiveIntegerField(default=20, blank=True)
    category = models.PositiveIntegerField(default=0, blank=True)
    user_commentlist = models.ManyToManyField('post.Comment', blank=True, default=None , related_name='user_commentlist')

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react'; 
 
 axios.defaults.xsrfCookieName = 'csrftoken'; 
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'; 

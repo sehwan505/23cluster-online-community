@@ -44,7 +44,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 			const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 			const posts = await res.json()
 			setPost(posts);
-			if (commentPageNum == 1){
+			if (commentPageNum === 1){
 				fetchComment();
 			}
 			else{
@@ -65,13 +65,13 @@ useEffect(async() => {
 	try{
 		const res = await fetch(`http://localhost:8000/api/post/detail/${id}/`)
 		const posts = await res.json()
-		if (res.status == 404){
+		if (res.status === 404){
 			alert("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
 		const res1 = await fetch(`http://localhost:8000/api/post/section/${posts.section}/?page=${pageNum}`);
 		const post_list = await res1.json();
-		if (res1.status == 404){
+		if (res1.status === 404){
 			alert("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
@@ -123,7 +123,7 @@ const onSubmit = async (event) => {
   }
   const onDeleteClick = async () => {
     const ok = window.confirm("진짜 지우시겠습니까?");
-	if (post.writer_id != user.user_pk)
+	if (post.writer_id !== user.user_pk)
 		return ;
     if (ok) {
 		const config = {
@@ -272,33 +272,36 @@ const onSubmit = async (event) => {
 		<StickyBox offsetTop={20}>
           <div className="flox-rank-wrap2">
             <table>
+			<tbody>
               <tr>
                 <td>
-                  <img src={require("../img/sidebar-up.jpg").default} onClick={sidebarUp} />
-                  <img src={require("../img/sidebar-down.jpg").default} onClick={sidebarDown}/>
+                  <img src={require("../img/sidebar-up.jpg").default} alt={"오류"} onClick={sidebarUp} />
+                  <img src={require("../img/sidebar-down.jpg").default} alt={"오류"} onClick={sidebarDown}/>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <img src={require("img/sidebar-comment.jpg").default} onClick={sidebarComment} />
+                  <img src={require("img/sidebar-comment.jpg").default} alt={"오류"} onClick={sidebarComment} />
                 </td>
               </tr>              
               <tr>
                 <td>
-                  <img src={require("../img/sidebar-like.jpg").default} onClick={sidebarLike}/>
-                  <img src={require("img/sidebar-hate.jpg").default} onClick={sidebarUnlike}/>
+                  <img src={require("../img/sidebar-like.jpg").default} alt={"오류"} onClick={sidebarLike}/>
+                  <img src={require("img/sidebar-hate.jpg").default} alt={"오류"} onClick={sidebarUnlike}/>
                 </td>
               </tr>              
               <tr>
                 <td>
-                  <img src={require("img/sidebar-refresh.jpg").default}  onClick={sidebarRefresh} />
+                  <img src={require("img/sidebar-refresh.jpg").default} alt={"오류"}  onClick={sidebarRefresh} />
                 </td>
-              </tr>                            
+              </tr>
+			  </tbody>                            
             </table>           
           </div>
 		</StickyBox>
         <div className="board-view-box">
           <table className="board-view-table">
+			<tbody>
             <tr>
               <td className="title">
                 {section_name[post.section]}게시판
@@ -328,9 +331,9 @@ const onSubmit = async (event) => {
                 </div>
               </td>
               <td className="btn-area">
-                <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} /></span>
-                <span><img src={require("img/btn-report.jpg").default} /></span>
-				{post.writer_id == user.user_pk &&
+                <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} alt={"오류"} /></span>
+                <span><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
+				{post.writer_id === user.user_pk &&
 				  <button onClick={onDeleteClick}>삭제</button>
 				}
 			  </td>
@@ -349,12 +352,14 @@ const onSubmit = async (event) => {
                 댓글 &nbsp;&nbsp;&nbsp;<span>{commentItemsCount}</span>&nbsp;개
               </td>
             </tr>
+			</tbody>
           </table>
 		  {comment.map((comment) => (
-        	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk == comment.writer_id} post_id={id} user={user} isAuthenticated={isAuthenticated} />
+        	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk === comment.writer_id} post_id={id} user={user} isAuthenticated={isAuthenticated} />
 		  ))}
 		</div>
 		<table className="board-insert-table">
+			<tbody>
             <tr>
               <td ref={focusRef.current[1]}>
                 <label className="form-check-label">
@@ -378,6 +383,7 @@ const onSubmit = async (event) => {
             </tr>
 			<tr>
 			</tr>
+			</tbody>
           </table>
 		  <Pagination itemsCount={commentItemsCount} pageSize={10} currentPage={commentPageNum} setPageNum={setCommentPageNum} isComment={true}/>
 		  <div className="issue-row-box">
@@ -393,13 +399,15 @@ const onSubmit = async (event) => {
         	))} 
           <Pagination itemsCount={itemsCount} pageSize={10} currentPage={pageNum} setPageNum={setPageNum} isComment={false}/>
           <table className="board-search-wrap">
+			<tbody>
             <tr>
               <td>
                 <div>
-                  <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default} />
+                  <input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default} alt={"오류"} />
                 </div>                
               </td>           
             </tr>
+			</tbody>
           </table><br/><br/><br/>
         </div>
         </div>

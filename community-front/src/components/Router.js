@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import AppliedRoute from "./routing/AppliedRoute";
-import AuthenticatedRoute from "./routing/AuthenticatedRoute";
+//import AppliedRoute from "./routing/AppliedRoute";
+//import AuthenticatedRoute from "./routing/AuthenticatedRoute";
 import LoginModal from './LoginModal';
 import Home from "../routes/Home";
 import Detail from "../routes/Detail";

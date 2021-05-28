@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import '../css/common.css';
 import Header from "../components/Header.js";
 import DraftEditor from "../components/Editor.js";

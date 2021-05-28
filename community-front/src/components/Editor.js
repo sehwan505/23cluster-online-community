@@ -26,12 +26,12 @@ const DraftEditor = ({user}) => {
 	setContent({
 		content: editorRef.current.getInstance().getMarkdown(),
 	});
-	if (postTitle == "")
+	if (postTitle === "")
 	{
 		alert("제목이 없습니다");
 		return ;
 	}
-	if(content.content == ""){
+	if(content.content === ""){
 		alert("내용이 없습니다");
 		return ;
 	}

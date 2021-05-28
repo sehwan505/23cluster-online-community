@@ -89,7 +89,7 @@ def refresh_category(request):
         X["category_3"] = 0
         X["category_4"] = 0
         loaded_model = joblib.load(os.path.join(settings.BASE_DIR, './login/kms.pkl'))
-        user.category = loaded_model.predict(X)
+        user.category = loaded_model.predict(X) + 1
         user.save()
         return Response(status=status.HTTP_200_OK)
     except Exception as e:

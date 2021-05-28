@@ -8,6 +8,7 @@ const Pagination = ({itemsCount, pageSize, currentPage, setPageNum, isComment}) 
 	const pages = range(startPoint, pageCount + 1);
 	return (
 		<table className="board-insert-table">
+		<tbody>
 		<tr>
 		  <td className="paging">
 		  {pages.map(page => (
@@ -22,6 +23,7 @@ const Pagination = ({itemsCount, pageSize, currentPage, setPageNum, isComment}) 
 		  ))}
 		  </td>
 		</tr>
+		</tbody>
 	    </table>
 	);
 }

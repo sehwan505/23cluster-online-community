@@ -10,6 +10,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const [editing, setEditing] = useState(false);
   const created_at = timeForToday(comment.created_at);
   const history = useHistory();
+  const color = ['white','red', 'yellow', 'blue', 'purple'];
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -60,6 +61,16 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   }
   
   const onLikeClick = async () => {
+	if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
 	const config = {
 		headers: {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
@@ -76,6 +87,16 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 	history.go(0);
   }
   const onUnlikeClick = async () => {
+	if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
 	const config = {
 		headers: {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
@@ -124,11 +145,13 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					<col width="75%"/>
 					<col width="*"/>
 				</colgroup>
+				<tbody>
+				<tr></tr>
 				<tr>
 				<td className="bat-comment-row row-top">
-					<img src={require("../img/icon-comment-arrow.jpg").default} className="comment-arrow" />&nbsp;&nbsp;
+					<img src={require("../img/icon-comment-arrow.jpg").default} className="comment-arrow" alt={"오류"} />&nbsp;&nbsp;
 					<span className={`profile-picture-${comment.writer_category}`}></span>
-					<label className="form-check-label" for="flexCheckDefault">
+					<label className="form-check-label" htmlFor="flexCheckDefault">
 						{comment.writer_name}
 					</label>
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -140,12 +163,12 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 						user.user_comment_like.includes(comment.comment_id) ?
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 							</>
 						):
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 							</>
 						)
 					}
@@ -153,12 +176,12 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 						user.user_comment_unlike.includes(comment.comment_id) ?
 						(
 							<>
-								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						):
 						(
 							<>
-								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						)
 					}
@@ -170,7 +193,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				</td>
 				<td className="bat-comment-row caret" style={{paddingLeft:"21%"}}>
 					<div className="btn-group dropstart three-dot">
-					<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} /></span>
+					<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} alt={"오류"} /></span>
 					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						{isOwner &&
 						<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
@@ -178,21 +201,24 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					</div>		
 				</td>
 				</tr>
+				</tbody>
 				</table>
 		  </>
           )
           : (
 			<>
-			<table className="board-view-table yellow" style={{tableLayout:"fixed"}}>
+			<table className={`board-view-table ${color[comment.category_calculated]}`} style={{tableLayout:"fixed"}}>
 			<colgroup>
 				<col width="75%"/>
 				<col width="*"/>
 			</colgroup>
+			<tbody>
+			<tr></tr>
             <tr>
               <td className="bat-comment-row row-top">
                 {/*<span className="best">BEST</span>&nbsp;&nbsp;*/}
 				<span className={`profile-picture-${comment.writer_category}`}></span>
-                <label className="form-check-label" for="flexCheckDefault">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
 					{comment.writer_name}
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -203,12 +229,12 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					user.user_comment_like.includes(comment.comment_id) ?
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 						</>
 					):
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} />&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 						</>
 					)
 				}
@@ -216,12 +242,12 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					user.user_comment_unlike.includes(comment.comment_id) ?
 					(
 						<>
-							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					):
 					(
 						<>
-							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					)
 				}
@@ -233,7 +259,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			  </td>
               <td className="bat-comment-row caret" style={{paddingLeft:"21%"}}>
 				<div className="btn-group dropstart three-dot">
-				<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} /></span>
+				<span data-bs-toggle="dropdown" style={{cursor: "pointer"}}><img className="more" src={require("img/icon-more.jpg").default} alt={"오류"} /></span>
 				<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					{isOwner &&
 					<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
@@ -242,6 +268,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				</div>		
 			  </td>
             </tr>
+			</tbody>
           	</table>
 			</>
           )
@@ -249,6 +276,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
           {editing && (
             <>
             <table class="board-insert-table">
+			<tbody>
             <tr>
               <td>
                 <label class="form-check-label">
@@ -278,7 +306,8 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			  </>)
 			  }
 			  </td>*/}
-			</tr>          
+			</tr>   
+			</tbody>       
             </table>
             </>
           )}

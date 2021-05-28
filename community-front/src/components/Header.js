@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import '../css/common.css';
 
 function Header({user, num, handleLogout, isAuthenticated}) {
 	const [checked, setChecked] = useState(JSON.parse(localStorage.getItem('checked')));
-	const color = ['red', 'yellow', 'green', 'purple'];
 	const [searchQuery, setSearchQuery] = useState("");
 	const history = useHistory();
 
@@ -31,7 +30,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
           <Link className="logo" to="/"><li></li></Link>
           <li>
             <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery}/>&nbsp;
-            <img src={require('../img/search.png').default} onClick={search}/>
+            <img src={require('../img/search.png').default} alt={"오류"} onClick={search}/>
           </li>
           <li>
 		    <span className="bubble-text">버블필터</span>
@@ -39,7 +38,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
               <input type="checkbox" checked={checked} onClick={checkedHandler} readOnly/>
               <span className="slider round"></span>
             </label>
-			<img src={require('../img/user.png').default} />
+			<img src={require('../img/user.png').default} alt={"오류"}/>
           </li>
 		  <li>
 		    {isAuthenticated ? (
@@ -76,10 +75,10 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 		  {
 		  <>
 		  <Link to="/section/1/"><li className={num === "1" ? "on" : ""}>시사</li></Link>
-          <Link to="/section/2/"><li className={num == "2" ? "on" : ""}>유머</li></Link>
-          <Link to="/section/3/"><li className={num == "3" ? "on" : ""}>연애</li></Link>
-		  <Link to="/section/4/"><li className={num == "4" ? "on" : ""}>스포츠</li></Link>
-		  <Link to="/section/5/"><li className={num == "5" ? "on" : ""}>본진</li></Link>
+          <Link to="/section/2/"><li className={num === "2" ? "on" : ""}>유머</li></Link>
+          <Link to="/section/3/"><li className={num === "3" ? "on" : ""}>연애</li></Link>
+		  <Link to="/section/4/"><li className={num === "4" ? "on" : ""}>스포츠</li></Link>
+		  <Link to="/section/5/"><li className={num === "5" ? "on" : ""}>본진</li></Link>
 		  </>
 		  }
 		</ul>

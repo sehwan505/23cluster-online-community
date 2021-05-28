@@ -27,7 +27,7 @@ class ListPost(generics.ListCreateAPIView):
         if (pk == 5):
         	queryset = Post.objects.filter(section=pk).order_by('-created_at')
         else:
-            queryset = Post.objects.filter(section=pk).order_by('-created_at') 
+            queryset = Post.objects.filter(section=pk).order_by('-created_at')
         return queryset
 
 class DetailPost(generics.RetrieveAPIView):
@@ -206,10 +206,12 @@ def comment_like(request, comment_id):
         check_like_comment = profile.user_comment_like.filter(comment_id = comment_id)
         if check_like_comment.exists():
             profile.user_comment_like.remove(comment)
+            comment.category -= 10 ** (profile.category - 1)
             comment.like_num -= 1
             comment.save()
         else:
             profile.user_comment_like.add(comment)
+            comment.category += 10 ** (profile.category - 1)
             comment.like_num += 1
             comment.save()
         return JsonResponse({},status=status.HTTP_200_OK)

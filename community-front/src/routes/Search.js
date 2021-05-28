@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Post from "components/Post";
-import axios from "axios";
 import 'css/common.css';
 import Header from "components/Header.js";
-import Pagination from "components/Pagination";
 import { useHistory } from "react-router";
 import StickyBox from "react-sticky-box";
 
 function Search({user, handleLogout, isAuthenticated}){
 	const [postList, setPostList] = useState([]);
-	const [pageNum, setPageNum] = useState(1);
 	const [itemsCount, setItemsCount] = useState(0);
 	const history = useHistory();
 	const query = window.location.search;
@@ -17,12 +14,11 @@ function Search({user, handleLogout, isAuthenticated}){
 	async function fetchSearch(){
 		try {
 			const res = await fetch(`http://localhost:8000/api/post/search/${query}`);
-			if (res.status == 404){
+			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}
 			const posts = await res.json();
-			console.log(posts);
 			setItemsCount(posts.count);
 			setPostList(posts.posts);
 		} 
@@ -32,31 +28,8 @@ function Search({user, handleLogout, isAuthenticated}){
 	}
 
   	useEffect(() => {
-	  console.log(query);
 	  fetchSearch();
- 	}, [history]);
-
-	 const scrollHeight = 120;
-	 const scrollHeight2 = 120;
-	 function sidebar(){
-	 
-	if(window.scrollTop > scrollHeight){
-	 let top = window.scrollTop - scrollHeight + 20;
-	 document.getElementById('sidebar').style.top = top +'px';
-	}else{
-	 document.getElementById('sidebar').style.top = '20px';
-	}
-	if(window.scrollTop > scrollHeight2){
-	 let top = window.scrollTop - scrollHeight2 + 20;
-	 document.getElementById('sidebar2').style.top = top +'px';
-	}else{
-	 document.getElementById('sidebar2').style.top = '20px';
-	}    
-	}
-
-	const onscroll = () =>{
-		sidebar();
-	}
+ 	}, [history, fetchSearch]);
 
 	return (
 		<>
@@ -94,7 +67,7 @@ function Search({user, handleLogout, isAuthenticated}){
 			<div>
 				<ul>
 				<li>
-					<img src={require("img/btn-issue.jpg").default} />
+					<img src={require("img/btn-issue.jpg").default} alt={"오류"}/>
 				</li>
 				<li>
 					<div>
@@ -103,7 +76,7 @@ function Search({user, handleLogout, isAuthenticated}){
 					</select>
 					</div>
 					<div>
-					<input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default}/>
+					<input type="text" placeholder="검색어" /><img src={require("img/mark-search.jpg").default} alt={"오류"}/>
 					</div>                
 				</li>
 				</ul>            
@@ -111,6 +84,7 @@ function Search({user, handleLogout, isAuthenticated}){
 			</div>
 			<div className="issue-row-wrap">       
 				<p>{query.slice(7)}의 검색 결과입니다</p>
+				<p>{itemsCount}의 검색결과</p>
 			</div>
 			<div className="issue-row-box">
 			{postList.map((post) => (

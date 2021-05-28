@@ -1,46 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Post from "components/Post"
-import axios from "axios"
-import CSRFToken from "../components/csrftoken.js"
-import { useHistory, Link } from "react-router-dom";
+import React from "react";
 import '../css/common.css';
 import Header from "../components/Header.js";
 import StickyBox from "react-sticky-box";
 
-//import search_png from '../img/search.png';
-//import user_png from "../img/user.png";
-
-import DraftEditor from "../components/Editor.js";
-
-
 function Home(props){
-  const [postTitle , setPostTitle] = useState("");
-  const [postContent , setPostContent] = useState("");
-  const [nweet, setNweet] = useState([]);
-  const history = useHistory();
-  const scrollHeight = 120;
-  const scrollHeight2 = 120;
-
-
-useEffect(async() => {
-    try {
-        const res = await fetch('http://localhost:8000/api/post/section/1/');
-        const posts = await res.json();
-        setNweet(posts);
-    } 
-    catch (e) {
-        console.log(e);
-    }
-}, []);
-
-  const scrollHandler = () => {
-  
-	if(window.scrollTop() > scrollHeight){
-	let top = window.scrollTop() - scrollHeight + 20;
-	document.getElementById('sidebar').style.top = top +'px';
-	}else{
-	document.getElementById('sidebar').style.top = '20px';
-  }};
   
   return (
     <>
