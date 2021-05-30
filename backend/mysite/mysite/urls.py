@@ -21,6 +21,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/post/', include('post.urls')),
 	path('user/', include('login.urls')),
-	re_path(r'*', index),
+	re_path(r'section/*', index),
+	re_path(r'detail/*', index),
+	re_path(r'login/*', index),
+	re_path(r'search/*', index),
+	re_path(r'profile/', index),
+	re_path(r'/', index),
+
 	#path('account/', include('allauth.urls')),
 ]
