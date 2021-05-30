@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 #import json
-#import os
+import os
 
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -140,11 +140,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://localhost:3000',
-    'https://localhost:8000',
-    'https://127.0.0.1:3000',
-    'https://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 #SOCIALACCOUNT_PROVIDERS = secrets["kakao"]
@@ -154,7 +151,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "build")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,6 +162,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+# Tell Django where to look for React's static files (css, js)
+	os.path.join(BASE_DIR, "build","static"),
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'

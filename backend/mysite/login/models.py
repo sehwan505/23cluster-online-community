@@ -13,7 +13,7 @@ class Profile(models.Model):
    gender = models.PositiveIntegerField(default=0, blank=True)
    age = models.PositiveIntegerField(default=0, blank=True)
    username = models.CharField(max_length=7,default="unknown")
-   point = models.PositiveIntegerField(default=20, blank=True)
+   point = models.PositiveIntegerField(default=0, blank=True)
    category = models.PositiveIntegerField(default=0, blank=True)
    user_commentlist = models.ManyToManyField('post.Comment', blank=True, default=None , related_name='user_commentlist')
    user_comment_like = models.ManyToManyField('post.Comment', blank=True, default=None ,related_name='user_comment_like')

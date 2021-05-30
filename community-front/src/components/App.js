@@ -46,7 +46,7 @@ function App() {
 	  if (isAuthenticated) {
 		// 현재 JWT 토큰 값이 타당한지 GET /validate 요청을 통해 확인하고
 		// 상태 코드가 200이라면 현재 GET /user/current 요청을 통해 user정보를 받아옴
-		const res = await fetch('http://localhost:8000/user/verify/', {
+		const res = await fetch('http://127.0.0.1:8000/user/verify/', {
 		  method: 'POST',
 		  headers: {
 			'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ function App() {
 			handleLogout();
 			window.location.href('/');
 		}
-		let res1 = await fetch('http://localhost:8000/user/current/', {
+		let res1 = await fetch('http://127.0.0.1:8000/user/current/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
 			}
@@ -80,7 +80,7 @@ function App() {
 		  setisAuthenticated(false);
 		}
 		// Refresh Token 발급 받아 token의 만료 시간 연장
-		let res2 = await fetch('http://localhost:8000/user/refresh/', {
+		let res2 = await fetch('http://127.0.0.1:8000/user/refresh/', {
 		  method: 'POST',
 		  headers: {
 			'Content-Type': 'application/json'
