@@ -16,7 +16,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 
 	async function fetchSection(){
 		try {
-			const res = await fetch(`http://127.0.0.1:8000/api/post/section/${sec_num}/?page=${pageNum}`);
+			const res = await fetch(`http://52.78.40.184:8000/api/post/section/${sec_num}/?page=${pageNum}`);
 			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';

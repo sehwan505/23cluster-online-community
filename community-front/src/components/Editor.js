@@ -88,7 +88,7 @@ const DraftEditor = ({user}) => {
     // file in a 'multipart/form-data' request
     formData.append('image', blob.data);
 	let csrftoken = CSRFToken();
-    return fetch('http://127.0.0.1:8000/api/post/upload_image/', {
+    return fetch('http://52.78.40.184:8000/api/post/upload_image/', {
         method: 'POST',
 		headers: {
 			'Content-type' : 'multipart/form-data' ,

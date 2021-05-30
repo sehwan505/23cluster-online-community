@@ -18,7 +18,7 @@ function LoginModal(props){
       provider: 'google'
     }
 
-    await fetch('http://127.0.0.1:8000/user/', {
+    await fetch('http://52.78.40.184:8000/user/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ function LoginModal(props){
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
-        fetch('http://127.0.0.1:8000/user/login/', {  
+        fetch('http://52.78.40.184:8000/user/login/', {  
         method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ function LoginModal(props){
       provider: 'kakao'
     }
 
-    fetch('http://127.0.0.1:8000/user/', {
+    fetch('http://52.78.40.184:8000/user/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ function LoginModal(props){
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
-        fetch('http://127.0.0.1:8000/user/login/', {  
+        fetch('http://52.78.40.184:8000/user/login/', {  
         method: 'POST',
           headers: {
             'Content-Type': 'application/json'

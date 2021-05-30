@@ -13,7 +13,7 @@ function Search({user, handleLogout, isAuthenticated}){
 
 	async function fetchSearch(){
 		try {
-			const res = await fetch(`http://127.0.0.1:8000/api/post/search/${query}`);
+			const res = await fetch(`http://52.78.40.184:8000/api/post/search/${query}`);
 			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';

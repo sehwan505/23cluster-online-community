@@ -26,7 +26,7 @@ urlpatterns = [
 	re_path(r'login/*', index),
 	re_path(r'search/*', index),
 	re_path(r'profile/', index),
-	re_path(r'/', index),
+	path('', index),
 
 	#path('account/', include('allauth.urls')),
 ]

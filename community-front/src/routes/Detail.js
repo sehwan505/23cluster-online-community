@@ -28,7 +28,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 
   async function fetchComment(){
 	try {
-		const res2 = await fetch(`http://127.0.0.1:8000/api/post/detail_comment/${id}/?page=${commentPageNum}`);
+		const res2 = await fetch(`http://52.78.40.184:8000/api/post/detail_comment/${id}/?page=${commentPageNum}`);
 		const comments = await res2.json();
 		setComment(comments.results);
 		setCommentItemsCount(comments.count);
@@ -41,7 +41,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   useEffect(async() => {
 		try {
 			window.scrollTo(0,0);
-			const res = await fetch(`http://127.0.0.1:8000/api/post/detail/${id}/`)
+			const res = await fetch(`http://52.78.40.184:8000/api/post/detail/${id}/`)
 			const posts = await res.json()
 			setPost(posts);
 			if (commentPageNum === 1){
@@ -63,13 +63,13 @@ useEffect(() => {
 
 useEffect(async() => {
 	try{
-		const res = await fetch(`http://127.0.0.1:8000/api/post/detail/${id}/`)
+		const res = await fetch(`http://52.78.40.184:8000/api/post/detail/${id}/`)
 		const posts = await res.json()
 		if (res.status === 404){
 			alert("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
-		const res1 = await fetch(`http://127.0.0.1:8000/api/post/section/${posts.section}/?page=${pageNum}`);
+		const res1 = await fetch(`http://52.78.40.184:8000/api/post/section/${posts.section}/?page=${pageNum}`);
 		const post_list = await res1.json();
 		if (res1.status === 404){
 			alert("오류, 새로고침 해주세요");
@@ -105,7 +105,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${id}/`, {
+    await axios.post(`http://52.78.40.184:8000/api/post/add_comment/${id}/`, {
         post_id:id,
         content:commentContent,
         writer_id:user.user_pk,
@@ -131,7 +131,7 @@ const onSubmit = async (event) => {
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-        await axios.post(`http://127.0.0.1:8000/api/post/delete_post/${id}/`, {
+        await axios.post(`http://52.78.40.184:8000/api/post/delete_post/${id}/`, {
         }, config).then((response) => {
 		  alert('삭제 완료');
 		  history.push('/');
@@ -187,7 +187,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`http://127.0.0.1:8000/api/post/like_post/${id}/`, {
+	await axios.post(`http://52.78.40.184:8000/api/post/like_post/${id}/`, {
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -216,7 +216,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`http://127.0.0.1:8000/api/post/unlike_post/${id}/`, {
+	await axios.post(`http://52.78.40.184:8000/api/post/unlike_post/${id}/`, {
 	}, config).then((response) => {
 	// 응답 처리
 	})

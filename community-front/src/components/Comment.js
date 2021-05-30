@@ -34,7 +34,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`http://127.0.0.1:8000/api/post/add_comment/${post_id}/`, {
+    await axios.post(`http://52.78.40.184:8000/api/post/add_comment/${post_id}/`, {
         post_id:post_id,
 		parent_comment_id:comment.comment_id,
         content:commentContent,
@@ -76,7 +76,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`http://127.0.0.1:8000/api/post/like_comment/${comment.comment_id}/`, {
+	await axios.post(`http://52.78.40.184:8000/api/post/like_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
@@ -102,7 +102,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`http://127.0.0.1:8000/api/post/unlike_comment/${comment.comment_id}/`, {
+	await axios.post(`http://52.78.40.184:8000/api/post/unlike_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리

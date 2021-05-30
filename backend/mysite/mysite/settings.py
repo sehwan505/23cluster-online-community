@@ -33,7 +33,7 @@ SECRET_KEY = '63#)kg*p$@p0di93#o+v#&e^r$bat4c53i)&j4du(t2e)+nqem'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-13-125-255-2.ap-northeast-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['127.0.0.1','ec2-13-125-255-2.ap-northeast-2.compute.amazonaws.com']
 
 APPEND_SLASH = False
 
@@ -142,6 +142,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+	'http://52.78.40.184:8000',
 	'http://ec2-13-125-255-2.ap-northeast-2.compute.amazonaws.com:8000',
 ]
 
