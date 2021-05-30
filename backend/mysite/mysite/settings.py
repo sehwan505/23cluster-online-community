@@ -33,7 +33,7 @@ SECRET_KEY = '63#)kg*p$@p0di93#o+v#&e^r$bat4c53i)&j4du(t2e)+nqem'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-13-125-255-2.ap-northeast-2.compute.amazonaws.com:8000']
+ALLOWED_HOSTS = ['ec2-13-125-255-2.ap-northeast-2.compute.amazonaws.com']
 
 APPEND_SLASH = False
 
