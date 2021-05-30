@@ -41,7 +41,7 @@ const DraftEditor = ({user}) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post('http://127.0.0.1:8000/api/post/add/', {
+    await axios.post('http://52.78.40.184:8000/api/post/add/', {
         title: postTitle,
         content: content.content,
         writer_id: user.user_pk,

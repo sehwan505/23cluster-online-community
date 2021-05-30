@@ -29,7 +29,7 @@ function Search({user, handleLogout, isAuthenticated}){
 
   	useEffect(() => {
 	  fetchSearch();
- 	}, [history, fetchSearch]);
+ 	}, [history]);
 
 	return (
 		<>
