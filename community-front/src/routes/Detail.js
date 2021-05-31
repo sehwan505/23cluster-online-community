@@ -63,7 +63,6 @@ useEffect(() => {
 
 useEffect(async() => {
 	try{
-		console.log(user);
 		const res = await fetch(`http://52.78.40.184:80/api/post/detail/${id}/`)
 		const posts = await res.json()
 		if (res.status === 404){

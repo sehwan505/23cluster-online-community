@@ -87,6 +87,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 	history.go(0);
   }
   const onUnlikeClick = async () => {
+	console.log(comment.comment_id);
 	if (!isAuthenticated){
 		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
 		if (ok){

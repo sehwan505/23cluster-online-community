@@ -1222,9 +1222,15 @@ span.profile-picture-4 {
   top: -2px;
 }
 @media screen and (max-width: 520px) {
-.flox-box {
+  .flox-rank-wrap {
 	display: none;
-	}	
+  }
+  .flox-rank-wrap2 {
+	display: none;
+  }
+  .issue-wrap > div ul li:last-child {
+	display: none;
+  }
   .top-wrap ul li:nth-child(2) input[type=text] {
     width: auto;
   }
@@ -1233,7 +1239,7 @@ span.profile-picture-4 {
 	background-image: url('../img/logo2.png');
 	background-size: 100px;
 	background-repeat: no-repeat;
-	background-position: -10px -34px;
+	background-position: 0px -34px;
 	cursor: pointer;
   }
   .mypage-wrap ul li:first-child {
@@ -1265,7 +1271,10 @@ span.profile-picture-4 {
 }
 
 @media screen and (max-width: 800px) {
-  .flox-box {
+  .flox-rank-wrap {
+	display: none;
+  }
+  .flox-rank-wrap2 {
 	display: none;
   }	
   .issue-wrap > div ul {
