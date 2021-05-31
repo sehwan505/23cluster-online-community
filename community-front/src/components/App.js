@@ -60,6 +60,7 @@ function App() {
 			handleLogout();
 			window.location.href('/');
 		}
+		console.log(res);
 		let res1 = await fetch('http://52.78.40.184:80/user/current/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
