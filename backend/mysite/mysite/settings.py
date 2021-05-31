@@ -140,10 +140,11 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-	'http://52.78.40.184:8000',
-	'http://ec2-52-78-40-184.ap-northeast-2.compute.amazonaws.com:8000',
+    'http://localhost:80',
+    'http://127.0.0.1:80',
+	'http://52.78.40.184:80',
+	'http://23cluster:80',
+	'http://ec2-52-78-40-184.ap-northeast-2.compute.amazonaws.com:80',
 ]
 
 #SOCIALACCOUNT_PROVIDERS = secrets["kakao"]
