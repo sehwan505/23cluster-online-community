@@ -1222,6 +1222,9 @@ span.profile-picture-4 {
   top: -2px;
 }
 @media screen and (max-width: 520px) {
+.flox-box {
+	display: none;
+	}	
   .top-wrap ul li:nth-child(2) input[type=text] {
     width: auto;
   }

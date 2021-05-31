@@ -60,7 +60,6 @@ function App() {
 			handleLogout();
 			window.location.href('/');
 		}
-		console.log(res);
 		let res1 = await fetch('http://52.78.40.184:80/user/current/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
@@ -70,6 +69,7 @@ function App() {
 		{
 		  handleLogout();
 		}
+		console.log(res1);
 		let json = await res1.json();
 		// 현재 유저 정보 받아왔다면, 로그인 상태로 state 업데이트 하고
 		if (json.username) {

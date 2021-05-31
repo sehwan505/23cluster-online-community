@@ -333,7 +333,7 @@ const onSubmit = async (event) => {
               <td className="btn-area">
                 <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} alt={"오류"} /></span>
                 <span><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
-				{post.writer_id === user.user_pk &&
+				{post.writer_id === parseInt(user.user_pk) &&
 				  <button onClick={onDeleteClick}>삭제</button>
 				}
 			  </td>
