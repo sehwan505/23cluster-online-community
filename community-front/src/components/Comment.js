@@ -61,8 +61,6 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   }
   
   const onLikeClick = async () => {
-	console.log(typeof(comment.comment_id));
-	console.log(typeof(user.user_comment_like[0]));
 	if (!isAuthenticated){
 		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
 		if (ok){
@@ -162,28 +160,28 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				<td className="bat-comment-row">
 
 					{
-						user.user_comment_like.includes(parseInt(comment.comment_id)) ?
+						user.user_comment_like.includes(parseFloat(comment.comment_id)) ?
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"} style={{cursor:"pointer"}}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 							</>
 						):
 						(
 							<>
-								<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+								<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"} style={{cursor:"pointer"}}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 							</>
 						)
 					}
 					{
-						user.user_comment_unlike.includes(parseInt(comment.comment_id)) ?
+						user.user_comment_unlike.includes(parseFloat(comment.comment_id)) ?
 						(
 							<>
-								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" style={{cursor:"pointer"}} />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						):
 						(
 							<>
-								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" style={{cursor:"pointer"}} />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 							</>
 						)
 					}
@@ -228,28 +226,28 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
               </td>
               <td className="bat-comment-row">
                 {
-					user.user_comment_like.includes(parseInt(comment.comment_id)) ?
+					user.user_comment_like.includes(parseFloat(comment.comment_id)) ?
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"} style={{cursor:"pointer"}}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 						</>
 					):
 					(
 						<>
-							<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
+							<span onClick={onLikeClick}><img src={require("../img/icon-like2-on.jpg").default} alt={"오류"} style={{cursor:"pointer"}}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
 						</>
 					)
 				}
 				{
-					user.user_comment_unlike.includes(parseInt(comment.comment_id)) ?
+					user.user_comment_unlike.includes(parseFloat(comment.comment_id)) ?
 					(
 						<>
-							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" style={{cursor:"pointer"}}/>&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					):
 					(
 						<>
-							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
+							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2-on.jpg").default} alt={"오류"} className="hate" style={{cursor:"pointer"}} />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
 						</>
 					)
 				}
