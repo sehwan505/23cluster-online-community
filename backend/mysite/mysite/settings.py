@@ -177,8 +177,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'database-23cluster',
+		'USER' : 'sehwan505',
+		'PASSWORD' : 'sh904217',
+		'HOST' : 'database-23cluster.c9utwqgrlc8e.ap-northeast-2.rds.amazonaws.com',
+		'PORT' : '3306',
+		'OPTIONS' : {
+			'init_command' : 'SET sql_mode="STRICT_TRANS_TABLES"'
+		}
     }
 }
 
