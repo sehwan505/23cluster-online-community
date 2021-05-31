@@ -144,6 +144,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:80',
 	'http://52.78.40.184:80',
 	'http://23cluster.com:80',
+	'http://23cluster.com',
 	'http://ec2-52-78-40-184.ap-northeast-2.compute.amazonaws.com:80',
 ]
 
