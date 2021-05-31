@@ -160,7 +160,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				<td className="bat-comment-row">
 
 					{
-						user.user_comment_like.includes(comment.comment_id) ?
+						user.user_comment_like.includes(parseInt(comment.comment_id)) ?
 						(
 							<>
 								<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
@@ -173,7 +173,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 						)
 					}
 					{
-						user.user_comment_unlike.includes(comment.comment_id) ?
+						user.user_comment_unlike.includes(parseInt(comment.comment_id)) ?
 						(
 							<>
 								<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
@@ -226,7 +226,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
               </td>
               <td className="bat-comment-row">
                 {
-					user.user_comment_like.includes(comment.comment_id) ?
+					user.user_comment_like.includes(parseInt(comment.comment_id)) ?
 					(
 						<>
 							<span onClick={onLikeClick}><img src={require("../img/icon-like2.jpg").default} alt={"오류"}/>&nbsp;{comment.like_num}</span>&nbsp;&nbsp;
@@ -239,7 +239,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					)
 				}
 				{
-					user.user_comment_unlike.includes(comment.comment_id) ?
+					user.user_comment_unlike.includes(parseInt(comment.comment_id)) ?
 					(
 						<>
 							<span onClick={onUnlikeClick}><img src={require("../img/icon-hate2.jpg").default} alt={"오류"} className="hate" />&nbsp;{comment.unlike_num}</span>&nbsp;&nbsp;
