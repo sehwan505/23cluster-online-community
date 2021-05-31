@@ -178,7 +178,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'database-23cluster',
+        'NAME': '23cluster-db', #스키마를 적는 것
 		'USER' : 'sehwan505',
 		'PASSWORD' : 'sh904217',
 		'HOST' : 'database-23cluster.c9utwqgrlc8e.ap-northeast-2.rds.amazonaws.com',
