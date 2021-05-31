@@ -355,7 +355,7 @@ const onSubmit = async (event) => {
 			</tbody>
           </table>
 		  {comment.map((comment) => (
-        	<Comment key={comment.comment_id} comment={comment} isOwner={user.user_pk === comment.writer_id} post_id={id} user={user} isAuthenticated={isAuthenticated} />
+        	<Comment key={comment.comment_id} comment={comment} isOwner={parseInt(user.user_pk) === parseInt(comment.writer_id)} post_id={id} user={user} isAuthenticated={isAuthenticated} />
 		  ))}
 		</div>
 		<table className="board-insert-table">
