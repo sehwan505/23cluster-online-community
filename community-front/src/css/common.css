@@ -1225,6 +1225,14 @@ span.profile-picture-4 {
   .top-wrap ul li:nth-child(2) input[type=text] {
     width: auto;
   }
+  .top-wrap .logo{ 
+	min-width: 100px;
+	background-image: url('../img/logo2.png');
+	background-size: 100px;
+	background-repeat: no-repeat;
+	background-position: -10px -34px;
+	cursor: pointer;
+  }
   .mypage-wrap ul li:first-child {
     display : none;
   }
@@ -1236,7 +1244,7 @@ span.profile-picture-4 {
     line-height: 60px;
     text-align: center;
   }  
-  .top-wrap ul li:nth-child(3) img{
+  .top-wrap ul li:last-child i {
     display: none;
   }
   .bubble-text, .switch {

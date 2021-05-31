@@ -17,7 +17,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-		const res = await axios.get(`http://52.78.40.184:80/api/post/profile/`,{} ,config);
+		const res = await axios.post(`http://52.78.40.184:80/api/post/profile/`,{} ,config);
 		setComment(res.data.comments);
 		setPost(res.data.posts);
 	}

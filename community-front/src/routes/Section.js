@@ -4,7 +4,7 @@ import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
 import StickyBox from "react-sticky-box";
-import { useHistory } from "react-router";
+import { useHistory, Link } from "react-router-dom";
 
 function Section({user, num, handleLogout, isAuthenticated}){
 	const sec_num = num.match.params.num;
@@ -100,7 +100,8 @@ function Section({user, num, handleLogout, isAuthenticated}){
 			</div>
 			</div>
 			<div className="issue-row-box">
-			<div className="issue-row-wrap">       
+			<div className="issue-row-wrap">
+				<Link to={`/detail/${2}`}>    
 				<ul className="noti">
 				<li>
 					<table>
@@ -129,6 +130,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 					</table>
 				</li>            
 				</ul>
+				</Link>
 			</div>
 			{postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>

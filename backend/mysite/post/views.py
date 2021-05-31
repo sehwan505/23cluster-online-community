@@ -264,7 +264,7 @@ def search_query(request):
 
 from django.db.models import Sum
 
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
 def profile_comment_post(request):
