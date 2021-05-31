@@ -1,0 +1,15 @@
+[Unit]
+Description=uWSGI service
+After=syslog.target
+
+[Service]
+ExecStart=/srv/my-community/23-venv/bin/uwsgi -i /srv/my-community/backend/mysite/.config/mysite.ini
+
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
