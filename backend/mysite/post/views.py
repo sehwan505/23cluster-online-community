@@ -264,7 +264,7 @@ def search_query(request):
 
 from django.db.models import Sum
 
-@api_view(["POST"])
+@api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
 def profile_comment_post(request):
@@ -272,7 +272,6 @@ def profile_comment_post(request):
     if (profile != 0):
         serializer = CommentSerializer(profile.user_commentlist, many=True)
         serializer2 = PostSerializer(profile.user_postlist, many=True)
-        print(profile.user_commentlist.aggregate(Sum('like_num')))
         profile.point = profile.user_commentlist.aggregate(Sum('like_num'))['like_num__sum']- profile.user_commentlist.aggregate(Sum('unlike_num'))['unlike_num__sum'] + profile.user_postlist.aggregate(Sum('like_num'))['like_num__sum']
         profile.save()
         return JsonResponse({'comments': serializer.data, 'posts':serializer2.data}, safe=False, status=status.HTTP_200_OK)

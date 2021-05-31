@@ -1236,7 +1236,7 @@ span.profile-picture-4 {
     line-height: 60px;
     text-align: center;
   }  
-  .top-wrap ul li:last-child i {
+  .top-wrap ul li:nth-child(3) img{
     display: none;
   }
   .bubble-text, .switch {
