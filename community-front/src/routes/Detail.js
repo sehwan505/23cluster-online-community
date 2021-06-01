@@ -123,7 +123,7 @@ const onSubmit = async (event) => {
   }
   const onDeleteClick = async () => {
     const ok = window.confirm("진짜 지우시겠습니까?");
-	if (post.writer_id !== user.user_pk)
+	if (parseInt(post.writer_id) !== parseInt(user.user_pk))
 		return ;
     if (ok) {
 		const config = {

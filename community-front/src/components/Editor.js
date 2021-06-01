@@ -13,16 +13,18 @@ const DraftEditor = ({user}) => {
   const [hashtag, setHashtag] = useState("");
   const history = useHistory();
 
-  const handleClick = (event) => {
-	event.preventDefault();
-    setContent({
-      content: editorRef.current.getInstance().getMarkdown(),
-    });
-	console.log(content);
-  };
+//  const handleClick = (event) => {
+//	event.preventDefault();
+//    setContent({
+//      content: editorRef.current.getInstance().getMarkdown(),
+//    });
+//  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
+	setContent({
+		content: editorRef.current.getInstance().getMarkdown(),
+	});
 	setContent({
 		content: editorRef.current.getInstance().getMarkdown(),
 	});
@@ -154,7 +156,6 @@ const DraftEditor = ({user}) => {
 			addImageBlobHook: onAddImageBlob
 		}}
       />
-      <button onClick={handleClick}>저장</button>
 	  <input type="submit" value="에딧"/>
 	  </form>
     </>

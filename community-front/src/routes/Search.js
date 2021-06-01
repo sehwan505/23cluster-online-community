@@ -13,6 +13,7 @@ function Search({user, handleLogout, isAuthenticated}){
 
 	async function fetchSearch(){
 		try {
+			console.log(query);
 			if (query === "")
 			{
 				alert("검색어를 입력해주세요");

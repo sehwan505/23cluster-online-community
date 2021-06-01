@@ -72,7 +72,8 @@ from sklearn.cluster import KMeans
 import pandas as pd
 import joblib
 import os
-from django.conf import settings 
+from django.conf import settings
+from django.db.models import Count
 
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,))
