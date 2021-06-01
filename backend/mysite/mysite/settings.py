@@ -33,7 +33,7 @@ SECRET_KEY = '63#)kg*p$@p0di93#o+v#&e^r$bat4c53i)&j4du(t2e)+nqem'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','ec2-52-78-40-184.ap-northeast-2.compute.amazonaws.com','52.78.40.184','23cluster.com']
+ALLOWED_HOSTS = ['127.0.0.1','ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com','13.124.51.99','23cluster.com']
 
 APPEND_SLASH = False
 
@@ -142,10 +142,10 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:80',
     'http://127.0.0.1:80',
-	'http://52.78.40.184:80',
+	'http://13.124.51.99:80',
 	'http://23cluster.com:80',
 	'http://23cluster.com',
-	'http://ec2-52-78-40-184.ap-northeast-2.compute.amazonaws.com:80',
+	'http://ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com:80',
 ]
 
 #SOCIALACCOUNT_PROVIDERS = secrets["kakao"]

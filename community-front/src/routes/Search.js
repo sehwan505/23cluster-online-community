@@ -13,7 +13,12 @@ function Search({user, handleLogout, isAuthenticated}){
 
 	async function fetchSearch(){
 		try {
-			const res = await fetch(`http://52.78.40.184:80/api/post/search/${query}`);
+			if (query === "")
+			{
+				alert("검색어를 입력해주세요");
+				history.goBack();
+			}
+			const res = await fetch(`http://13.124.51.99:80/api/post/search/${query}`);
 			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
