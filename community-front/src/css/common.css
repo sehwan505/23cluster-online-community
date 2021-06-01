@@ -175,12 +175,19 @@ ol, ul {
 .card-wrap li > span {
   font-size: 11px;
 }
-.card-wrap li > span:first-child {
-  color: #fff;
-  background: #82c6eb;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 12px;
+.card-wrap li > span.recommend {
+	color: #fff;
+	background: #82c6eb;
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 12px;
+  }
+.card-wrap li > span.recommend2 {
+	color: #fff;
+	background: #b9b9b9;
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 12px;
 }
 .card-wrap li > span:nth-child(2) {
   font-size: 16px;
