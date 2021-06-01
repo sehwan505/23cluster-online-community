@@ -264,6 +264,23 @@ def search_query(request):
 
 from django.db.models import Sum
 
+from django.db.models import Sum, Q
+import datetime
+
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def home_list(request):
+    try:
+        post = Post.objects.filter(created_at__gte=datetime.datetime.now()-datetime.timedelta(days=30))
+        serializer1 = PostListSerializer(post.filter(section = 1).order_by('-view_num')[:7], many=True)
+        serializer2 = PostListSerializer(post.filter(section = 2).order_by('-view_num')[:7], many=True)
+        serializer3 = PostListSerializer(post.filter(section = 3).order_by('-view_num')[:7], many=True)
+        serializer4 = PostListSerializer(post.filter(section = 4).order_by('-view_num')[:7], many=True)
+        return JsonResponse({'section1': serializer1.data, 'section2': serializer2.data, 'section3': serializer3.data, 'section4': serializer4.data}, safe=False, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))

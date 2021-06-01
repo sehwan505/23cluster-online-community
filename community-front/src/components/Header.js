@@ -13,6 +13,11 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 	}
 
 	const search = () =>{
+		if (searchQuery === "")
+		{
+			alert("검색어를 입력해주세요");
+			return ;
+		}
 		history.push(`/search?query=${searchQuery}`)
 	};
 

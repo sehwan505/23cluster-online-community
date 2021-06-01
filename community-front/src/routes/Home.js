@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../css/common.css';
 import Header from "../components/Header.js";
 import StickyBox from "react-sticky-box";
+import axios from "axios";
+
 
 function Home(props){
+  const [postList, setPostList] = useState({});
+  const [itemsCount, setItemsCount] = useState(0);
+
+  useEffect(async() =>{
+	async function fetchHome(){
+		const res = await axios.post(`http://13.124.51.99:80/api/post/home/`,{});
+		if (res.status === 404){
+			alert("오류, 새로고침 해주세요");
+			window.location.href = '/';
+		}
+		setPostList(res.data);
+	  }
+	fetchHome();
+  },[]);
   
   return (
     <>
@@ -57,7 +73,7 @@ function Home(props){
 		</StickyBox>
         <div className="card-wrap">
           <div>
-            <span>123456789</span>
+            <span>시사 게시판</span>
             <span>
               <i className="bi bi-circle-fill"></i>
               <i className="bi bi-circle-fill"></i>
@@ -66,46 +82,27 @@ function Home(props){
             </span>
           </div>          
           <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
+			{postList.section1 && postList.section1.map((post, index)=>{
+				return(
+					<>
+					<li>
+					{index < 3 ?
+						<span className="recommend">추천</span>
+						:
+						<span className="recommend2">관심</span>
+					}			
+					<span><i className="bi bi-file-text"></i></span>
+					<span>{post.title}<span>[{post.view_num}]</span></span>
+					</li>
+					</>
+				);
+			}
+			)}
           </ul>
         </div>
         <div className="card-wrap">
           <div>
-            <span>123456789</span>
+            <span>유머 게시판</span>
             <span>
               <i className="bi bi-circle-fill"></i>
               <i className="bi bi-circle-fill"></i>
@@ -114,46 +111,27 @@ function Home(props){
             </span>
           </div>          
           <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
+		  {postList.section2 && postList.section2.map((post, index)=>{
+				return(
+					<>
+					<li>
+					{index < 3 ?
+						<span className="recommend">추천</span>
+						:
+						<span className="recommend2">관심</span>
+					}			
+					<span><i className="bi bi-file-text"></i></span>
+					<span>{post.title}<span>[{post.view_num}]</span></span>
+					</li>
+					</>
+				);
+			}
+			)}
           </ul>
         </div>
         <div className="card-wrap">
           <div>
-            <span>123456789</span>
+            <span>스포츠 게시판</span>
             <span>
               <i className="bi bi-circle-fill"></i>
               <i className="bi bi-circle-fill"></i>
@@ -162,46 +140,27 @@ function Home(props){
             </span>
           </div>          
           <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
+		  {postList.section4 && postList.section4.map((post, index)=>{
+				return(
+					<>
+					<li>
+					{index < 3 ?
+						<span className="recommend">추천</span>
+						:
+						<span className="recommend2">관심</span>
+					}			
+					<span><i className="bi bi-file-text"></i></span>
+					<span>{post.title}<span>[{post.view_num}]</span></span>
+					</li>
+					</>
+				);
+			}
+			)}
           </ul>
         </div>
         <div className="card-wrap">
           <div>
-            <span>123456789</span>
+            <span>연예 게시판</span>
             <span>
               <i className="bi bi-circle-fill"></i>
               <i className="bi bi-circle-fill"></i>
@@ -210,139 +169,24 @@ function Home(props){
             </span>
           </div>          
           <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
+			{postList.section3 && postList.section3.map((post, index)=>{
+				return(
+					<>
+					<li>
+					{index < 3 ?
+						<span className="recommend">추천</span>
+						:
+						<span className="recommend2">관심</span>
+					}			
+					<span><i className="bi bi-file-text"></i></span>
+					<span>{post.title}<span>[{post.view_num}]</span></span>
+					</li>
+					</>
+				);
+			}
+			)}
           </ul>
         </div>
-        <div className="card-wrap">
-          <div>
-            <span>123456789</span>
-            <span>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-            </span>
-          </div>          
-          <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-          </ul>
-        </div>
-        <div className="card-wrap">
-          <div>
-            <span>123456789</span>
-            <span>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-              <i className="bi bi-circle-fill"></i>
-            </span>
-          </div>          
-          <ul>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-            <li>
-              <span>추천</span>
-              <span><i className="bi bi-file-text"></i></span>
-              <span>피카부는 참 아까운 재능이다 못해도 LCK4강팀 주전 서폿 노려볼만한 애인데<span>[122]</span></span>
-            </li>
-          </ul>
-        </div>       
       </div>
     </div>
     </>
