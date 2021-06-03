@@ -34,7 +34,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`https://23cluster.com:80/api/post/add_comment/${post_id}/`, {
+    await axios.post(`https://23cluster.com/api/post/add_comment/${post_id}/`, {
         post_id:post_id,
 		parent_comment_id:comment.comment_id,
         content:commentContent,
@@ -76,7 +76,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com:80/api/post/like_comment/${comment.comment_id}/`, {
+	await axios.post(`https://23cluster.com/api/post/like_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
@@ -102,7 +102,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com:80/api/post/unlike_comment/${comment.comment_id}/`, {
+	await axios.post(`https://23cluster.com/api/post/unlike_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
@@ -121,7 +121,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-        await axios.post(`https://23cluster.com:80/api/post/delete_comment/${comment.comment_id}/`, {
+        await axios.post(`https://23cluster.com/api/post/delete_comment/${comment.comment_id}/`, {
         }, config).then((response) => {
         // 응답 처리
         })

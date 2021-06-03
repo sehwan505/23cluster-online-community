@@ -43,7 +43,7 @@ const DraftEditor = ({user}) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post('https://23cluster.com:80/api/post/add/', {
+    await axios.post('https://23cluster.com/api/post/add/', {
         title: postTitle,
         content: content.content,
         writer_id: user.user_pk,
@@ -90,7 +90,7 @@ const DraftEditor = ({user}) => {
     // file in a 'multipart/form-data' request
     formData.append('image', blob.data);
 	let csrftoken = CSRFToken();
-    return fetch('https://23cluster.com:80/api/post/upload_image/', {
+    return fetch('https://23cluster.com/api/post/upload_image/', {
         method: 'POST',
 		headers: {
 			'Content-type' : 'multipart/form-data' ,

@@ -12,7 +12,7 @@ function Home(props){
 
   useEffect(async() =>{
 	async function fetchHome(){
-		const res = await axios.post(`https://23cluster.com:80/api/post/home/`,{});
+		const res = await axios.post(`https://23cluster.com/api/post/home/`,{});
 		if (res.status === 404){
 			alert("오류, 새로고침 해주세요");
 			window.location.href = '/';
