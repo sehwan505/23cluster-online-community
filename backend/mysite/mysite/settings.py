@@ -142,9 +142,9 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:80',
     'http://127.0.0.1:80',
-	'http://13.124.51.99:80',
-	'http://23cluster.com:80',
-	'http://23cluster.com',
+	'https://13.124.51.99:80',
+	'https://23cluster.com:80',
+	'https://23cluster.com',
 	'http://ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com:80',
 ]
 
