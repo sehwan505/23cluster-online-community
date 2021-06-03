@@ -6,6 +6,7 @@ urlpatterns = [
     path('section/<int:pk>/', views.ListPost.as_view()),
     path('detail/<int:pk>/', views.DetailPost.as_view()),
     path('detail_comment/<int:pk>/', views.DetailComment.as_view()),
+    path('get_section/<int:pk>/', views.SectionPost.as_view()),
     path('delete_post/<int:pk>/', views.DeletePost),
     path('delete_comment/<int:pk>/', views.DeleteComment),
     path('add/', views.AddPost),

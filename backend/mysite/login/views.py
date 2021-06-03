@@ -89,6 +89,11 @@ def refresh_category(request):
         X["category_2"] = 0
         X["category_3"] = 0
         X["category_4"] = 0
+        if (user.user_commentlist and user.user_comment_like):
+            X["category_1"] = user.user_commentlist.filter(category = 1).count() + user.user_comment_like.filter(category = 1).count()
+            X["category_2"] = user.user_commentlist.filter(category = 2).count() + user.user_comment_like.filter(category = 2).count()
+            X["category_3"] = user.user_commentlist.filter(category = 3).count() + user.user_comment_like.filter(category = 3).count()
+            X["category_4"] = user.user_commentlist.filter(category = 4).count() + user.user_comment_like.filter(category = 4).count()
         loaded_model = joblib.load(os.path.join(settings.BASE_DIR, './login/kms.pkl'))
         user.category = loaded_model.predict(X) + 1
         user.save()

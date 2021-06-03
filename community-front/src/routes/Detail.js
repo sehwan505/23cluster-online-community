@@ -63,7 +63,7 @@ useEffect(() => {
 
 useEffect(async() => {
 	try{
-		const res = await fetch(`http://13.124.51.99:80/api/post/detail/${id}/`)
+		const res = await fetch(`http://13.124.51.99:80/api/post/get_section/${id}/`)
 		const posts = await res.json()
 		if (res.status === 404){
 			alert("오류, 새로고침 해주세요");

@@ -53,6 +53,11 @@ class DetailPost(generics.RetrieveAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+class SectionPost(generics.RetrieveAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
 class DetailComment(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = CommentSerializer

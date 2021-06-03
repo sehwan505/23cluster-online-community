@@ -3,6 +3,7 @@ import '../css/common.css';
 import Header from "../components/Header.js";
 import StickyBox from "react-sticky-box";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 
 function Home(props){
@@ -85,6 +86,7 @@ function Home(props){
 			{postList.section1 && postList.section1.map((post, index)=>{
 				return(
 					<>
+					<Link to={`/detail/${post.id}`}>
 					<li>
 					{index < 3 ?
 						<span className="recommend">추천</span>
@@ -94,6 +96,7 @@ function Home(props){
 					<span><i className="bi bi-file-text"></i></span>
 					<span>{post.title}<span>[{post.view_num}]</span></span>
 					</li>
+					</Link>
 					</>
 				);
 			}
@@ -114,6 +117,7 @@ function Home(props){
 		  {postList.section2 && postList.section2.map((post, index)=>{
 				return(
 					<>
+					<Link to={`/detail/${post.id}`}>
 					<li>
 					{index < 3 ?
 						<span className="recommend">추천</span>
@@ -123,6 +127,7 @@ function Home(props){
 					<span><i className="bi bi-file-text"></i></span>
 					<span>{post.title}<span>[{post.view_num}]</span></span>
 					</li>
+					</Link>
 					</>
 				);
 			}
@@ -143,6 +148,7 @@ function Home(props){
 		  {postList.section4 && postList.section4.map((post, index)=>{
 				return(
 					<>
+					<Link to={`/detail/${post.id}`}>
 					<li>
 					{index < 3 ?
 						<span className="recommend">추천</span>
@@ -152,6 +158,7 @@ function Home(props){
 					<span><i className="bi bi-file-text"></i></span>
 					<span>{post.title}<span>[{post.view_num}]</span></span>
 					</li>
+					</Link>
 					</>
 				);
 			}
@@ -172,6 +179,7 @@ function Home(props){
 			{postList.section3 && postList.section3.map((post, index)=>{
 				return(
 					<>
+					<Link to={`/detail/${post.id}`}>
 					<li>
 					{index < 3 ?
 						<span className="recommend">추천</span>
@@ -181,6 +189,7 @@ function Home(props){
 					<span><i className="bi bi-file-text"></i></span>
 					<span>{post.title}<span>[{post.view_num}]</span></span>
 					</li>
+					</Link>
 					</>
 				);
 			}
