@@ -43,7 +43,7 @@ const DraftEditor = ({user}) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post('http://13.124.51.99:80/api/post/add/', {
+    await axios.post('https://13.124.51.99:80/api/post/add/', {
         title: postTitle,
         content: content.content,
         writer_id: user.user_pk,
@@ -90,7 +90,7 @@ const DraftEditor = ({user}) => {
     // file in a 'multipart/form-data' request
     formData.append('image', blob.data);
 	let csrftoken = CSRFToken();
-    return fetch('http://13.124.51.99:80/api/post/upload_image/', {
+    return fetch('https://13.124.51.99:80/api/post/upload_image/', {
         method: 'POST',
 		headers: {
 			'Content-type' : 'multipart/form-data' ,

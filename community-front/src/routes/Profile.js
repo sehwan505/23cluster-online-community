@@ -17,7 +17,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-		const res = await axios.post(`http://13.124.51.99:80/api/post/profile/`,{} ,config);
+		const res = await axios.post(`https://13.124.51.99:80/api/post/profile/`,{} ,config);
 		setComment(res.data.comments);
 		setPost(res.data.posts);
 	}
@@ -34,7 +34,7 @@ function Profile({user, handleLogout, isAuthenticated}){
   const onsubmit = async (event) =>{
     event.preventDefault();
     if(user.username.localeCompare(newDisplayName)){
-		await axios.put(`http://13.124.51.99:80/user/profile/${user.user_pk}/update/`, {
+		await axios.put(`https://13.124.51.99:80/user/profile/${user.user_pk}/update/`, {
 			username: newDisplayName,
 		}).then((response) => {
 			alert("이름이 변경되었습니다");
@@ -51,7 +51,7 @@ function Profile({user, handleLogout, isAuthenticated}){
   const onSubmitIntroduction = async (event) =>{
     event.preventDefault();
     if(user.introduction.localeCompare(introduction)){
-		await axios.put(`http://13.124.51.99:80/user/profile/${user.user_pk}/update/`, {
+		await axios.put(`https://13.124.51.99:80/user/profile/${user.user_pk}/update/`, {
 			introduction: introduction,
 		}).then((response) => {
 			
@@ -85,7 +85,7 @@ function Profile({user, handleLogout, isAuthenticated}){
   const onResignClick = async () =>{
 	const ok = window.confirm("탈퇴하시면 복구가 불가능합니다. 탈퇴하시겠습니까?");
 	if (ok){
-		let res = await fetch('http://13.124.51.99:80/user/resign/', {
+		let res = await fetch('https://13.124.51.99:80/user/resign/', {
 			headers: {
 			  Authorization : localStorage.getItem('token')
 			}
@@ -107,7 +107,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post('http://13.124.51.99:80/user/refresh_category/', {
+	await axios.post('https://13.124.51.99:80/user/refresh_category/', {
     }, config)
   } 
 //  {/*<Link to="/">홈</Link> <br/>
