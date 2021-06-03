@@ -16,7 +16,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 
 	async function fetchSection(){
 		try {
-			const res = await fetch(`https://13.124.51.99:80/api/post/section/${sec_num}/?page=${pageNum}`);
+			const res = await fetch(`https://23cluster.com:80/api/post/section/${sec_num}/?page=${pageNum}`);
 			if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
