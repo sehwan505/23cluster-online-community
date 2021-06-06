@@ -154,6 +154,7 @@ const onSubmit = async (event) => {
 	dummy.select();
 	document.execCommand("copy");
 	document.body.removeChild(dummy);
+	alert('링크를 복사했습니다.');
   };
   const sidebarUp = () =>{
 	window.scrollTo(0,0);

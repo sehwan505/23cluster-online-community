@@ -43,13 +43,13 @@ function Header({user, num, handleLogout, isAuthenticated}) {
               <input type="checkbox" checked={checked} onClick={checkedHandler} readOnly/>
               <span className="slider round"></span>
             </label>
-			<img src={require('../img/user.png').default} alt={"오류"}/>
           </li>
 		  <li>
 		    {isAuthenticated ? (
 			<>
             <div className="btn-group caret">
 			<a className="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			  <img src={require('../img/user.png').default} alt={"오류"}/>
 			</a>
 			<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             	<div className="dropdown-item" onClick={handleLogout} style={{cursor: "pointer"}}>로그아웃</div>
@@ -64,6 +64,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 			<>
 			<div className="btn-group caret">
 			<a className="dropdown-toggle" href="#" role="button" aria-haspopup="true" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			  <img src={require('../img/user.png').default} alt={"오류"}/>
 			</a>
 			<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             	<Link to="/login"><div className="dropdown-item">로그인</div></Link>
@@ -71,7 +72,6 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 			</div>
 			</>
 			)}
-			
 		  </li>
         </ul>        
       </div>
