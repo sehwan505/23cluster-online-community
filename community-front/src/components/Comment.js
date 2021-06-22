@@ -241,7 +241,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			<>
 			<table className={`board-view-table ${color[comment.category_calculated]}`} style={{tableLayout:"fixed"}}>
 			<colgroup>
-				<col width="70%"/>
+				<col width="75%"/>
 				<col width="*"/>
 			</colgroup>
 			<tbody>
