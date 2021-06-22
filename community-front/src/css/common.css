@@ -1230,7 +1230,7 @@ span.profile-picture-4 {
       display : none;
     }
     .top-wrap ul li:nth-child(2) img{
-        width: auto;
+      display : none;
     }
   }
 
