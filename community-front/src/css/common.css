@@ -1224,6 +1224,13 @@ span.profile-picture-4 {
   position: relative;
   top: -2px;
 }
+
+@media screen and (max-width: 400px) {
+    .top-wrap ul li:nth-child(2) input[type=text] {
+      display : none;
+    }  
+  }
+
 @media screen and (max-width: 520px) {
   .flox-rank-wrap {
 	display: none;
@@ -1242,7 +1249,7 @@ span.profile-picture-4 {
 	background-image: url('../img/logo2.png');
 	background-size: 100px;
 	background-repeat: no-repeat;
-	background-position: 0px 0px;
+	background-position: 0px -25px;
 	cursor: pointer;
   }
   .mypage-wrap ul li:first-child {
