@@ -36,7 +36,7 @@ class Post(models.Model):
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     profile = models.ForeignKey(login.Profile, on_delete=models.CASCADE, null=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, limit_choices_to = {'is_published' : True})
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()
     writer_id = models.CharField(max_length=20)
     writer_name = models.CharField(max_length=20, null=True)
@@ -48,3 +48,11 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     like_num = models.PositiveIntegerField(default=0, blank=True)
     unlike_num = models.PositiveIntegerField(default=0, blank=True)
+
+class CommentReport(models.Model):
+    comment = models.OneToOneField(Comment, null=True, blank=True, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField(default=0)
+
+class PostReport(models.Model):
+    post = models.OneToOneField(Post, null=True, blank=True, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField(default=0)

@@ -226,6 +226,37 @@ const onSubmit = async (event) => {
 	})
 	history.go(0);
   }
+  const onDeclare = () =>{
+    if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
+	const config = {
+		headers:{
+			'Authorization': `JWT ${localStorage.getItem('token')}`
+		}
+	}
+	axios.post(`http://23cluster.com/api/post/declare/`,{
+        post_id : id,
+		comment_id : 0
+	}, config)
+	.then((res) => {
+        console.log(res);
+	    if (res.request.status === 200)
+			alert("신고가 완료되었습니다.");
+		else
+			alert("신고에 오류가 발생했습니다.");
+	})
+	.catch((error) => {
+		console.log(error);
+	  })
+  }
 //  <td className="bat-title" colSpan="2">베팅 시스템</td>
 //  </tr>    
 //  <tr>
@@ -333,7 +364,7 @@ const onSubmit = async (event) => {
               </td>
               <td className="btn-area">
                 <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} alt={"오류"} /></span>
-                <span><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
+                <span onClick={onDeclare}><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
 				{parseInt(post.writer_id) === parseInt(user.user_pk) &&
 				  <button onClick={onDeleteClick}>삭제</button>
 				}

@@ -299,3 +299,23 @@ def profile_comment_post(request):
         return JsonResponse({'comments': serializer.data, 'posts':serializer2.data}, safe=False, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def declare(request):
+    try:
+        payload = json.loads(request.body)
+        if (payload['post_id'] != 0):
+            post = Post.objects.get(id = payload['post_id'])
+            report = PostReport.objects.get_or_create(post = post)[0]
+            report.count += 1
+            report.save()
+        elif (payload['comment_id'] != 0):
+            comment = Comment.objects.get(comment_id = payload['comment_id'])
+            report = CommentReport.objects.get_or_create(comment = comment)[0]
+            report.count += 1
+            report.save()
+        return Response({},status=status.HTTP_200_OK)
+    except ObjectDoesNotExist as e:
+        Response({'error': e}, safe=False, status=status.HTTP_404_NOT_FOUND)

@@ -131,6 +131,37 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
     }
     history.go(0);
   };
+  const onDeclare = () =>{
+    if (!isAuthenticated){
+		const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+		if (ok){
+			history.push('/login');
+			return ;
+		}
+		else{
+			return ;
+		}
+	}
+	const config = {
+		headers:{
+			'Authorization': `JWT ${localStorage.getItem('token')}`
+		}
+	}
+	axios.post(`http://23cluster.com/api/post/declare/`,{
+        post_id : 0,
+		comment_id : comment.comment_id
+	}, config)
+	.then((res) => {
+        console.log(res);
+	    if (res.request.status === 200)
+			alert("신고가 완료되었습니다.");
+		else
+			alert("신고에 오류가 발생했습니다.");
+	})
+	.catch((error) => {
+		console.log(error);
+	  })
+  }
   const toggleEditing = () => setEditing((prev) => !prev);
 {/*<span><img src={require("img/icon-link.jpg").default} className="link" />&nbsp;&nbsp;댓글로가기</span>&nbsp;&nbsp;&nbsp;*/} 
   return (
@@ -197,6 +228,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						{isOwner &&
 						<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
+                        <div className="dropdown-item" onClick={onDeclare} style={{cursor: "pointer"}}>신고</div>
 					</div>
 					</div>		
 				</td>
@@ -264,7 +296,8 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 					{isOwner &&
 					<div className="dropdown-item" onClick={onDeleteClick} style={{cursor: "pointer"}}>삭제</div>}
 					<div className="dropdown-item" onClick={toggleEditing} style={{cursor: "pointer"}}>대댓글 쓰기</div>
-				</div>
+                    <div className="dropdown-item" onClick={onDeclare} style={{cursor: "pointer"}}>신고</div>
+                </div>
 				</div>		
 			  </td>
             </tr>
