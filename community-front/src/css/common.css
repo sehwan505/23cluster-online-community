@@ -1228,7 +1228,10 @@ span.profile-picture-4 {
 @media screen and (max-width: 400px) {
     .top-wrap ul li:nth-child(2) input[type=text] {
       display : none;
-    }  
+    }
+    .top-wrap ul li:nth-child(2) img{
+        width: auto;
+    }
   }
 
 @media screen and (max-width: 520px) {
@@ -1249,7 +1252,7 @@ span.profile-picture-4 {
 	background-image: url('../img/logo2.png');
 	background-size: 100px;
 	background-repeat: no-repeat;
-	background-position: 0px -25px;
+	background-position: 0px -24px;
 	cursor: pointer;
   }
   .mypage-wrap ul li:first-child {
