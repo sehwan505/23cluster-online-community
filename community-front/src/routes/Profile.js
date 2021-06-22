@@ -87,7 +87,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 	if (ok){
 		let res = await fetch('https://23cluster.com/user/resign/', {
 			headers: {
-			  Authorization : localStorage.getItem('token')
+			  Authorization : `JWT ${localStorage.getItem('token')}`
 			}
 		});
 		if (res.ok)

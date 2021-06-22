@@ -105,10 +105,10 @@ function Section({user, num, handleLogout, isAuthenticated}){
 			</div>
 			</div>
 			<div className="issue-row-box">
-			<div className="issue-row-wrap">
-				<Link to={`/detail/${2}`}>    
+			<div className="issue-row-wrap">  
 				<ul className="noti">
 				<li>
+                    <Link to={`/detail/${2}`}> 
 					<table>
 					<tbody>          
 					<tr>
@@ -116,26 +116,28 @@ function Section({user, num, handleLogout, isAuthenticated}){
 						<td>공지보고 가세요</td>
 					</tr>
 					<tr>
-						<td colSpan="2" className="newline">2일 전 sehwan</td>
+						<td colSpan="2" className="newline">관리자</td>
 					</tr>
 					</tbody>             
 					</table>
+                    </Link>
 				</li>
 				<li>
+                    <Link to={`/detail/${1}`}> 
 					<table>
 					<tbody>              
 					<tr>
 						<td rowSpan="2"><img src={ require("../img/mark-tip.jpg").default} alt={"오류"} /></td>
-						<td>좋은 팁 쓰고 문화상품권 받아가세요!</td>
+						<td>규칙 확인하세요</td>
 					</tr>
 					<tr>
-						<td colSpan="2" className="newline">2일 잔 kein</td>
+						<td colSpan="2" className="newline">관리자</td>
 					</tr> 
 					</tbody>               
 					</table>
+                    </Link>
 				</li>            
 				</ul>
-				</Link>
 			</div>
 			{postList.map((post) => (
             <Post key={post.id} post={post} isOwner={user.user_pk === post.writer_id}/>

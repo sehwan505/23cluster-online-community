@@ -294,8 +294,17 @@ def profile_comment_post(request):
     if (profile != 0):
         serializer = CommentSerializer(profile.user_commentlist, many=True)
         serializer2 = PostSerializer(profile.user_postlist, many=True)
-        profile.point = profile.user_commentlist.aggregate(Sum('like_num'))['like_num__sum']- profile.user_commentlist.aggregate(Sum('unlike_num'))['unlike_num__sum'] + profile.user_postlist.aggregate(Sum('like_num'))['like_num__sum']
-        profile.save()
+        if ((profile.user_commentlist.count() == 0) and (profile.user_postlist.count() == 0)): #카운트로 NoneType인지 확인한다.
+            return JsonResponse({'error': 'there is no post and comments'}, safe=False, status=status.HTTP_404_NOT_FOUND)
+        elif (profile.user_commentlist.count() == 0):
+            profile.point = profile.user_postlist.aggregate(Sum('like_num'))['like_num__sum']
+            profile.save()
+        elif (profile.user_postlist.count() == 0):
+            profile.point = profile.user_commentlist.aggregate(Sum('like_num'))['like_num__sum'] - profile.user_commentlist.aggregate(Sum('unlike_num'))['unlike_num__sum']
+            profile.save()
+        else:
+            profile.point = profile.user_commentlist.aggregate(Sum('like_num'))['like_num__sum'] - profile.user_commentlist.aggregate(Sum('unlike_num'))['unlike_num__sum'] + profile.user_postlist.aggregate(Sum('like_num'))['like_num__sum']
+            profile.save()
         return JsonResponse({'comments': serializer.data, 'posts':serializer2.data}, safe=False, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
