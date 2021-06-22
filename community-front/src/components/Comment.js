@@ -241,7 +241,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			<>
 			<table className={`board-view-table ${color[comment.category_calculated]}`} style={{tableLayout:"fixed"}}>
 			<colgroup>
-				<col width="75%"/>
+				<col width="70%"/>
 				<col width="*"/>
 			</colgroup>
 			<tbody>
@@ -286,7 +286,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
               </td>
             </tr>
             <tr>
-              <td className="bat-comment-row content2">
+              <td onClick={toggleEditing} className="bat-comment-row content2">
 			    {comment.content}
 			  </td>
               <td className="bat-comment-row caret" style={{paddingLeft:"21%"}}>

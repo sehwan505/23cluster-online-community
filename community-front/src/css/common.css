@@ -1242,7 +1242,7 @@ span.profile-picture-4 {
 	background-image: url('../img/logo2.png');
 	background-size: 100px;
 	background-repeat: no-repeat;
-	background-position: 0px -34px;
+	background-position: 0px 0px;
 	cursor: pointer;
   }
   .mypage-wrap ul li:first-child {
