@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import axios from "axios";
@@ -7,7 +7,6 @@ import {useHistory} from "react-router-dom";
 
 const DraftEditor = ({user}) => {
   const editorRef = React.createRef();
-  const [content, setContent] = useState({});
   const [postTitle , setPostTitle] = useState("");
   const [section , setSection] = useState("1");
   const [hashtag, setHashtag] = useState("");
@@ -22,18 +21,12 @@ const DraftEditor = ({user}) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-	setContent({
-		content: editorRef.current.getInstance().getMarkdown(),
-	});
-	setContent({
-		content: editorRef.current.getInstance().getMarkdown(),
-	});
 	if (postTitle === "")
 	{
 		alert("제목이 없습니다");
 		return ;
 	}
-	if(content.content === ""){
+	if(editorRef.current.getInstance().getMarkdown() === ""){
 		alert("내용이 없습니다");
 		return ;
 	}
@@ -45,7 +38,7 @@ const DraftEditor = ({user}) => {
 	}
     await axios.post('https://23cluster.com/api/post/add/', {
         title: postTitle,
-        content: content.content,
+        content: editorRef.current.getInstance().getMarkdown(),
         writer_id: user.user_pk,
         writer_name: user.username,
 		writer_category:user.category,
@@ -85,37 +78,26 @@ const DraftEditor = ({user}) => {
 
   const uploadImage = (blob) => {
 	let formData = new FormData();
-
-	console.log(blob);
-    // file in a 'multipart/form-data' request
-    formData.append('image', blob.data);
-	let csrftoken = CSRFToken();
+    formData.append('image', blob);
+    console.log(blob);
+    let csrftoken = CSRFToken();
     return fetch('https://23cluster.com/api/post/upload_image/', {
         method: 'POST',
 		headers: {
-			'Content-type' : 'multipart/form-data' ,
+			'Content-Type' : 'multipart/form-data' ,
 			'Authorization' : `JWT ${localStorage.getItem('token')}`
 		},
-        body: {
-			data: formData,
-			csrfmiddlewaretoken	: csrftoken
-		}
-    }).then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Server or network error');
+        data: formData,
+    })
+    .then(res => {
+        return (res);
     });
   }
 
   const onAddImageBlob = (blob, callback) => {
     uploadImage(blob)
         .then(response => {
-			console.log(response);
-            if (!response.success) {
-                throw new Error('Validation error');
-            }
-            callback(response.data.url, 'alt text');
+            callback("https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE", 'alt text');
         }).catch(error => {
             console.log(error);
         });
@@ -123,7 +105,7 @@ const DraftEditor = ({user}) => {
 
   return (
     <>
-	<form onSubmit={onSubmit}>
+    <div className="editor">
 	  <input
         value={postTitle}
         placeholder="제목"
@@ -136,7 +118,7 @@ const DraftEditor = ({user}) => {
 			<option value="2">유머</option>
 			<option value="3">연예</option>
 			<option value="4">스포츠</option>
-			<optoin value="5">본진</optoin>
+			<option value="5">본진</option>
 	  </select>
 	  <br />
 	  <input
@@ -151,13 +133,14 @@ const DraftEditor = ({user}) => {
         initialEditType="wysiwyg"
         placeholder="글쓰기"
 		name="content"
+        hideModeSwitch={true}
         ref={editorRef}
 		hooks={{
 			addImageBlobHook: onAddImageBlob
 		}}
       />
-	  <input type="submit" value="에딧"/>
-	  </form>
+	  <span onClick={onSubmit}>글쓰기</span>
+    </div>
     </>
   );
 };

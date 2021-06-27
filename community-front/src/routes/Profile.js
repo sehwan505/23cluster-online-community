@@ -108,7 +108,9 @@ function Profile({user, handleLogout, isAuthenticated}){
 		}
 	}
 	await axios.post('https://23cluster.com/user/refresh_category/', {
-    }, config)
+    }, config).then(()=>{
+        alert("재평가가 완료되었습니다.");
+    });
   } 
 //  {/*<Link to="/">홈</Link> <br/>
 //        <span>{user.username}</span>

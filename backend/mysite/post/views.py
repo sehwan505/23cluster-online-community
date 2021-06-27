@@ -4,8 +4,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import status, permissions
 from rest_framework.response import Response
@@ -246,12 +247,18 @@ def comment_unlike(request, comment_id):
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["POST"])
+@parser_classes((MultiPartParser, FormParser))
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
 @csrf_exempt
 def upload_image(request):
-    print(request.body ,1)
-    return JsonResponse({'ok':1},status=status.HTTP_200_OK)
+    try:
+        print(request.data)
+        return Response({'success': 1, 'url':'abs'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(["GET"])
 @permission_classes((AllowAny,))
