@@ -10,7 +10,7 @@ function Signup({user, handleLogout, isAuthenticated}){
     const history = useHistory();
 
     const resign = async () =>{
-        let res = await fetch('http://127.0.0.1:8000/user/resign/', {
+        let res = await fetch('https://23cluster.com/user/resign/', {
             headers: {
               Authorization : `JWT ${localStorage.getItem('token')}`
             }
@@ -45,7 +45,7 @@ function Signup({user, handleLogout, isAuthenticated}){
                 'Authorization' : `JWT ${localStorage.getItem('token')}`
             }
         }
-        await axios.post('http://127.0.0.1:8000/user/signup/', {
+        await axios.post('https://23cluster.com/user/signup/', {
             nickname : signup.nickname,
             age : signup.age,
             sex : sex,
