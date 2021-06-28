@@ -9,6 +9,7 @@ import Profile from "../routes/Profile";
 import Section from "../routes/Section";
 import Write from "../routes/Write";
 import Search from "../routes/Search";
+import Signup from "../routes/Signup";
 
 const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout}) => {
   return (
@@ -31,6 +32,9 @@ const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout})
 		  	render={(num) => <Section user={user} num={num} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />}/>
 			<Route path="/search">
 			  <Search user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
+		    </Route>
+            <Route path="/signup">
+			  <Signup user={user} handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
 		    </Route>
           </>
         ) : (

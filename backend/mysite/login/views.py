@@ -10,6 +10,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer
 from .models import Profile
+import json
 
 def get_profile(token):
     try:
@@ -63,6 +64,23 @@ def resign_user(request):
         user = get_profile(token)
         user.user.delete()
         user.delete()
+        return Response(status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes((permissions.IsAuthenticated,))
+@authentication_classes((JSONWebTokenAuthentication,))
+def signup(request):
+    try:
+        payload = json.loads(request.body)
+        token = request.META['HTTP_AUTHORIZATION'][4:]
+        user = get_profile(token)
+        user.age = payload['age']
+        user.sex = payload['sex']
+        user.username = payload['nickname']
+        user.save()
         return Response(status=status.HTTP_200_OK)
     except Exception as e:
         print(e)

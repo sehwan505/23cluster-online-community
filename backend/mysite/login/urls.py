@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
-from .views import resign_user, current_user, UserList, ProfileUpdateAPI, refresh_category
+from .views import resign_user, current_user, UserList, ProfileUpdateAPI, refresh_category, signup
 
 urlpatterns = [
 	path('login/', obtain_jwt_token),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('current/', current_user),
     path("profile/<int:user_pk>/update/", ProfileUpdateAPI.as_view()),
 	path('resign/', resign_user),
-	path('refresh_category/', refresh_category)
+	path('refresh_category/', refresh_category),
+    path('signup/', signup)
 ]

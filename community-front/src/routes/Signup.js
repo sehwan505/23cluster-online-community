@@ -1,76 +1,102 @@
-import React, { Component } from "react";
-import SignupForm from "../components/auth/SignupForm";
+import React, { useEffect, useState } from "react";
+import 'css/common.css';
+import { useHistory } from "react-router";
+import CSRFToken from "components/csrftoken";
+import axios from "axios";
 
-// 구글 계정으로 로그인하지 않는 경우 회원 생성 로직을 수행하는 컴포넌트
-export default class Signup extends Component {
-  constructor(props) {
-    super(props);
+function Signup({user, handleLogout, isAuthenticated}){
+    const [signup, setSignup] = useState({ nickname: "", age: "0"})
+    const [sex, setSex] = useState(0);
+    const history = useHistory();
 
-    this.state = {
-      username: "",
-      password: ""
-    };
-  }
-
-  componentDidMount() {
-    if (this.props.isAuthenticated) {
-      this.props.history.push("/");
+    const resign = async () =>{
+        let res = await fetch('http://127.0.0.1:8000/user/resign/', {
+            headers: {
+              Authorization : `JWT ${localStorage.getItem('token')}`
+            }
+        });
+        if (res.ok)
+        {
+            handleLogout();
+            alert("오류가 발생해 회원 탈퇴했습니다..");
+        }
+        else{
+            alert("회원 탈퇴에 실패했습니다.\n문의 주세요.");
+        }
     }
-  }
-
-  validateForm(username, password) {
-    return (username && username.length > 0) && (password && password.length > 0);
-  }
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  async handleSubmit(submitEvent) {
-    let data = {
-      username: this.state.username,
-      password: this.state.password
-    };
-
-    submitEvent.preventDefault();
-
-    let handleErrors = response => {
-      if (!response.ok) {
-        throw Error(response.statusText);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (signup.nickname === "")
+        {
+            alert("닉네임이 비어있습니다.");
+            return ;
+        }
+        if(signup.age === 0){
+            alert("나이를 설정하지 않았습니다");
+            return ;
+        }
+        if(sex === 0){
+            alert("성별을 설정하지 않았습니다");
+            return ;
+        }
+        var csrftoken = CSRFToken();
+        const config = {
+            headers: {
+                'Authorization' : `JWT ${localStorage.getItem('token')}`
+            }
+        }
+        await axios.post('http://127.0.0.1:8000/user/signup/', {
+            nickname : signup.nickname,
+            age : signup.age,
+            sex : sex,
+            csrfmiddlewaretoken	: csrftoken
+        }, config).then((response) => {
+          if (response.status === 200)
+          { 
+            history.push('/');
+            history.go(0);
+          }
+          else
+          {
+            alert("예기치 못할 오류가 발생했습니다.");
+            resign();
+            history.push('/');
+            history.go(0);
+          }
+        })
+        .catch((error) => {
+        // 예외 처리
+          resign();
+          console.log(error);
+        })
       }
-      return response;
+    
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setSignup({...signup, [name] : parseInt(value)});
     }
-
-    fetch('http://127.0.0.1:8000/user/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(handleErrors)
-    .then(res => res.json())
-    .then(json => {
-      if (json.username && json.token) {
-        this.props.userHasAuthenticated(true, json.username, json.token);
-        this.props.history.push("/");
-      }
-    })
-    .catch(error => alert(error));
-  }
-
-  render() {
-    return (
-      <SignupForm
-        username={this.state.username}
-        password={this.state.password}
-        handleChangeUsername={e => this.handleChange(e)}
-        handleChangePassword={e => this.handleChange(e)}
-        handleSubmit={e => this.handleSubmit(e)}
-        validate={this.validateForm}
-      />
-    );
-  }
+    const handleRadio = (event) =>{
+        const { value } = event.target;
+        setSex(parseInt(value));
+    }
+    const handleNickname = (event) => {
+        const { name, value } = event.target;
+        if (value.length > 7)
+            value = value.substr(0, 7);
+        setSignup({...signup, [name] : value});
+      };
+	return (
+		<>
+		<div className="body-wrap">
+            <form onSubmit={handleSubmit}>
+                닉네임 : <input type="text" name="nickname" placeholder="닉네임을 지정하세요" onChange={handleNickname} value={signup.nickname} maxLength={7}/><br/>
+                나이 : <input type="range" name="age" min="16" max="45" onChange={handleChange} value={signup.age}/>{signup.age}<br/>
+                성별 : <input type="radio" value="1" name="sex" onChange={handleRadio} checked={sex === 1 ? true : false}/><label htmlFor="1">남</label> <input type="radio" value="2" name="sex" onChange={handleRadio} checked={sex === 2 ? true : false}/><label htmlFor="2">여</label>
+                <input type="submit" value="확인"/>
+            </form>
+		</div>
+		</>
+	)
 }
+
+export default Signup;

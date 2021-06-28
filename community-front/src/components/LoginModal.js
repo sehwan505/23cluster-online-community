@@ -29,7 +29,8 @@ function LoginModal(props){
     .then(async json => {
       if (json.username && json.token) {
 		await props.userHasAuthenticated(true, json.username, json.token);
-		history.goBack();
+        history.push('/signup');
+        return ;
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
@@ -80,7 +81,8 @@ function LoginModal(props){
     .then(async json => {
       if (json.username && json.token) {
         await props.userHasAuthenticated(true, json.username, json.token);
-		history.goBack();
+        history.push('/signup');
+        return ;
       }else{
         // 서버에 Google 계정 이미 저장돼 있다면 Login 작업 수행
         // 로그인을 시도하기 전에 서버에 접근하기 위한 access token을 발급 받음
