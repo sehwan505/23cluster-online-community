@@ -108,7 +108,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 			<div className="issue-row-wrap">  
 				<ul className="noti">
 				<li>
-                    <Link to={`/detail/${2}`}> 
+                    <Link to={`/detail/${37}`}> 
 					<table>
 					<tbody>          
 					<tr>
@@ -123,7 +123,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
                     </Link>
 				</li>
 				<li>
-                    <Link to={`/detail/${1}`}> 
+                    <Link to={`/detail/${36}`}> 
 					<table>
 					<tbody>              
 					<tr>
