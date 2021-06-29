@@ -69,6 +69,30 @@ def resign_user(request):
         print(e)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+import pandas as pd
+import joblib
+import os
+from django.conf import settings
+from django.db.models import Count
+
+def categorizer(user):
+    X = pd.DataFrame([[0, 0, 0, 0, 0, 0]], columns=['gender', 'age', 'category_1',  'category_2',  'category_3',  'category_4'])
+    X["gender"] = user.gender
+    X["age"] = user.age
+    X["category_1"] = 0
+    X["category_2"] = 0
+    X["category_3"] = 0
+    X["category_4"] = 0
+    if (user.user_commentlist and user.user_comment_like):
+        X["category_1"] = user.user_commentlist.filter(category = 1).count() + user.user_comment_like.filter(category = 1).count()
+        X["category_2"] = user.user_commentlist.filter(category = 2).count() + user.user_comment_like.filter(category = 2).count()
+        X["category_3"] = user.user_commentlist.filter(category = 3).count() + user.user_comment_like.filter(category = 3).count()
+        X["category_4"] = user.user_commentlist.filter(category = 4).count() + user.user_comment_like.filter(category = 4).count()
+    loaded_model = joblib.load(os.path.join(settings.BASE_DIR, './login/kms.pkl'))
+    user.category = loaded_model.predict(X) + 1
+    user.save()
+    return 0
+
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
@@ -81,17 +105,13 @@ def signup(request):
         user.sex = payload['sex']
         user.username = payload['nickname']
         user.save()
+        categorizer(user)
         return Response(status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_500_INTERNAL_ERROR)
 
 from sklearn.cluster import KMeans
-import pandas as pd
-import joblib
-import os
-from django.conf import settings
-from django.db.models import Count
 
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,))
@@ -100,21 +120,7 @@ def refresh_category(request):
     try:
         token = request.META['HTTP_AUTHORIZATION'][4:]
         user = get_profile(token)
-        X = pd.DataFrame([[0, 0, 0, 0, 0, 0]], columns=['gender', 'age', 'category_1',  'category_2',  'category_3',  'category_4'])
-        X["gender"] = user.gender
-        X["age"] = user.age
-        X["category_1"] = 0
-        X["category_2"] = 0
-        X["category_3"] = 0
-        X["category_4"] = 0
-        if (user.user_commentlist and user.user_comment_like):
-            X["category_1"] = user.user_commentlist.filter(category = 1).count() + user.user_comment_like.filter(category = 1).count()
-            X["category_2"] = user.user_commentlist.filter(category = 2).count() + user.user_comment_like.filter(category = 2).count()
-            X["category_3"] = user.user_commentlist.filter(category = 3).count() + user.user_comment_like.filter(category = 3).count()
-            X["category_4"] = user.user_commentlist.filter(category = 4).count() + user.user_comment_like.filter(category = 4).count()
-        loaded_model = joblib.load(os.path.join(settings.BASE_DIR, './login/kms.pkl'))
-        user.category = loaded_model.predict(X) + 1
-        user.save()
+        categorizer(user)
         return Response(status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
