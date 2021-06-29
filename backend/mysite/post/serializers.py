@@ -7,7 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
     
     def get_category_calculated(self, obj):
         category = json.decoder.JSONDecoder().decode(obj.category)
-        if (category.sum() == 0):
+        if (sum(category) == 0):
             return 0
         return category.index(max(category)) + 1
 
@@ -49,7 +49,7 @@ class CommentSerializer(serializers.ModelSerializer):
     
     def get_category_calculated(self, obj):
         category = json.decoder.JSONDecoder().decode(obj.category)
-        if (category.sum() == 0):
+        if (sum(category) == 0):
             return 0
         return category.index(max(category)) + 1
 
