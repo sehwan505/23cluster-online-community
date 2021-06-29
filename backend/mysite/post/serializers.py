@@ -3,12 +3,6 @@ from .models import Post,Comment
 import json
 
 class PostSerializer(serializers.ModelSerializer):
-    category_calculated = serializers.SerializerMethodField()
-    
-    def get_category_calculated(self, obj):
-        category = json.decoder.JSONDecoder().decode(obj.category)
-        return category.index(max(category)) + 1
-
     class Meta:
         fields = (
             'id',
