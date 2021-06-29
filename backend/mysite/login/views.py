@@ -102,7 +102,7 @@ def signup(request):
         token = request.META['HTTP_AUTHORIZATION'][4:]
         user = get_profile(token)
         user.age = payload['age']
-        user.sex = payload['sex']
+        user.gender = payload['sex']
         user.username = payload['nickname']
         user.save()
         categorizer(user)

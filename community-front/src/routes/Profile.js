@@ -3,12 +3,14 @@ import axios from "axios";
 import Header from "../components/Header";
 import "../css/common.css";
 import timeForToday from "components/TimeForToday"
+import { useHistory } from "react-router-dom";
 
 function Profile({user, handleLogout, isAuthenticated}){
   const [newDisplayName, setNewDisplayName] = useState(user.username);
   const [introduction, setIntroduction] = useState(user.introduction);
   const [comment, setComment] = useState([]);
   const [post, setPost] = useState([]);
+  const history = useHistory();
 
   async function fetchComment(){
 	try {
@@ -27,6 +29,8 @@ function Profile({user, handleLogout, isAuthenticated}){
   }
 
   useEffect(()=>{
+      if (user.age === 0 || user.gender === 0)
+        history.push('/signup');
 	  setNewDisplayName(user.username);
 	  fetchComment();
   },[]);

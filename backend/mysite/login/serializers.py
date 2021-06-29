@@ -49,4 +49,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user_pk' ,'username','introduction','user_comment_like', 'user_comment_unlike', 'user_commentlist','user_post_like', 'user_post_unlike' ,'category', 'point')
+        fields = ('user_pk' ,'username','gender', 'age','introduction','user_comment_like', 'user_comment_unlike', 'user_commentlist','user_post_like', 'user_post_unlike' ,'category', 'point')

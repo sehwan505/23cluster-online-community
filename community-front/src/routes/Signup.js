@@ -80,7 +80,7 @@ function Signup({user, handleLogout, isAuthenticated}){
         setSex(parseInt(value));
     }
     const handleNickname = (event) => {
-        const { name, value } = event.target;
+        let { name, value } = event.target;
         if (value.length > 7)
             value = value.substr(0, 7);
         setSignup({...signup, [name] : value});
