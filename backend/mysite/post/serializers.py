@@ -15,7 +15,6 @@ class PostSerializer(serializers.ModelSerializer):
             'writer_id',
             'writer_name',
             'writer_category',
-			'category_calculated',		
             'title',
             'content',
             'section',
