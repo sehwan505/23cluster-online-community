@@ -1224,6 +1224,22 @@ span.profile-picture-4 {
   position: relative;
   top: -2px;
 }
+.editor span {
+    font-size: 14px;
+    display: inline-block;
+    color: #6f6f6f;
+    border: 1px solid #6f6f6f;
+    border-radius: 5px;
+    padding: 3px 16px;
+    cursor: pointer;
+    font-weight: normal;
+    float: right;
+}
+.editor span:hover {
+      background-color: #56ab8a;
+      color : #fff;
+}
+
 
 @media screen and (max-width: 400px) {
     .top-wrap ul li:nth-child(2) input[type=text] {
