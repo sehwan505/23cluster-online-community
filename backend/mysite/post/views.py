@@ -176,6 +176,10 @@ def post_like(request, post_id):
         if (post == 404):
             return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
+        temp = json.decoder.JSONDecoder().decode(post.category)
+        if (profile.category != 0):
+            temp[profile.category - 1] += 1
+        post.category = json.dumps(temp)
         profile.user_post_like.add(post)
         post.like_num += 1
         post.save()
@@ -193,6 +197,10 @@ def post_unlike(request, post_id):
         if (post == 404):
             return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         profile = get_profile(request.META['HTTP_AUTHORIZATION'][4:])
+        temp = json.decoder.JSONDecoder().decode(post.category)
+        if (profile.category != 0):
+            temp[profile.category - 1] -= 1
+        post.category = json.dumps(temp)
         profile.user_post_unlike.add(post)
         post.like_num -= 1
         post.save()
@@ -200,7 +208,6 @@ def post_unlike(request, post_id):
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
@@ -212,18 +219,25 @@ def comment_like(request, comment_id):
         check_like_comment = profile.user_comment_like.filter(comment_id = comment_id)
         if check_like_comment.exists():
             profile.user_comment_like.remove(comment)
-            comment.category -= 10 ** (profile.category - 1)
+            temp = json.decoder.JSONDecoder().decode(comment.category)
+            if (profile.category != 0):
+                temp[profile.category - 1] -= 1
+            comment.category = json.dumps(temp)
             comment.like_num -= 1
             comment.save()
         else:
             profile.user_comment_like.add(comment)
-            comment.category += 10 ** (profile.category - 1)
+            temp = json.decoder.JSONDecoder().decode(comment.category)
+            if (profile.category != 0):            
+                temp[profile.category - 1] += 1
+            comment.category = json.dumps(temp)
             comment.like_num += 1
             comment.save()
         return JsonResponse({},status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))

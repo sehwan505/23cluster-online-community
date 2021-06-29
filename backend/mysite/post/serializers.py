@@ -1,13 +1,21 @@
 from rest_framework import serializers
 from .models import Post,Comment
+import json
 
 class PostSerializer(serializers.ModelSerializer):
+    category_calculated = serializers.SerializerMethodField()
+    
+    def get_category_calculated(self, obj):
+        category = json.decoder.JSONDecoder().decode(obj.category)
+        return category.index(max(category)) + 1
+
     class Meta:
         fields = (
             'id',
             'writer_id',
             'writer_name',
-            'writer_category',			
+            'writer_category',
+			'category_calculated',		
             'title',
             'content',
             'section',
@@ -34,29 +42,12 @@ class PostListSerializer(serializers.ModelSerializer):
         )
         model = Post
 
-def check_category(category):
-    category_list = []
-    for i in range(4):
-        category_list.append(category % 10)
-        category /= 10
-
-    return category_list.index(max(category_list)) + 1
-
-
-
 class CommentSerializer(serializers.ModelSerializer):
     category_calculated = serializers.SerializerMethodField()
     
     def get_category_calculated(self, obj):
-        category = obj.category
-        if (category == 0):
-            return 0
-        category_list = []
-        for i in range(4):
-            category_list.append(category % 10)
-            category /= 10
-		
-        return category_list.index(max(category_list)) + 1
+        category = json.decoder.JSONDecoder().decode(obj.category)
+        return category.index(max(category)) + 1
 
     class Meta:
         fields = (
