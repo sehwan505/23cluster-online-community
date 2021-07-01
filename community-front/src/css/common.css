@@ -361,8 +361,8 @@ ol, ul {
   width: auto;
   font-size: 14px;
 }
-.issue-row-wrap2.green {
-  border-top: 3px solid #56ab8a;
+.issue-row-wrap2.blue {
+  border-top: 3px solid #31adf3;
 }
 .issue-row-wrap2.purple {
   border-top: 3px solid #da8df3;
@@ -879,7 +879,7 @@ span.profile-picture-2 {
 span.profile-picture-3 {
 	  width: 10px;
 	  height: 10px;
-	  background-color: #56ab8a;
+	  background-color: #31adf3;
 	  border-radius: 50% !important;
 	  display: inline-block;
   }

@@ -5,13 +5,14 @@
 
     const Post = ({ post, isOwner }) => {
 	  const created_at = timeForToday(post.created_at);
- 
+      const color = ['white','red', 'yellow', 'blue', 'purple'];
+
       return (
         <div>
           {
             <>
 			<Link to={`/detail/${post.id}`}>
-			<div className="issue-row-wrap2 green">
+			<div className={`issue-row-wrap2 ${color[post.category_calculated]}`}>
 				<ul className="nrml">
 				<li>
 					<table>
