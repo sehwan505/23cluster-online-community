@@ -5,7 +5,7 @@ import axios from "axios";
 import CSRFToken from "../components/csrftoken.js";
 import {useHistory} from "react-router-dom";
 
-const DraftEditor = ({user}) => {
+const DraftEditor = ({user, handleLogout}) => {
   const editorRef = React.createRef();
   const [postTitle , setPostTitle] = useState("");
   const [section , setSection] = useState("1");
@@ -50,7 +50,9 @@ const DraftEditor = ({user}) => {
     })
     .catch((error) => {
     // 예외 처리
-	  console.log(error);
+        alert("오류가 발생했습니다.");
+        handleLogout();
+        console.log(error);
 	})
   }
 
@@ -78,10 +80,10 @@ const DraftEditor = ({user}) => {
 
   const uploadImage = (blob) => {
 	let formData = new FormData();
-    formData.append('image', blob);
+    formData.append('image', blob, blob.name);
     console.log(blob);
     let csrftoken = CSRFToken();
-    return fetch('https://23cluster.com/api/post/upload_image/', {
+    return axios('https://23cluster.com/api/post/upload_image/', {
         method: 'POST',
 		headers: {
 			'Content-Type' : 'multipart/form-data' ,

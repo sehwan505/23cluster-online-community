@@ -260,6 +260,8 @@ def comment_unlike(request, comment_id):
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+import boto3
+
 @api_view(["POST"])
 @parser_classes((MultiPartParser, FormParser))
 @permission_classes((IsAuthenticated,))
@@ -267,6 +269,16 @@ def comment_unlike(request, comment_id):
 @csrf_exempt
 def upload_image(request):
     try:
+        # S3 클라이언트 생성.
+        s3 = boto3.client('s3')
+        # 업로드할 파일의 이름
+        filename = request.data.get('image_name')
+        # 업로드할 S3 버킷
+        bucket_name = '23cluster'
+        # 첫본째 매개변수 : 로컬에서 올릴 파일이름
+        # 두번째 매개변수 : S3 버킷 이름
+        # 세번째 매개변수 : 버킷에 저장될 파일 이름.
+        s3.upload_fileobj(request.data.get('image'), bucket_name, filename)
         print(request.data)
         return Response({'success': 1, 'url':'abs'}, status=status.HTTP_200_OK)
     except Exception as e:
