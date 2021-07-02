@@ -81,6 +81,7 @@ const DraftEditor = ({user, handleLogout}) => {
   const uploadImage = (blob) => {
 	let formData = new FormData();
     formData.append('image', blob, blob.name);
+    formData.append('image_name', blob.name);
     console.log(blob);
     let csrftoken = CSRFToken();
     return axios('https://23cluster.com/api/post/upload_image/', {

@@ -280,7 +280,7 @@ def upload_image(request):
         # 세번째 매개변수 : 버킷에 저장될 파일 이름.
         s3.upload_fileobj(request.data.get('image'), bucket_name, filename)
         print(request.data)
-        return Response({'success': 1, 'url':'abs'}, status=status.HTTP_200_OK)
+        return Response({'success': 1, 'url':''}, status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
