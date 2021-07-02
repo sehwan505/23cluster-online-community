@@ -269,7 +269,6 @@ import boto3
 @csrf_exempt
 def upload_image(request):
     try:
-        # S3 클라이언트 생성.
         s3 = boto3.client('s3')
         # 업로드할 파일의 이름
         filename = request.data.get('image_name')
@@ -278,7 +277,7 @@ def upload_image(request):
         # 첫본째 매개변수 : 로컬에서 올릴 파일이름
         # 두번째 매개변수 : S3 버킷 이름
         # 세번째 매개변수 : 버킷에 저장될 파일 이름.
-        s3.upload_fileobj(request.data.get('image'), bucket_name, filename)
+        s3.upload_fileobj(request.data.get('image'), bucket_name, filename, ExtraArgs={'ACL':'public-read'})
         print(request.data)
         return Response({'success': 1, 'url':request.data.get('image_name')}, status=status.HTTP_200_OK)
     except Exception as e:
