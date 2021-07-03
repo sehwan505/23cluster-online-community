@@ -16,8 +16,50 @@ function Section({user, num, handleLogout, isAuthenticated}){
 
 	async function fetchSection(){
 		try {
-			const res = await fetch(`https://23cluster.com/api/post/section/${sec_num}/?page=${pageNum}`);
-			if (res.status === 404){
+			let res;
+            if (sec_num === "5")
+            {
+                if (isAuthenticated)
+                {
+                    res = await fetch(`https://23cluster.com/api/post/section/5/${user.category}/?page=${pageNum}`);
+                }
+                else
+                {
+                    const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+                    if (ok){
+                        history.push('/login');
+                        return ;
+                    }
+                    else{
+                        history.goBack();
+                        return ;
+                    }
+                }               
+            }
+            else if (localStorage.getItem('checked') === 'true')
+            {
+                if (isAuthenticated)
+                {
+                    res = await fetch(`https://23cluster.com/api/post/section/${sec_num}/${user.category}/?page=${pageNum}`);
+                }
+                else
+                {
+                    const ok = window.confirm("로그인이 필요합니다\n로그인하시겠습니까?");
+                    if (ok){
+                        history.push('/login');
+                        return ;
+                    }
+                    else{
+                        history.goBack();
+                        return ;
+                    }
+                }  
+            }
+            else
+            {
+			    res = await fetch(`https://23cluster.com/api/post/section/${sec_num}/0/?page=${pageNum}`);
+            }
+            if (res.status === 404){
 				alert("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}

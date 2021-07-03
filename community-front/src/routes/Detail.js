@@ -23,6 +23,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentPageNum, setCommentPageNum] = useState(1);
   const history = useHistory();
   const section_name = ['','시사', '유머', '연예', '스포츠','본진'];
+  const color = ['white','red', 'yellow', 'blue', 'purple'];
   const id = post_id.match.params.id;
   const focusRef = useRef([React.createRef(), React.createRef()]);
 
@@ -372,8 +373,10 @@ const onSubmit = async (event) => {
             </tr>
             <tr>
               <td className="tooltip-wrap" colSpan="2">
-                <span></span>
-                <span>"* 이 게시글은 (분류)사람들이 많이보는 게시글입니다."</span>
+                <span className={color[post.category_calculated]}></span>
+                {post.category_calculated !== 0 &&
+                <span className="tooltip-text">"*이 게시글은 {color[post.category_calculated]} 사람들이 많이보는 게시글입니다."</span>
+                }
               </td>
             </tr>             
             <tr>

@@ -899,15 +899,39 @@ span.profile-picture-4 {
   padding: 0;
   border: 0;
 }
-.board-view-table td.tooltip-wrap span:first-child{
-  width: 0px;
-  height: 0px;
-  border-bottom: 45px solid transparent;
-  border-left: 45px solid #edd969;
-  display: block;
-  cursor: pointer;
-}
-.board-view-table td.tooltip-wrap span:last-child{
+.board-view-table td.tooltip-wrap span.yellow{
+    width: 0px;
+    height: 0px;
+    border-bottom: 45px solid transparent;
+    border-left: 45px solid #edd969;
+    display: block;
+    cursor: pointer;
+  }
+  .board-view-table td.tooltip-wrap span.blue{
+      width: 0px;
+      height: 0px;
+      border-bottom: 45px solid transparent;
+      border-left: 45px solid #30acf2;
+      display: block;
+      cursor: pointer;
+    }
+  .board-view-table td.tooltip-wrap span.purple{
+    width: 0px;
+    height: 0px;
+    border-bottom: 45px solid transparent;
+    border-left: 45px solid #da8df3;
+    display: block;
+    cursor: pointer;
+  }
+  .board-view-table td.tooltip-wrap span.red{
+    width: 0px;
+    height: 0px;
+    border-bottom: 45px solid transparent;
+    border-left: 45px solid #fa7973;
+    display: block;
+    cursor: pointer;
+  }
+.board-view-table td.tooltip-wrap span.tooltip-text{
   font-size: 12px;
   background: #edf1f2;
   position: relative;

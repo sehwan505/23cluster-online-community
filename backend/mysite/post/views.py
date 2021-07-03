@@ -25,8 +25,11 @@ class ListPost(generics.ListCreateAPIView):
 
     def get_queryset(self, **kwargs):
         pk = self.kwargs.get('pk')
+        category = self.kwargs.get('category')
         if (pk == 5):
-        	queryset = Post.objects.filter(section=pk).order_by('-created_at')
+        	queryset = Post.objects.filter(Q(section=pk) & Q(writer_category=category)).order_by('-created_at')
+        elif (category >= 1 and category <= 4):
+            queryset = Post.objects.filter(Q(section=pk) & Q(writer_category=category)).order_by('-created_at')
         else:
             queryset = Post.objects.filter(section=pk).order_by('-created_at')
         return queryset
