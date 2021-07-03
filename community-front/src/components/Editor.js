@@ -82,7 +82,6 @@ const DraftEditor = ({user, handleLogout}) => {
 	let formData = new FormData();
     formData.append('image', blob, blob.name);
     formData.append('image_name', blob.name);
-    console.log(blob);
     let csrftoken = CSRFToken();
     return axios('https://23cluster.com/api/post/upload_image/', {
         method: 'POST',
@@ -100,7 +99,7 @@ const DraftEditor = ({user, handleLogout}) => {
   const onAddImageBlob = (blob, callback) => {
     uploadImage(blob)
         .then(response => {
-            callback("https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE", 'alt text');
+            callback(`https://23cluster.s3.ap-northeast-2.amazonaws.com/${response.data.url}`, 'alt text');
         }).catch(error => {
             console.log(error);
         });
