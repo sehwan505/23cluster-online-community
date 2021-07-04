@@ -147,7 +147,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization': `JWT ${localStorage.getItem('token')}`
 		}
 	}
-	axios.post(`http://23cluster.com/api/post/declare/`,{
+	axios.post(`https://23cluster.com/api/post/declare/`,{
         post_id : 0,
 		comment_id : comment.comment_id
 	}, config)

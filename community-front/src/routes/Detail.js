@@ -243,7 +243,7 @@ const onSubmit = async (event) => {
 			'Authorization': `JWT ${localStorage.getItem('token')}`
 		}
 	}
-	axios.post(`http://23cluster.com/api/post/declare/`,{
+	axios.post(`https://23cluster.com/api/post/declare/`,{
         post_id : id,
 		comment_id : 0
 	}, config)
