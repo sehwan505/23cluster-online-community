@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '63#)kg*p$@p0di93#o+v#&e^r$bat4c53i)&j4du(t2e)+nqem'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com','13.124.51.99','23cluster.com', '172.31.43.227']
 
