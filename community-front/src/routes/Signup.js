@@ -106,7 +106,7 @@ function Signup({user, handleLogout, isAuthenticated}){
 				<input type="radio" value="1" name="sex" onChange={handleRadio} checked={sex === 1 ? true : false}/><label htmlFor="1">남</label> <input type="radio" value="2" name="sex" onChange={handleRadio} checked={sex === 2 ? true : false}/><label htmlFor="2">여</label>
 			</div>
 			</div>
-			<button style={{"float":"right"}} type="submit" class="btn btn-outline-success" form="1">완료</button>
+			<button type="submit" class="btn btn-outline-success" form="1">완료</button>
 			</form>
 		</div>
 		</>
