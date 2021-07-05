@@ -140,6 +140,13 @@ function Section({user, num, handleLogout, isAuthenticated}){
 				</li>
 				<li>
 					<div>
+						{isAuthenticated && 	
+						<>
+						<Link to="/write"><span>글쓰기</span></Link>
+						</>
+						}
+					</div>
+					<div>
 					  <input type="text" placeholder="검색어" onChange={onChange} value={searchQuery === null ? '' : searchQuery} /><img src={require("img/mark-search.jpg").default} alt={"오류"} onClick={search}/>
 					</div>                
 				</li>

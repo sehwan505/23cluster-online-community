@@ -286,9 +286,16 @@ ol, ul {
 .issue-wrap > div ul li:last-child div:first-child {
   width: 100px;
 }
-.issue-wrap > div ul li:last-child div:first-child select {
-  color: #979797;
-  height: 40px;
+.issue-wrap > div ul li:last-child div:first-child span {
+	font-size: 14px;
+	display: inline-block;
+	color: #fff;
+	border-radius: 5px;
+	padding: 10px 25px;
+	cursor: pointer;
+	font-weight: normal;
+	background: #56ac89;
+	text-align: center;
 }
 .issue-wrap > div ul li:last-child div:last-child {
   width: 225px;

@@ -70,7 +70,7 @@ useEffect(async() => {
 			alert("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
-		const res1 = await fetch(`https://23cluster.com/api/post/section/${posts.section}/?page=${pageNum}`);
+		const res1 = await fetch(`https://23cluster.com/api/post/section/${posts.section}/0/?page=${pageNum}`);
 		const post_list = await res1.json();
 		if (res1.status === 404){
 			alert("오류, 새로고침 해주세요");
