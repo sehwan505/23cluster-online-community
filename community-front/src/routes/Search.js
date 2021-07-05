@@ -9,11 +9,10 @@ function Search({user, handleLogout, isAuthenticated}){
 	const [postList, setPostList] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
 	const history = useHistory();
-	const query = window.location.search;
+	const query = decodeURI(window.location.search);
 
 	async function fetchSearch(){
 		try {
-			console.log(query);
 			if (query === "")
 			{
 				alert("검색어를 입력해주세요");
