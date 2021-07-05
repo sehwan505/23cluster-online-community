@@ -50,6 +50,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
                         return ;
                     }
                     else{
+						localStorage.setItem('checked', 'false');
                         history.goBack();
                         return ;
                     }
