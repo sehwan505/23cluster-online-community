@@ -22,7 +22,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   const [commentItemsCount, setCommentItemsCount] = useState(0);
   const [commentPageNum, setCommentPageNum] = useState(1);
   const history = useHistory();
-  const section_name = ['','시사', '유머', '연예', '스포츠','본진'];
+  const section_name = ['','시사', '유머', '연예', '스포츠','비밀'];
   const color = ['white','red', 'yellow', 'blue', 'purple'];
   const id = post_id.match.params.id;
   const focusRef = useRef([React.createRef(), React.createRef()]);
@@ -364,7 +364,7 @@ const onSubmit = async (event) => {
                 </div>
               </td>
               <td className="btn-area">
-				{post.section !== '5' &&
+				{post.section !== 5 &&
                 <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} alt={"오류"} /></span>
   				}
 				<span onClick={onDeclare}><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
