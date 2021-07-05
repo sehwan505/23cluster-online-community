@@ -287,11 +287,11 @@ ol, ul {
   width: 100px;
 }
 .issue-wrap > div ul li:last-child div:first-child span {
-	font-size: 14px;
+	font-size: 17px;
 	display: inline-block;
 	color: #fff;
 	border-radius: 5px;
-	padding: 10px 25px;
+	padding: 8px 22px;
 	cursor: pointer;
 	font-weight: normal;
 	background: #56ac89;

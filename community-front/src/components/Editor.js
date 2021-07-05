@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import axios from "axios";
+import 'css/input.css';
 import CSRFToken from "../components/csrftoken.js";
 import {useHistory} from "react-router-dom";
 
@@ -50,15 +51,16 @@ const DraftEditor = ({user, handleLogout}) => {
     })
     .catch((error) => {
     // 예외 처리
-        alert("오류가 발생했습니다.");
-        handleLogout();
-        console.log(error);
+      alert("오류가 발생했습니다.");
+      handleLogout();
+      console.log(error);
 	})
   }
 
   const onChangeTitle = (event) => {
     const {
       target: { value },
+      
     } = event;
     setPostTitle(value);
   }
@@ -83,7 +85,7 @@ const DraftEditor = ({user, handleLogout}) => {
     formData.append('image', blob, blob.name);
     formData.append('image_name', blob.name);
     let csrftoken = CSRFToken();
-    return axios('https://23cluster.com/api/post/upload_image/', {
+    return axios('https://23cluster.com/api/post/upload_image/', { //fetch는 안됨? 그냥 axios쓰는 걸로
         method: 'POST',
 		headers: {
 			'Content-Type' : 'multipart/form-data' ,
@@ -99,6 +101,7 @@ const DraftEditor = ({user, handleLogout}) => {
   const onAddImageBlob = (blob, callback) => {
     uploadImage(blob)
         .then(response => {
+            console.log(response);
             callback(`https://23cluster.s3.ap-northeast-2.amazonaws.com/${response.data.url}`, 'alt text');
         }).catch(error => {
             console.log(error);
@@ -108,27 +111,34 @@ const DraftEditor = ({user, handleLogout}) => {
   return (
     <>
     <div className="editor">
-	  <input
-        value={postTitle}
-        placeholder="제목"
-        type="text"
-		name="title"
-        onChange={onChangeTitle}
-      />
-	  <select name="section" onChange={onChangeSection} value={section} >
-			<option value="1">시사</option>
-			<option value="2">유머</option>
-			<option value="3">연예</option>
-			<option value="4">스포츠</option>
-			<option value="5">본진</option>
-	  </select>
-	  <br />
-	  <input
-        value={hashtag}
-        placeholder="해시태그 최대 3개"
-        type="text"
-        onChange={onChangeHashtag}
-      />
+		<h1 style={{"margin-top" : "15px"}} className="input_title">글쓰기</h1>
+		<div style={{"margin-left" : "10px"}}>
+			<div className="inputbox">
+				<p>제목</p>
+				<input className="textbox1" type="text" minlength="5" value={postTitle}
+					placeholder="글을 한 마디로 정리해줄 수 있는 제목을 적어주세요." name="title" onChange={onChangeTitle}
+					maxLength={40}/>
+			</div>
+			<div className="inputbox">
+				<p>카테고리	</p>
+				<div className="category_box">
+				<select name="section" onChange={onChangeSection} value={section} >
+					<option value="1">시사</option>
+					<option value="2">유머</option>
+					<option value="3">연예</option>
+					<option value="4">스포츠</option>
+					<option value="5">본진</option>
+				</select>
+			</div>
+		</div>
+		<div className="inputbox">
+			<p>해시태그</p>
+			<input className="textbox1" type="text" minlength="5" value={hashtag}
+				placeholder="해시태그 최대 3개 #해시태그" name="title" onChange={onChangeHashtag}
+				maxLength={40}/>
+		</div>
+		</div>
+	  <br/><br/>
       <Editor
         previewStyle="vertical"
         height="300px"
