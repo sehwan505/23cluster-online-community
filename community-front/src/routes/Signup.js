@@ -87,7 +87,7 @@ function Signup({user, handleLogout, isAuthenticated}){
       };
 	return (
 		<>
-		<div className="input_area">
+		<div className="body-wrap">
 			<form onSubmit={handleSubmit} id="1">
 			<h1 style={{"margin-top" : "15px"}} className="input_title">회원가입</h1>
 			<div style={{"margin-left" : "10px"}}>
