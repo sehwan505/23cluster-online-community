@@ -26,6 +26,7 @@ urlpatterns = [
 	re_path(r'login/*', index),
 	re_path(r'search/*', index),
 	path('profile', index),
+	path('signup', index),
 	path('write', index),
 	path('', index),
 

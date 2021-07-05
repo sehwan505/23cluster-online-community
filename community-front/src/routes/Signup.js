@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import 'css/common.css';
+import 'css/input.css';
 import { useHistory } from "react-router";
 import CSRFToken from "components/csrftoken";
 import axios from "axios";
 
 function Signup({user, handleLogout, isAuthenticated}){
-    const [signup, setSignup] = useState({ nickname: "", age: "0"})
+    const [signup, setSignup] = useState({ nickname: "", age: "16"})
     const [sex, setSex] = useState(0);
     const history = useHistory();
 
@@ -87,13 +87,27 @@ function Signup({user, handleLogout, isAuthenticated}){
       };
 	return (
 		<>
-		<div className="body-wrap">
-            <form onSubmit={handleSubmit}>
-                닉네임 : <input type="text" name="nickname" placeholder="닉네임을 지정하세요" onChange={handleNickname} value={signup.nickname} maxLength={7}/><br/>
-                나이 : <input type="range" name="age" min="16" max="45" onChange={handleChange} value={signup.age}/>{signup.age}<br/>
-                성별 : <input type="radio" value="1" name="sex" onChange={handleRadio} checked={sex === 1 ? true : false}/><label htmlFor="1">남</label> <input type="radio" value="2" name="sex" onChange={handleRadio} checked={sex === 2 ? true : false}/><label htmlFor="2">여</label>
-                <input type="submit" value="확인"/>
-            </form>
+		<div className="input_area">
+			<form onSubmit={handleSubmit} id="1">
+			<h1 style={{"margin-top" : "15px"}} className="input_title">회원가입</h1>
+			<div style={{"margin-left" : "10px"}}>
+			<div className="inputbox">
+				<p>닉네임</p>
+				<input className="textbox1" type="text" value={signup.nickname}
+					placeholder="닉네임" name="nickname" onChange={handleNickname}
+					maxLength={7}/>
+			</div>
+			<div className="inputbox">
+				<p>나이</p>
+				<input type="range" name="age" min="16" max="45" onChange={handleChange} value={signup.age}/>{signup.age}
+			</div>
+			<div className="inputbox">
+				<p>성별</p>
+				<input type="radio" value="1" name="sex" onChange={handleRadio} checked={sex === 1 ? true : false}/><label htmlFor="1">남</label> <input type="radio" value="2" name="sex" onChange={handleRadio} checked={sex === 2 ? true : false}/><label htmlFor="2">여</label>
+			</div>
+			</div>
+			<button style={{"float":"right"}} type="submit" class="btn btn-outline-success" form="1">완료</button>
+			</form>
 		</div>
 		</>
 	)
