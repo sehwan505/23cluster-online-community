@@ -364,8 +364,10 @@ const onSubmit = async (event) => {
                 </div>
               </td>
               <td className="btn-area">
+				{post.section !== '5' &&
                 <span onClick={urlCopy} style={{cursor:"pointer"}}><img src={require("../img/btn-usr-copy.jpg").default} alt={"오류"} /></span>
-                <span onClick={onDeclare}><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
+  				}
+				<span onClick={onDeclare}><img src={require("img/btn-report.jpg").default} alt={"오류"} /></span>
 				{parseInt(post.writer_id) === parseInt(user.user_pk) &&
 				  <button onClick={onDeleteClick}>삭제</button>
 				}

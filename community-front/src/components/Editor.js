@@ -127,7 +127,7 @@ const DraftEditor = ({user, handleLogout}) => {
 					<option value="2">유머</option>
 					<option value="3">연예</option>
 					<option value="4">스포츠</option>
-					<option value="5">본진</option>
+					<option value="5">비밀</option>
 				</select>
 			</div>
 		</div>

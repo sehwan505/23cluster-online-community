@@ -83,7 +83,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
           <Link to="/section/2/"><li className={num === "2" ? "on" : ""}>유머</li></Link>
           <Link to="/section/3/"><li className={num === "3" ? "on" : ""}>연예</li></Link>
 		  <Link to="/section/4/"><li className={num === "4" ? "on" : ""}>스포츠</li></Link>
-		  <Link to="/section/5/"><li className={num === "5" ? "on" : ""}>본진</li></Link>
+		  <Link to="/section/5/"><li className={num === "5" ? "on" : ""}>비밀</li></Link>
 		  </>
 		  }
 		</ul>
