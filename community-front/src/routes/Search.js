@@ -4,6 +4,7 @@ import 'css/common.css';
 import Header from "components/Header.js";
 import { useHistory } from "react-router";
 import StickyBox from "react-sticky-box";
+import { toast } from  "react-toastify";
 
 function Search({user, handleLogout, isAuthenticated}){
 	const [postList, setPostList] = useState([]);
@@ -15,12 +16,12 @@ function Search({user, handleLogout, isAuthenticated}){
 		try {
 			if (query === "")
 			{
-				alert("검색어를 입력해주세요");
+				toast.error("검색어를 입력해주세요");
 				history.goBack();
 			}
-			const res = await fetch(`https://23cluster.com/api/post/search/${query}`);
+			const res = await fetch(`${process.env.REACT_APP_URL}/api/post/search/${query}`);
 			if (res.status === 404){
-				alert("오류, 새로고침 해주세요");
+				toast.error("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}
 			const posts = await res.json();

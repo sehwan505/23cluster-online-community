@@ -3,6 +3,7 @@ import '../css/common.css';
 import Header from "../components/Header.js";
 import StickyBox from "react-sticky-box";
 import axios from "axios";
+import { toast } from  "react-toastify";
 import {Link} from "react-router-dom";
 
 
@@ -12,9 +13,9 @@ function Home(props){
 
   useEffect(async() =>{
 	async function fetchHome(){
-		const res = await axios.post(`https://23cluster.com/api/post/home/`,{});
+		const res = await axios.get(`${process.env.REACT_APP_URL}/api/post/home/`);
 		if (res.status === 404){
-			alert("오류, 새로고침 해주세요");
+			toast.error("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
 		setPostList(res.data);

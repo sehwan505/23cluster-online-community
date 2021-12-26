@@ -18,5 +18,6 @@ urlpatterns = [
 	path('upload_image/', views.upload_image),
 	path('search/', views.search_query),
 	path('profile/', views.profile_comment_post),
-	path('home/', views.home_list)
+	path('home/', views.home_list),
+    path('declare/', views.declare)
 ]

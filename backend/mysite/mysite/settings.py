@@ -12,180 +12,165 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-#import json
 import os
-
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-#with open(os.path.join(BASE_DIR, 'config/secret.json'), 'rb') as secret_file:
-#    secrets = json.load(secret_file)
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+with open(os.path.join(BASE_DIR, "config.json"), "r") as f:
+    config = json.load(f)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '63#)kg*p$@p0di93#o+v#&e^r$bat4c53i)&j4du(t2e)+nqem'
+SECRET_KEY = config["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com','13.124.51.99','23cluster.com', '172.31.43.227']
+ALLOWED_HOSTS = [
+    "ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com",
+    "13.124.51.99",
+    "23cluster.com",
+    "172.31.43.227",
+    "*",
+]
 
 APPEND_SLASH = False
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'post',
-	'login',
-	'rest_framework_jwt',
-    'rest_framework',
-    'corsheaders',
-
-	#django-rest-auth
-	'rest_framework.authtoken',
-	'rest_auth',
-
-	#구글
-    'django.contrib.sites',
-#    'allauth',
-#    'allauth.account',
-#    'allauth.socialaccount',
-#    'allauth.socialaccount.providers.google',
-
-#    #페이스북	
-#    'allauth.socialaccount.providers.facebook',
-
-#    #카카오
-#    'allauth.socialaccount.providers.kakao',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "post",
+    "login",
+    "rest_framework_jwt",
+    "rest_framework",
+    "corsheaders",
+    # django-rest-auth
+    "rest_framework.authtoken",
+    "rest_auth",
+    "django.contrib.sites",
 ]
 
-REST_FRAMEWORK = { #drf 설정
-#   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#   'PAGE_SIZE': 5,
-   'DEFAULT_PERMISSION_CLASSES': (
-	   'rest_framework.permissions.IsAuthenticated',
-	   'rest_framework.permissions.AllowAny',
-   ),
-   'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+REST_FRAMEWORK = {  # drf 설정
+    #   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #   'PAGE_SIZE': 5,
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         #'rest_framework.authentication.TokenAuthentication',
-    #   'rest_framework.authentication.SessionAuthentication',
-    #   'rest_framework.authentication.BasicAuthentication',
-   ],
-   'DEFAULT_RENDERER_CLASSES': [
-       'rest_framework.renderers.JSONRenderer',
-   ],
-   'DEFAULT_PARSER_CLASSES': [
-       'rest_framework.parsers.JSONParser',
-       'rest_framework.parsers.FormParser',
-       'rest_framework.parsers.MultiPartParser'
-   ]
+        #   'rest_framework.authentication.SessionAuthentication',
+        #   'rest_framework.authentication.BasicAuthentication',
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+    ],
 }
 
-JWT_AUTH = { #jwt 설정
-   'JWT_ENCODE_HANDLER':
-       'rest_framework_jwt.utils.jwt_encode_handler',
-
-   'JWT_DECODE_HANDLER':
-       'rest_framework_jwt.utils.jwt_decode_handler',
-
-   'JWT_PAYLOAD_HANDLER':
-       'rest_framework_jwt.utils.jwt_payload_handler',
-
-   'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-       'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-
-   'JWT_RESPONSE_PAYLOAD_HANDLER': 'login.custom_responses.my_jwt_response_handler',
-   'JWT_SECRET_KEY': 'SECRET_KEY',
-   'JWT_GET_USER_SECRET_KEY': None,
-   'JWT_PUBLIC_KEY': None,
-   'JWT_PRIVATE_KEY': None,
-   'JWT_ALGORITHM': 'HS256',
-   'JWT_VERIFY': True,
-   'JWT_VERIFY_EXPIRATION': True,
-   'JWT_LEEWAY': 0,
-   'JWT_EXPIRATION_DELTA': timedelta(minutes=30),
-   'JWT_AUDIENCE': None,
-   'JWT_ISSUER': None,
-
-   'JWT_ALLOW_REFRESH': True,
-   'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=1),	
-   'JWT_AUTH_COOKIE': None,
+JWT_AUTH = {  # jwt 설정
+    "JWT_ENCODE_HANDLER": "rest_framework_jwt.utils.jwt_encode_handler",
+    "JWT_DECODE_HANDLER": "rest_framework_jwt.utils.jwt_decode_handler",
+    "JWT_PAYLOAD_HANDLER": "rest_framework_jwt.utils.jwt_payload_handler",
+    "JWT_PAYLOAD_GET_USER_ID_HANDLER": "rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler",
+    "JWT_RESPONSE_PAYLOAD_HANDLER": "login.custom_responses.my_jwt_response_handler",
+    "JWT_SECRET_KEY": "SECRET_KEY",
+    "JWT_GET_USER_SECRET_KEY": None,
+    "JWT_PUBLIC_KEY": None,
+    "JWT_PRIVATE_KEY": None,
+    "JWT_ALGORITHM": "HS256",
+    "JWT_VERIFY": True,
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LEEWAY": 0,
+    "JWT_EXPIRATION_DELTA": timedelta(minutes=30),
+    "JWT_AUDIENCE": None,
+    "JWT_ISSUER": None,
+    "JWT_ALLOW_REFRESH": True,
+    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=1),
+    "JWT_AUTH_COOKIE": None,
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',     # 추가
-    'django.middleware.common.CommonMiddleware', 
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",  # 추가
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = False  # 배포시 False
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:80',
-    'http://127.0.0.1:80',
-	'https://13.124.51.99:80',
-	'https://23cluster.com:80',
-	'https://23cluster.com',
-	'http://ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com:80',
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    "https://13.124.51.99:80",
+    "https://23cluster.com:80",
+    "https://23cluster.com",
+    "http://ec2-13-124-51-99.ap-northeast-2.compute.amazonaws.com:80",
 ]
 
-#SOCIALACCOUNT_PROVIDERS = secrets["kakao"]
+# SOCIALACCOUNT_PROVIDERS = secrets["kakao"]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = "mysite.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "build")],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "build")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
 STATICFILES_DIRS = [
-# Tell Django where to look for React's static files (css, js)
-	os.path.join(BASE_DIR, "build","static"),
+    # Tell Django where to look for React's static files (css, js)
+    os.path.join(BASE_DIR, "build", "static"),
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = "mysite.wsgi.application"
+
+# DATABASES = {
+#    'default': {
+#       'ENGINE': 'django.db.backends.mysql',
+#       'NAME': config["NAME"], #스키마를 적는 것
+# 		'USER' : config["USER"],
+# 		'PASSWORD' : config["PASSWORD"],
+# 		'HOST' : config["HOST"],
+# 		'PORT' : '3306',
+# 		'OPTIONS' : {
+# 			'init_command' : 'SET sql_mode="STRICT_TRANS_TABLES"'
+# 		}
+#    }
+# }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '23cluster-db', #스키마를 적는 것
-		'USER' : 'sehwan505',
-		'PASSWORD' : 'sh904217',
-		'HOST' : 'database-23cluster.c9utwqgrlc8e.ap-northeast-2.rds.amazonaws.com',
-		'PORT' : '3306',
-		'OPTIONS' : {
-			'init_command' : 'SET sql_mode="STRICT_TRANS_TABLES"'
-		}
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -195,16 +180,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -212,9 +197,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -222,16 +207,16 @@ USE_L10N = True
 
 USE_TZ = False
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = "auth.User"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SITE_ID = 1

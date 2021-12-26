@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import axios from "axios";
+import { toast } from  "react-toastify";
 import 'css/input.css';
 import CSRFToken from "../components/csrftoken.js";
 import {useHistory} from "react-router-dom";
@@ -24,11 +25,11 @@ const DraftEditor = ({user, handleLogout}) => {
     event.preventDefault();
 	if (postTitle === "")
 	{
-		alert("제목이 없습니다");
+		toast.error("제목이 없습니다");
 		return ;
 	}
 	if(editorRef.current.getInstance().getMarkdown() === ""){
-		alert("내용이 없습니다");
+		toast.error("내용이 없습니다");
 		return ;
 	}
 	var csrftoken = CSRFToken();
@@ -37,7 +38,7 @@ const DraftEditor = ({user, handleLogout}) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post('https://23cluster.com/api/post/add/', {
+    await axios.post(`${process.env.REACT_APP_URL}/api/post/add/`, {
         title: postTitle,
         content: editorRef.current.getInstance().getMarkdown(),
         writer_id: user.user_pk,
@@ -51,7 +52,7 @@ const DraftEditor = ({user, handleLogout}) => {
     })
     .catch((error) => {
     // 예외 처리
-      alert("오류가 발생했습니다.");
+      toast.error("오류가 발생했습니다.");
       handleLogout();
       console.log(error);
 	})
@@ -85,7 +86,7 @@ const DraftEditor = ({user, handleLogout}) => {
     formData.append('image', blob, blob.name);
     formData.append('image_name', blob.name);
     let csrftoken = CSRFToken();
-    return axios('https://23cluster.com/api/post/upload_image/', { //fetch는 안됨? 그냥 axios쓰는 걸로
+    return axios(`${process.env.REACT_APP_URL}/api/post/upload_image/`, { //fetch는 안됨? 그냥 axios쓰는 걸로
         method: 'POST',
 		headers: {
 			'Content-Type' : 'multipart/form-data' ,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from  "react-toastify";
 import { Link, useHistory } from "react-router-dom";
 import '../css/common.css';
 
@@ -15,7 +16,7 @@ function Header({user, num, handleLogout, isAuthenticated}) {
 	const search = () =>{
 		if (searchQuery === "")
 		{
-			alert("검색어를 입력해주세요");
+			toast.error("검색어를 입력해주세요");
 			return ;
 		}
 		history.push(`/search?query=${searchQuery}`)

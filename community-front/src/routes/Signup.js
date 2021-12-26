@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import 'css/input.css';
 import { useHistory } from "react-router";
 import CSRFToken from "components/csrftoken";
+import { toast } from  "react-toastify";
 import axios from "axios";
 
 function Signup({user, handleLogout, isAuthenticated}){
@@ -10,7 +11,7 @@ function Signup({user, handleLogout, isAuthenticated}){
     const history = useHistory();
 
     const resign = async () =>{
-        let res = await fetch('https://23cluster.com/user/resign/', {
+        let res = await fetch(`${process.env.REACT_APP_URL}/user/resign/`, {
             headers: {
               Authorization : `JWT ${localStorage.getItem('token')}`
             }
@@ -18,25 +19,25 @@ function Signup({user, handleLogout, isAuthenticated}){
         if (res.ok)
         {
             handleLogout();
-            alert("오류가 발생해 회원 탈퇴했습니다..");
+            toast.error("오류가 발생해 회원 탈퇴했습니다..");
         }
         else{
-            alert("회원 탈퇴에 실패했습니다.\n문의 주세요.");
+            toast.error("회원 탈퇴에 실패했습니다.\n문의 주세요.");
         }
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (signup.nickname === "")
         {
-            alert("닉네임이 비어있습니다.");
+            toast.error("닉네임이 비어있습니다.");
             return ;
         }
         if(signup.age === 0){
-            alert("나이를 설정하지 않았습니다");
+            toast.error("나이를 설정하지 않았습니다");
             return ;
         }
         if(sex === 0){
-            alert("성별을 설정하지 않았습니다");
+            toast.error("성별을 설정하지 않았습니다");
             return ;
         }
         var csrftoken = CSRFToken();
@@ -45,7 +46,7 @@ function Signup({user, handleLogout, isAuthenticated}){
                 'Authorization' : `JWT ${localStorage.getItem('token')}`
             }
         }
-        await axios.post('https://23cluster.com/user/signup/', {
+        await axios.post(`${process.env.REACT_APP_URL}/user/signup/`, {
             nickname : signup.nickname,
             age : signup.age,
             sex : sex,
@@ -58,7 +59,7 @@ function Signup({user, handleLogout, isAuthenticated}){
           }
           else
           {
-            alert("예기치 못할 오류가 발생했습니다.");
+            toast.error("예기치 못할 오류가 발생했습니다.");
             resign();
             history.push('/');
             history.go(0);

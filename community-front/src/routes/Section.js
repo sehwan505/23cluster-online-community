@@ -4,6 +4,7 @@ import 'css/common.css';
 import Header from "components/Header.js";
 import Pagination from "components/Pagination";
 import StickyBox from "react-sticky-box";
+import { toast } from  "react-toastify";
 import { useHistory, Link } from "react-router-dom";
 
 function Section({user, num, handleLogout, isAuthenticated}){
@@ -21,7 +22,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
             {
                 if (isAuthenticated)
                 {
-                    res = await fetch(`https://23cluster.com/api/post/section/5/${user.category}/?page=${pageNum}`);
+                    res = await fetch(`${process.env.REACT_APP_URL}/api/post/section/5/${user.category}/?page=${pageNum}`);
                 }
                 else
                 {
@@ -40,7 +41,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
             {
                 if (isAuthenticated)
                 {
-                    res = await fetch(`https://23cluster.com/api/post/section/${sec_num}/${user.category}/?page=${pageNum}`);
+                    res = await fetch(`${process.env.REACT_APP_URL}/api/post/section/${sec_num}/${user.category}/?page=${pageNum}`);
                 }
                 else
                 {
@@ -58,10 +59,10 @@ function Section({user, num, handleLogout, isAuthenticated}){
             }
             else
             {
-			    res = await fetch(`https://23cluster.com/api/post/section/${sec_num}/0/?page=${pageNum}`);
+			    res = await fetch(`${process.env.REACT_APP_URL}/api/post/section/${sec_num}/0/?page=${pageNum}`);
             }
             if (res.status === 404){
-				alert("오류, 새로고침 해주세요");
+				toast.error("오류, 새로고침 해주세요");
 				window.location.href = '/';
 			}
 			const posts = await res.json();
@@ -96,7 +97,7 @@ function Section({user, num, handleLogout, isAuthenticated}){
 	const search = () =>{
 		if (searchQuery === "")
 		{
-			alert("검색어를 입력해주세요");
+			toast.error("검색어를 입력해주세요");
 			return ;
 		}
 		history.push(`/search?query=${searchQuery}`)

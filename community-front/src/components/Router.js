@@ -1,7 +1,6 @@
 import React from "react";
+import { ToastContainer } from  "react-toastify";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-//import AppliedRoute from "./routing/AppliedRoute";
-//import AuthenticatedRoute from "./routing/AuthenticatedRoute";
 import LoginModal from './LoginModal';
 import Home from "../routes/Home";
 import Detail from "../routes/Detail";
@@ -14,6 +13,7 @@ import Signup from "../routes/Signup";
 const AppRouter = ({ isAuthenticated, user, userHasAuthenticated, handleLogout}) => {
   return (
     <Router>
+      <ToastContainer />
       <Switch>
         {isAuthenticated ? (
           <>

@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import "../css/common.css";
 import timeForToday from "components/TimeForToday"
 import { useHistory } from "react-router-dom";
+import { toast } from  "react-toastify";
 
 function Profile({user, handleLogout, isAuthenticated}){
   const [newDisplayName, setNewDisplayName] = useState(user.username);
@@ -19,7 +20,7 @@ function Profile({user, handleLogout, isAuthenticated}){
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-		const res = await axios.post(`https://23cluster.com/api/post/profile/`,{} ,config);
+		const res = await axios.post(`${process.env.REACT_APP_URL}/api/post/profile/`,{} ,config);
 		setComment(res.data.comments);
 		setPost(res.data.posts);
 	}
@@ -38,36 +39,35 @@ function Profile({user, handleLogout, isAuthenticated}){
   const onsubmit = async (event) =>{
     event.preventDefault();
     if(user.username.localeCompare(newDisplayName)){
-		await axios.put(`https://23cluster.com/user/profile/${user.user_pk}/update/`, {
+		await axios.put(`${process.env.REACT_APP_URL}/user/profile/${user.user_pk}/update/`, {
 			username: newDisplayName,
 		}).then((response) => {
-			alert("이름이 변경되었습니다");
+			toast.success("이름이 변경되었습니다");
 		})
 		.catch((error) => {
 		// 예외 처리
-		   alert("변경에 실패했습니다");
+		   toast.error("변경에 실패했습니다");
 		})
     }
 	else{
-		alert("변경사항이 없습니다");
+		toast.error("변경사항이 없습니다");
 	}
   }
   const onSubmitIntroduction = async (event) =>{
     event.preventDefault();
     if(user.introduction.localeCompare(introduction)){
-		await axios.put(`https://23cluster.com/user/profile/${user.user_pk}/update/`, {
+		await axios.put(`${process.env.REACT_APP_URL}/user/profile/${user.user_pk}/update/`, {
 			introduction: introduction,
 		}).then((response) => {
-			
-			alert("자기소개가 변경되었습니다");
+			toast.success("자기소개가 변경되었습니다");
 		})
 		.catch((error) => {
 		// 예외 처리
-	        alert("변경에 실패했습니다");
+	        toast.error("변경에 실패했습니다");
 		})
     }
 	else{
-		alert("변경사항이 없습니다");
+		toast.error("변경사항이 없습니다");
 	}
   }
   const onChange = (event) => {
@@ -89,7 +89,7 @@ function Profile({user, handleLogout, isAuthenticated}){
   const onResignClick = async () =>{
 	const ok = window.confirm("탈퇴하시면 복구가 불가능합니다. 탈퇴하시겠습니까?");
 	if (ok){
-		let res = await fetch('https://23cluster.com/user/resign/', {
+		let res = await fetch(`${process.env.REACT_APP_URL}/user/resign/`, {
 			headers: {
 			  Authorization : `JWT ${localStorage.getItem('token')}`
 			}
@@ -97,10 +97,10 @@ function Profile({user, handleLogout, isAuthenticated}){
 		if (res.ok)
 		{
 			handleLogout();
-			alert("탈퇴가 완료되었습니다.");
+			toast.success("탈퇴가 완료되었습니다.");
 		}
 		else{
-			alert("탈퇴에 실패했습니다.\n문의 주세요.");
+			toast.error("탈퇴에 실패했습니다.\n문의 주세요.");
 		}
 	}
   }
@@ -111,22 +111,11 @@ function Profile({user, handleLogout, isAuthenticated}){
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post('https://23cluster.com/user/refresh_category/', {
+	await axios.post(`${process.env.REACT_APP_URL}/user/refresh_category/`, {
     }, config).then(()=>{
-        alert("재평가가 완료되었습니다.");
+        toast.success("재평가가 완료되었습니다.");
     });
-  } 
-//  {/*<Link to="/">홈</Link> <br/>
-//        <span>{user.username}</span>
-//        <button onClick={handleLogout}>로그아웃</button>
-//		<br/>
-//		<button onClick={nameChange}>이름 바꾸기</button>
-//		{usernameModal ? null :
-//		<form onSubmit={onSubmit}>
-//        	<input type="text" placeholder="이름 변경" value={newDisplayName == null ? '' : newDisplayName} onChange={onChange} />
-//        	<input type="submit" value="제출"/>
-//      	</form>
-//		}*/}
+  }
 
   return (
     <>

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
+import { toast } from  "react-toastify";
 import CSRFToken from "../components/csrftoken.js";
 import timeForToday from "./TimeForToday.js";
 import { useHistory } from "react-router";
@@ -15,7 +16,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     if(commentContent === ""){
-		alert("댓글 내용이 없습니다");
+		toast.error("댓글 내용이 없습니다");
 		return ;
 	}
 	if (!isAuthenticated){
@@ -34,7 +35,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`https://23cluster.com/api/post/add_comment/${post_id}/`, {
+    await axios.post(`${process.env.REACT_APP_URL}/api/post/add_comment/${post_id}/`, {
         post_id:post_id,
 		parent_comment_id:comment.comment_id,
         content:commentContent,
@@ -76,7 +77,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com/api/post/like_comment/${comment.comment_id}/`, {
+	await axios.post(`${process.env.REACT_APP_URL}/api/post/like_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
@@ -102,7 +103,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com/api/post/unlike_comment/${comment.comment_id}/`, {
+	await axios.post(`${process.env.REACT_APP_URL}/api/post/unlike_comment/${comment.comment_id}/`, {
 		category: user.category
 	}, config).then((response) => {
 	// 응답 처리
@@ -121,7 +122,7 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-        await axios.post(`https://23cluster.com/api/post/delete_comment/${comment.comment_id}/`, {
+        await axios.post(`${process.env.REACT_APP_URL}/api/post/delete_comment/${comment.comment_id}/`, {
         }, config).then((response) => {
         // 응답 처리
         })
@@ -147,16 +148,16 @@ const Comment = ({ comment, isOwner, user, post_id, isAuthenticated }) => {
 			'Authorization': `JWT ${localStorage.getItem('token')}`
 		}
 	}
-	axios.post(`https://23cluster.com/api/post/declare/`,{
+	axios.post(`${process.env.REACT_APP_URL}/api/post/declare/`,{
         post_id : 0,
 		comment_id : comment.comment_id
 	}, config)
 	.then((res) => {
         console.log(res);
 	    if (res.request.status === 200)
-			alert("신고가 완료되었습니다.");
+			toast.success("신고가 완료되었습니다.");
 		else
-			alert("신고에 오류가 발생했습니다.");
+			toast.error("신고에 오류가 발생했습니다.");
 	})
 	.catch((error) => {
 		console.log(error);

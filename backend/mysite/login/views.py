@@ -5,7 +5,6 @@ from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer
@@ -110,8 +109,6 @@ def signup(request):
     except Exception as e:
         print(e)
         return Response(status=status.HTTP_500_INTERNAL_ERROR)
-
-from sklearn.cluster import KMeans
 
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,))

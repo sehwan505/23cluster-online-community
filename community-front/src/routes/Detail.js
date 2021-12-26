@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Comment from "components/Comment";
 import Header from "components/Header";
 import axios from "axios";
+import { toast } from  "react-toastify";
 import { useHistory, Link } from "react-router-dom";
 import CSRFToken from "components/csrftoken.js"
 import Post from "components/Post";
@@ -29,7 +30,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
 
   async function fetchComment(){
 	try {
-		const res2 = await fetch(`https://23cluster.com/api/post/detail_comment/${id}/?page=${commentPageNum}`);
+		const res2 = await fetch(`${process.env.REACT_APP_URL}/api/post/detail_comment/${id}/?page=${commentPageNum}`);
 		const comments = await res2.json();
 		setComment(comments.results);
 		setCommentItemsCount(comments.count);
@@ -42,7 +43,7 @@ function Detail({user, post_id, handleLogout ,isAuthenticated}){
   useEffect(async() => {
 		try {
 			window.scrollTo(0,0);
-			const res = await fetch(`https://23cluster.com/api/post/detail/${id}/`)
+			const res = await fetch(`${process.env.REACT_APP_URL}/api/post/detail/${id}/`)
 			const posts = await res.json()
 			setPost(posts);
 			if (commentPageNum === 1){
@@ -64,16 +65,16 @@ useEffect(() => {
 
 useEffect(async() => {
 	try{
-		const res = await fetch(`https://23cluster.com/api/post/get_section/${id}/`)
+		const res = await fetch(`${process.env.REACT_APP_URL}/api/post/get_section/${id}/`)
 		const posts = await res.json()
 		if (res.status === 404){
-			alert("오류, 새로고침 해주세요");
+			toast.error("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
-		const res1 = await fetch(`https://23cluster.com/api/post/section/${posts.section}/0/?page=${pageNum}`);
+		const res1 = await fetch(`${process.env.REACT_APP_URL}/api/post/section/${posts.section}/0/?page=${pageNum}`);
 		const post_list = await res1.json();
 		if (res1.status === 404){
-			alert("오류, 새로고침 해주세요");
+			toast.error("오류, 새로고침 해주세요");
 			window.location.href = '/';
 		}
 		setItemsCount(post_list.count);
@@ -97,7 +98,7 @@ const onSubmit = async (event) => {
 		}
 	}
 	if(commentContent === ""){
-      alert("댓글 내용이 없습니다");
+      toast.error("댓글 내용이 없습니다");
 	  return ;
     }
 	var csrftoken = CSRFToken();
@@ -106,7 +107,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-    await axios.post(`https://23cluster.com/api/post/add_comment/${id}/`, {
+    await axios.post(`${process.env.REACT_APP_URL}/api/post/add_comment/${id}/`, {
         post_id:id,
         content:commentContent,
         writer_id:user.user_pk,
@@ -118,7 +119,7 @@ const onSubmit = async (event) => {
     // 응답 처리	
     })
     .catch((error) => {
-	  alert("오류 발생");
+	  toast.error("오류 발생");
 	})
 	history.go(0);
   }
@@ -132,9 +133,9 @@ const onSubmit = async (event) => {
 				'Authorization' : `JWT ${localStorage.getItem('token')}`	
 			}
 		}
-        await axios.post(`https://23cluster.com/api/post/delete_post/${id}/`, {
+        await axios.delete(`${process.env.REACT_APP_URL}/api/post/delete_post/${id}/`, {
         }, config).then((response) => {
-		  alert('삭제 완료');
+		  toast.error('삭제 완료');
 		  history.push('/');
         })
         .catch((error) => {
@@ -155,7 +156,7 @@ const onSubmit = async (event) => {
 	dummy.select();
 	document.execCommand("copy");
 	document.body.removeChild(dummy);
-	alert('링크를 복사했습니다.');
+	toast.success('링크를 복사했습니다.');
   };
   const sidebarUp = () =>{
 	window.scrollTo(0,0);
@@ -181,7 +182,7 @@ const onSubmit = async (event) => {
 		}
 	}
 	if (user.user_post_like.includes(parseInt(id))){
-		alert("이미 좋아요를 누르셨습니다.");
+		toast.error("이미 좋아요를 누르셨습니다.");
 		return ;
 	}
 	const config = {
@@ -189,7 +190,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com/api/post/like_post/${id}/`, {
+	await axios.post(`${process.env.REACT_APP_URL}/api/post/like_post/${id}/`, {
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -210,7 +211,7 @@ const onSubmit = async (event) => {
 		}
 	}
 	if (user.user_post_unlike.includes(parseInt(id))){
-		alert("이미 싫어요를 누르셨습니다.");
+		toast.error("이미 싫어요를 누르셨습니다.");
 		return ;
 	}
 	const config = {
@@ -218,7 +219,7 @@ const onSubmit = async (event) => {
 			'Authorization' : `JWT ${localStorage.getItem('token')}`	
 		}
 	}
-	await axios.post(`https://23cluster.com/api/post/unlike_post/${id}/`, {
+	await axios.post(`${process.env.REACT_APP_URL}/api/post/unlike_post/${id}/`, {
 	}, config).then((response) => {
 	// 응답 처리
 	})
@@ -243,16 +244,16 @@ const onSubmit = async (event) => {
 			'Authorization': `JWT ${localStorage.getItem('token')}`
 		}
 	}
-	axios.post(`https://23cluster.com/api/post/declare/`,{
+	axios.post(`${process.env.REACT_APP_URL}/api/post/declare/`,{
         post_id : id,
 		comment_id : 0
 	}, config)
 	.then((res) => {
         console.log(res);
 	    if (res.request.status === 200)
-			alert("신고가 완료되었습니다.");
+			toast.success("신고가 완료되었습니다.");
 		else
-			alert("신고에 오류가 발생했습니다.");
+			toast.error("신고에 오류가 발생했습니다.");
 	})
 	.catch((error) => {
 		console.log(error);
