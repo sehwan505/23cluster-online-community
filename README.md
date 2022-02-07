@@ -8,13 +8,13 @@ React <br>
 Django, DRF(Django Rest Framework), scikit-learn
 
 ### Home page
-![homepage](./images/23cluster capture2.png)<br>
+![homepage](./images/23cluster capture2.PNG)<br>
 
 ### Section page
-![sectionpage](./images/23cluster capture1.png)<br>
+![sectionpage](./images/23cluster capture1.PNG)<br>
 
 ### Detail page
-![detailpage](./images/23cluster capture3.png)<br>
+![detailpage](./images/23cluster capture3.PNG)<br>
 
 ### Login page
-![loginpage](./images/23cluster capture4.png)<br>
+![loginpage](./images/23cluster capture4.PNG)<br>
