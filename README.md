@@ -5,4 +5,4 @@ RDS, route53, EC2 <br>
 React <br>
 
 ### Back
-Django, DRF(Django Rest Framework)
+Django, DRF(Django Rest Framework), scikit-learn
