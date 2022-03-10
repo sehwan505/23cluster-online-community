@@ -1,4 +1,4 @@
-## upload with AWS
+## deploy with AWS
 RDS, route53, EC2(with Nginx) <br>
 
 ## Front
