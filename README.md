@@ -2,7 +2,7 @@
 RDS, route53, EC2(with Nginx) <br>
 
 ## Front
-React <br>
+React, material-ui <br>
 
 ## Back
 Django, DRF(Django Rest Framework), scikit-learn
