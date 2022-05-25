@@ -1,3 +1,7 @@
+## 23cluster
+this is online community with clustering ML.<br>
+I made this for making people stop fighting which came from difference of their character  
+
 ## Deploy with AWS
 RDS, route53, EC2(with Nginx) <br>
 
